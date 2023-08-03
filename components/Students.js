@@ -1,12 +1,17 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  StatusBar,
+    SafeAreaView,
+    View,
+    Alert,
+    FlatList,
+    Text,
+    Button,
+    ActivityIndicator,
 } from 'react-native';
+
+//import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
+import { StudentsStyles } from '../themes/default';
 
 async function getStudentsAttendance(url) {
     let response = await fetch(url);
@@ -14,31 +19,10 @@ async function getStudentsAttendance(url) {
     return body;
 }
 
-//const data = await fetchJSONAsync('https://dog.ceo/api/breeds/list/all');
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Alwin',
-    att: 'Present',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Ebinezer',
-    att: 'Present',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Stains',
-    att: 'Absent',
-  },
-];
-
-
 const StudentsList = () => {
     const getData = async () => {
         data = await getStudentsAttendance("http://localhost:8000/stud.json")
-        console.log(data);
+        //console.log(data);
         return data;
     }
     //const [data, setData] = React.useState([]);
@@ -47,7 +31,7 @@ const StudentsList = () => {
 
     React.useEffect(() => {
         async function fetchMyAPI() {
-            let response = await fetch("http://192.168.18.210:8000/stud.json")
+            let response = await fetch("https://64ca4578700d50e3c7049d46.mockapi.io/attendence")
             response = await response.json()
             console.log(response)
             setData(response)
@@ -57,48 +41,52 @@ const StudentsList = () => {
     }, [])
 
 
-    const Item = ({title, att}) => (
+    const submitAtt = (e) => {
+        console.log(data)
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        fetch('https://64ca4578700d50e3c7049d46.mockapi.io/attendence', requestOptions)
+          .then(response => response.json())
+          .then(data =>  {
+            <ActivityIndicator size="large" color="#00ff00" />
+            Alert.alert('', 'Attendance submitted!', [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        });
 
-      <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.att}>{att}</Text>
-      </View>
+    };
+
+    const Item = ({ title, att, itemData }) => (
+
+        <View style={StudentsStyles.item}>
+            <Text style={StudentsStyles.title}>{title}</Text>
+            <RNPickerSelect
+                style={StudentsStyles.att}
+                onValueChange={(value) => { console.log(value); itemData.att = value }}
+                value="A"
+                items={[
+                    { label: 'P', value: 'P' },
+                    { label: 'A', value: 'A' },
+                    { label: '', value: '' },
+                ]}
+            />
+        </View>
     );
 
     return (
-        <SafeAreaView style={styles.container}>
-        <FlatList
-            data={data}
-            renderItem={({item}) => <Item title={item.title} att={item.att} />}
-            keyExtractor={item => item.id}
-        />
+        <SafeAreaView style={StudentsStyles.container}>
+            <ActivityIndicator size="large" color="#00ff00" animating="false"/>
+            <FlatList
+                data={data}
+                renderItem={({ item }) => <Item title={item.name} att={item.att} itemData={item} />}
+                keyExtractor={item => item.id}
+            />
+            <Button title="Submit Attendance" onPress={submitAtt.bind(this)} />
         </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    //backgroundColor: '#fff',
-    padding: 2,
-    marginVertical: 4,
-    marginHorizontal: 4,
-    flex: 1,
-    fontSize: 16,
-    flexDirection: "row"
-  },
-  title: {
-    height: "100%",
-    width: "50%",
-    paddingRight: 5,
-  },
-  att: {
-    width: "30%",
-    height: "100%",
-  },
-});
 
 export { StudentsList };
