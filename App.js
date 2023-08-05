@@ -1,10 +1,12 @@
+'use strict';
+
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from "@expo/vector-icons";
 import {HomeScreen} from "./screens/HomeScreen.js";
-import {Settings} from "./screens/SettingsScreen.js";
+import {Reports} from "./screens/ReportsScreen.js";
 
 
 
@@ -30,8 +32,8 @@ export default function App() {
               case 'Home':
                 iconName = focused ? 'home' : 'home-outline';
                 break;
-              case 'Settings':
-                  iconName = focused ? 'cog' : 'cog-outline';
+              case 'Reports':
+                  iconName = focused ? 'document' : 'document-outline';
                   break;
               case 'Events':
                   iconName = focused ? 'calendar' : 'calendar-outline';
@@ -44,7 +46,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen name="Reports" component={Reports} />
         <Tab.Screen name="Events" component={EventsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
