@@ -66,7 +66,7 @@ let ReportsStyles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
         borderColor: "black",
-        flexDirection: "col",
+        flexDirection: "column",
         fontSize: "14px",
         borderColor: "#000",
         borderWidth: 1,
