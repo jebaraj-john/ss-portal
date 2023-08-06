@@ -81,7 +81,7 @@ let ReportsStyles = StyleSheet.create({
         flexDirection: "row",
         fontSize: 17,
         alignItems: "center",
-        flexWrap: 1,
+        //flexWrap: 1,
         height: "100%",
         backgroundColor: "#fffff1",
     },
@@ -91,6 +91,7 @@ let ReportsStyles = StyleSheet.create({
     attRangeSelector: {
         paddingLeft: 1,
         fontSize: 17,
+        backgroundColor: "red",
     },
     attSelectorLabel: {
         marginLeft: 1,
@@ -102,6 +103,7 @@ let ReportsStyles = StyleSheet.create({
         paddingLeft: 1,
         marginLeft: 10,
         marginTop: 1,
+        width: 70
     },
     teacherNameLabel: {
         marginLeft: 10,
@@ -116,7 +118,7 @@ let ReportsStyles = StyleSheet.create({
         paddingLeft: 1,
         paddingRight: 1,
         backgroundColor: '#fff',
-        flexGrow: 12,
+        flexGrow: 4,
     },
     tableHead: { height: 40, backgroundColor: '#f1f8ff' },
     tableText: {

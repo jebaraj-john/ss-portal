@@ -11,7 +11,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-import RNPickerSelect from '@react-native-picker/picker';
+//import RNPickerSelect from '@react-native-picker/picker';
 import { StudentsStyles } from '../themes/default';
 
 async function getStudentsAttendance(url) {
@@ -35,7 +35,7 @@ const StudentsList = () => {
                 let response = await fetch("https://64ca4578700d50e3c7049d46.mockapi.io/attendence")
                 let stud_list = await response.json();
                 console.log(stud_list);
-                //setData(stud_list);
+                setData(stud_list);
             }
             catch(error) {
                 console.log(error);
@@ -56,7 +56,7 @@ const StudentsList = () => {
         fetch('https://64ca4578700d50e3c7049d46.mockapi.io/attendence', requestOptions)
           .then(response => response.json())
           .then(data =>  {
-            <ActivityIndicator size="large" color="#00ff00" />
+
             Alert.alert('', 'Attendance submitted!', [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
@@ -64,14 +64,13 @@ const StudentsList = () => {
 
     };
 
-    const Item = ({ itemData }) => (
+    const Item = ({ name, att}) => (
 
         <View style={StudentsStyles.item}>
-            <Text style={StudentsStyles.title}>{itemData.name}</Text>
-            <Text style={StudentsStyles.att}>{itemData.att}</Text>
+            <Text style={StudentsStyles.title}>{name}</Text>
+            <Text style={StudentsStyles.att}>{att}</Text>
             {/* <RNPickerSelect
                 style={StudentsStyles.att}
-                onValueChange={(value) => { console.log(value); }}
                 items={[
                     { label: 'P', value: 'P' },
                     { label: 'A', value: 'A' },
@@ -85,8 +84,8 @@ const StudentsList = () => {
         <SafeAreaView style={StudentsStyles.container}>
             <FlatList
                 data={data}
-                renderItem={({ item }) => <Item itemData={item} />}
-                // keyExtractor={item => item.id}
+                renderItem={({ item }) => <Item name={item.name} att={item.att} />}
+                keyExtractor={item => item.id}
             />
             <Button title="Submit Attendance" onPress={submitAtt.bind(this)} />
         </SafeAreaView>
