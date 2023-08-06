@@ -46,14 +46,14 @@ const Reports = () => {
 
                 <Text style={ReportsStyles.teacherNameLabel}>Teacher Name</Text>
                 <View style={ReportsStyles.teacherNameSelector}>
-                {/* <DropDownPicker
+                <DropDownPicker
                 open={open}
                 value={value}
                 items={items}
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
-                /> */}
+                />
                     {/* <RNPickerSelect
                         onValueChange={(value) => { console.log(value); }}
                         items={[

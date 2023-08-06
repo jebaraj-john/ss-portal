@@ -81,7 +81,7 @@ let ReportsStyles = StyleSheet.create({
         flexDirection: "row",
         fontSize: 17,
         alignItems: "center",
-        //flexWrap: 1,
+        flexWrap: "wrap",
         height: "100%",
         backgroundColor: "#fffff1",
     },
@@ -101,9 +101,9 @@ let ReportsStyles = StyleSheet.create({
     },
     teacherNameSelector: {
         paddingLeft: 1,
-        marginLeft: 10,
+        marginLeft: 1,
         marginTop: 1,
-        width: 70
+        width: 110,
     },
     teacherNameLabel: {
         marginLeft: 10,
