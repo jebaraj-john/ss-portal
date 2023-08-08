@@ -128,6 +128,27 @@ let ReportsStyles = StyleSheet.create({
     }
 });
 
+let EventsStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        // marginTop: StatusBar.currentHeight || 0,
+        borderColor: "black",
+        flexDirection: "column",
+        fontSize: "14px",
+        borderColor: "#000",
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
+    tableContainer: {
+        flex: 1,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 1,
+        paddingRight: 1,
+        backgroundColor: '#fff',
+        flexGrow: 4,
+    },
+});
 /* Use below code to debug Styles **/
 
 for (style in ReportsStyles) {
@@ -136,4 +157,4 @@ for (style in ReportsStyles) {
     ReportsStyles[style].borderStyle = "solid";
 }
 
-export {HomeScreenStyles, StudentsStyles, ReportsStyles} ;
+export {HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles} ;

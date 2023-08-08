@@ -7,16 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from "@expo/vector-icons";
 import {HomeScreen} from "./screens/HomeScreen.js";
 import {Reports} from "./screens/ReportsScreen.js";
+import {EventsScreen} from "./screens/EventsScreen.js";
 
-
-
-function EventsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Coming Soon !</Text>
-    </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
