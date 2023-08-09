@@ -13,6 +13,7 @@
         "@react-navigation/bottom-tabs": "^6.5.8",
         "expo": "~48.0.18",
         "expo-status-bar": "~1.4.4",
+        "pod-install": "^0.1.38",
         "react": "18.2.0",
         "react-native": "0.71.8",
         "react-native-dropdown-picker": "^5.4.6",
@@ -11469,6 +11470,14 @@
       "integrity": "sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==",
       "engines": {
         "node": ">=4.0.0"
+      }
+    },
+    "node_modules/pod-install": {
+      "version": "0.1.38",
+      "resolved": "https://registry.npmjs.org/pod-install/-/pod-install-0.1.38.tgz",
+      "integrity": "sha512-NeDWGigjJRriOIKBOvpW2/tK2tYLfyUT7ia6C6L+oarCAhBNP+IGODWdU+GEAqvfsseqOApcFclpXAJTL0UPzA==",
+      "bin": {
+        "pod-install": "build/index.js"
       }
     },
     "node_modules/posix-character-classes": {
