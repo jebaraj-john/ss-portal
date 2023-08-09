@@ -1,37 +1,49 @@
 import { EventsStyles } from '../themes/default';
-import { Button, Text, View} from "react-native";
+import { Button, Text, View, TouchableOpacity} from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { buttons } from "../data/events_data";
 import { getEvent, filterEvent } from "../services/services";
 
+
 import { ScrollView, StyleSheet } from "react-native";
 
 const EventsScreen = () => {
-  const [filteredEvent, setFiltredEvent] = useState(null);
+  const [filteredEvent, setFilteredEvent] = useState(null);
   useEffect(() => {
-    setFiltredEvent(getEvent());
+    setFilteredEvent(getEvent());
   }, []);
 
-  function handleEvent(e, ) {
+  function handleEvent(e) {
     let typeEvent = e;
     console.log(e);
-    typeEvent !== "all"
-      ? setFiltredEvent(filterEvent(typeEvent))
-      : setFiltredEvent(getEvent());
+    typeEvent !== "all" ? setFilteredEvent(filterEvent(typeEvent)) : setFilteredEvent(getEvent());
   }
 
+  const [activeButtonIndex, setActiveButtonIndex] = useState(null);
+
+  function handleEvent(value, index) {
+    let typeEvent = value;
+    //console.log(value);
+    setActiveButtonIndex(index)
+    typeEvent !== "all" ? setFilteredEvent(filterEvent(typeEvent)) : setFilteredEvent(getEvent());
+  }
   return (
     <>
-      {buttons &&
-        buttons.map((type) => (
-
-            <Button key={type.name} value={type.value} onPress={() => handleEvent(type.value)}
-            title={type.name}>
-              
-            </Button>
-
-        ))}
+      <View style={EventsStyles.filterBadges}>
+        {
+          buttons && buttons.map((type, index) => (
+            <TouchableOpacity name={type.value}
+              style={[
+                EventsStyles.filterBadgeButton,
+                index === activeButtonIndex && EventsStyles.filterBadgeButtonActive,
+              ]}
+              onPress={() => handleEvent(type.value, index)}>
+              <Text style={EventsStyles.filterBadgeText}>{type.name}</Text>
+            </TouchableOpacity>
+          ))
+        }
+      </View>
         <ScrollView style={EventsStyles.tableContainer}>
       {filteredEvent &&
         filteredEvent.map(type => {

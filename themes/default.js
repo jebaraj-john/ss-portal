@@ -148,6 +148,42 @@ let EventsStyles = StyleSheet.create({
         backgroundColor: '#fff',
         flexGrow: 4,
     },
+    filterBadges: {
+        paddingTop: 5,
+        flex: 0.7,
+        alignItems: "center",
+        justifyContent:  "flex-start",
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    filterBadgeButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'grey',
+        margin: 2,
+    },
+    filterBadgeButtonActive: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'blue',
+        margin: 2,
+    },
+    filterBadgeText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
+
 });
 /* Use below code to debug Styles **/
 
