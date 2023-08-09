@@ -162,14 +162,15 @@ let EventsStyles = StyleSheet.create({
         color: '#000000',
     },
     filterBadges: {
-        paddingTop: 5,
+        paddingTop: 15,
+        paddingBottom: 20,
         flex: 0.15,
         paddingLeft: 15,
         paddingRight: 15,
         alignItems: "center",
         justifyContent:  "flex-start",
         flexDirection: "row",
-        // flexWrap: "wrap",
+        flexWrap: "wrap",
     },
     filterBadgeButton: {
         backgroundColor: '#D0BCFF',
