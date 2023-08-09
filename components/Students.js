@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {
     SafeAreaView,
@@ -9,8 +11,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-//import { Picker } from '@react-native-picker/picker';
-import RNPickerSelect from 'react-native-picker-select';
+//import RNPickerSelect from '@react-native-picker/picker';
 import { StudentsStyles } from '../themes/default';
 
 async function getStudentsAttendance(url) {
@@ -25,16 +26,20 @@ const StudentsList = () => {
         //console.log(data);
         return data;
     }
-    //const [data, setData] = React.useState([]);
 
-    const [data, setData] = React.useState(null)
+    const [data, setData] = React.useState([{"name": "test","att": 1, "id": "1"}])
 
     React.useEffect(() => {
         async function fetchMyAPI() {
-            let response = await fetch("https://64ca4578700d50e3c7049d46.mockapi.io/attendence")
-            response = await response.json()
-            console.log(response)
-            setData(response)
+            try {
+                let response = await fetch("https://64ca4578700d50e3c7049d46.mockapi.io/attendence")
+                let stud_list = await response.json();
+                console.log(stud_list);
+                setData(stud_list);
+            }
+            catch(error) {
+                console.log(error);
+            }
         }
 
         fetchMyAPI()
@@ -51,7 +56,7 @@ const StudentsList = () => {
         fetch('https://64ca4578700d50e3c7049d46.mockapi.io/attendence', requestOptions)
           .then(response => response.json())
           .then(data =>  {
-            <ActivityIndicator size="large" color="#00ff00" />
+
             Alert.alert('', 'Attendance submitted!', [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
@@ -59,29 +64,27 @@ const StudentsList = () => {
 
     };
 
-    const Item = ({ title, att, itemData }) => (
+    const Item = ({ name, att}) => (
 
         <View style={StudentsStyles.item}>
-            <Text style={StudentsStyles.title}>{title}</Text>
-            <RNPickerSelect
+            <Text style={StudentsStyles.title}>{name}</Text>
+            <Text style={StudentsStyles.att}>{att}</Text>
+            {/* <RNPickerSelect
                 style={StudentsStyles.att}
-                onValueChange={(value) => { console.log(value); itemData.att = value }}
-                value="A"
                 items={[
                     { label: 'P', value: 'P' },
                     { label: 'A', value: 'A' },
                     { label: '', value: '' },
                 ]}
-            />
+            /> */}
         </View>
     );
 
     return (
         <SafeAreaView style={StudentsStyles.container}>
-            <ActivityIndicator size="large" color="#00ff00" animating="false"/>
             <FlatList
                 data={data}
-                renderItem={({ item }) => <Item title={item.name} att={item.att} itemData={item} />}
+                renderItem={({ item }) => <Item name={item.name} att={item.att} />}
                 keyExtractor={item => item.id}
             />
             <Button title="Submit Attendance" onPress={submitAtt.bind(this)} />

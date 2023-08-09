@@ -15,7 +15,6 @@ function HomeScreen() {
 
     return (
         <View style={HomeScreenStyles.container}>
-        <DateWidget onChange={onDateChanged}/>
         <StudentsList />
         </View>
     );
