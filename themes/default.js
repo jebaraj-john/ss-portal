@@ -138,50 +138,52 @@ let EventsStyles = StyleSheet.create({
         borderColor: "#000",
         borderWidth: 1,
         borderStyle: "solid",
+        backgroundColor: "#F7F1FF"
     },
-    tableContainer: {
+    eventsContainer: {
         flex: 1,
-        paddingTop: 5,
-        paddingBottom: 5,
-        paddingLeft: 1,
-        paddingRight: 1,
-        backgroundColor: '#fff',
-        flexGrow: 4,
+        padding: 1,
+    },
+    eventsCard: {
+        backgroundColor: '#FFFFFF',
+        marginTop: 8,
+        marginBottom: 8,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    eventsCardContent: {
+        color: '#000000',
+        marginRight: 8,
+    },
+    eventsCardSubTitle: {
+        color: '#000000',
+    },
+    eventsCardTitle: {
+        color: '#000000',
     },
     filterBadges: {
         paddingTop: 5,
-        flex: 0.7,
+        flex: 0.15,
+        paddingLeft: 15,
+        paddingRight: 15,
         alignItems: "center",
         justifyContent:  "flex-start",
         flexDirection: "row",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
     },
     filterBadgeButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'grey',
-        margin: 2,
+        backgroundColor: '#D0BCFF',
+        margin: 4,
     },
     filterBadgeButtonActive: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'blue',
-        margin: 2,
+        backgroundColor: '#6750A4',
+        margin: 2
     },
     filterBadgeText: {
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
+        color: '#21005D',
+    },
+    filterBadgeTextActive: {
+        color: '#FFFFFF',
     },
 
 });
