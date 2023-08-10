@@ -1,11 +1,5 @@
-//       name: "3rd Quarter Exams",
-//       name: "Leadership Camp 2023",
-//       name: "Talent Competition 2023",
-//       name: "SS Christmas Program (2023)",
-//       name: "Kidz Camp 2024",
-
 export const events = [
-  
+
     {
       id: 0,
       name: "3rd Quarter Exams",
@@ -73,7 +67,7 @@ export const events = [
       CP: 350
     }
   ];
-  
+
   export const buttons = [
     {
       name: "All",
@@ -92,4 +86,3 @@ export const events = [
       value: "others"
     }
   ];
-  
