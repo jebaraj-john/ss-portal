@@ -14,8 +14,8 @@ function HomeScreen() {
     };
 
     return (
-        <View style={HomeScreenStyles.container}>
-        <StudentsList />
+        <View style={HomeScreenStyles.container} >
+        <StudentsList teacherEmail="xyz@gmail.com" />
         </View>
     );
 }
