@@ -6,27 +6,40 @@ import {
     View,
     Alert,
     FlatList,
-    Text,
-    Button,
-    ActivityIndicator,
 } from 'react-native';
 
-//import RNPickerSelect from '@react-native-picker/picker';
 import { StudentsStyles } from '../themes/default';
+import { Button, Text, SegmentedButtons } from 'react-native-paper';
 
-async function getStudentsAttendance(url) {
-    let response = await fetch(url);
-    let body = await response.json();
-    return body;
-}
+
+const AttendanceButton = (props) => {
+    const [value, setValue] = React.useState("");
+    const attList = [
+        {
+            "label": "Present",
+            "value": "P",
+        },
+        {
+            "label": "Absent",
+            "value": "A",
+        }
+    ];
+
+    const onValueChange = (value) => {
+        setValue(value);
+        props.onValueChange(value);
+    };
+
+    return (
+        <SegmentedButtons style={{width: 40, padding: 0}}
+            value={value}
+            onValueChange={onValueChange}
+            buttons={attList}
+        />
+    );
+};
 
 const StudentsList = () => {
-    const getData = async () => {
-        data = await getStudentsAttendance("http://localhost:8000/stud.json")
-        //console.log(data);
-        return data;
-    }
-
     const [data, setData] = React.useState([{"name": "test","att": 1, "id": "1"}])
 
     React.useEffect(() => {
@@ -56,7 +69,6 @@ const StudentsList = () => {
         fetch('https://64ca4578700d50e3c7049d46.mockapi.io/attendence', requestOptions)
           .then(response => response.json())
           .then(data =>  {
-
             Alert.alert('', 'Attendance submitted!', [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
@@ -64,19 +76,11 @@ const StudentsList = () => {
 
     };
 
-    const Item = ({ name, att}) => (
 
+    const Item = ({item}) => (
         <View style={StudentsStyles.item}>
-            <Text style={StudentsStyles.title}>{name}</Text>
-            <Text style={StudentsStyles.att}>{att}</Text>
-            {/* <RNPickerSelect
-                style={StudentsStyles.att}
-                items={[
-                    { label: 'P', value: 'P' },
-                    { label: 'A', value: 'A' },
-                    { label: '', value: '' },
-                ]}
-            /> */}
+            <Text style={StudentsStyles.title}>{item.name}</Text>
+            <AttendanceButton onValueChange={(value) => {item.att = value;}} />
         </View>
     );
 
@@ -84,10 +88,12 @@ const StudentsList = () => {
         <SafeAreaView style={StudentsStyles.container}>
             <FlatList
                 data={data}
-                renderItem={({ item }) => <Item name={item.name} att={item.att} />}
+                renderItem={({ item }) => <Item item={item} />}
                 keyExtractor={item => item.id}
             />
-            <Button title="Submit Attendance" onPress={submitAtt.bind(this)} />
+            <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)} >
+                <Text >Submit</Text>
+            </Button>
         </SafeAreaView>
     );
 };

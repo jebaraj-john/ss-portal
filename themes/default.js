@@ -91,7 +91,6 @@ let ReportsStyles = StyleSheet.create({
     attRangeSelector: {
         paddingLeft: 1,
         fontSize: 17,
-        backgroundColor: "red",
     },
     attSelectorLabel: {
         marginLeft: 1,

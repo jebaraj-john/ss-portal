@@ -3,11 +3,13 @@ import { Button, Text, View} from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ReportsStyles } from '../themes/default';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import DropDownPicker from 'react-native-dropdown-picker';
+import DropDown from "react-native-paper-dropdown";
 //import { Table, Row, Rows } from 'react-native-table-component';
 import { Table, Row, Rows } from 'react-native-reanimated-table';
 import { ScrollView } from "react-native";
+import {quarterList}  from "../data/reports_data";
 
 state = {
     tableHead: ['Name', '06/08', '13/08', '20/08', '27/08'],
@@ -27,40 +29,32 @@ const Reports = () => {
     { label: 'Harry Potter', value: 'harry@gmail.com' },
     { label: 'Mark Hendry', value: 'hendry@gmail.com' },
 ]);
+
+const [nightMode, setNightmode] = useState(false);
+  const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
+  const [quarter, setQuarter] = useState("");
+
     return (
         <View style={ReportsStyles.container}>
             <View style={ReportsStyles.filterPane} >
                 <Text style={ReportsStyles.attSelectorLabel}>Quarter</Text>
                 <View style={ReportsStyles.attRangeSelector}>
-                    <Text> Select</Text>
-                    {/* <RNPickerSelect
-                        onValueChange={(value) => { console.log(value); }}
-                        items={[
-                            { label: 'Q1', value: 'Q1' },
-                            { label: 'Q2', value: 'Q2' },
-                            { label: 'Q3', value: 'Q3' },
-                            { label: 'Q4', value: 'Q4' },
-                        ]}
-                    /> */}
+                <DropDown
+                    label={"Quarter"}
+                    mode={"outlined"}
+                    visible={showQuarterDropDown}
+                    showDropDown={() => setShowQuarterDropDown(true)}
+                    onDismiss={() => setShowQuarterDropDown(false)}
+                    value={quarter}
+                    setValue={setQuarter}
+                    list={quarterList}
+                />
                 </View>
 
                 <Text style={ReportsStyles.teacherNameLabel}>Teacher Name</Text>
                 <View style={ReportsStyles.teacherNameSelector}>
-                <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-                />
-                    {/* <RNPickerSelect
-                        onValueChange={(value) => { console.log(value); }}
-                        items={[
-                            { label: 'Harry Potter', value: 'harry@gmail.com' },
-                            { label: 'Mark Hendry', value: 'hendry@gmail.com' },
-                        ]}
-                    /> */}
+
+
                 </View>
                 <Button title="Submit" />
             </View>
