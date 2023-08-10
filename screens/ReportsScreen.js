@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Text, View} from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
 import { ReportsStyles } from '../themes/default';
-// import RNPickerSelect from 'react-native-picker-select';
-import DropDownPicker from 'react-native-dropdown-picker';
 import DropDown from "react-native-paper-dropdown";
-//import { Table, Row, Rows } from 'react-native-table-component';
 import { Table, Row, Rows } from 'react-native-reanimated-table';
 import { ScrollView } from "react-native";
 import {quarterList}  from "../data/reports_data";
