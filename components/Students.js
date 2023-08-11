@@ -10,6 +10,7 @@ import {
 
 import { StudentsStyles } from '../themes/default';
 import { Button, Text, SegmentedButtons } from 'react-native-paper';
+import {urls} from "../config";
 
 
 const AttendanceButton = (props) => {
@@ -32,20 +33,22 @@ const AttendanceButton = (props) => {
 
     return (
         <SegmentedButtons style={{width: 40, padding: 0}}
-            value={value}
+            value={value ? value : props.defaultValue}
             onValueChange={onValueChange}
             buttons={attList}
         />
     );
 };
 
-const StudentsList = () => {
-    const [data, setData] = React.useState([{"name": "test","att": 1, "id": "1"}])
+const StudentsList = (props) => {
+    const [data, setData] = React.useState([])
 
+    const get_attendance_url = `${urls.attendance_url}?type=get_attendance&email=${props.teacherEmail}`
+    console.log(get_attendance_url)
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
-                let response = await fetch("https://64ca4578700d50e3c7049d46.mockapi.io/attendence")
+                let response = await fetch(get_attendance_url)
                 let stud_list = await response.json();
                 console.log(stud_list);
                 setData(stud_list);
@@ -56,17 +59,40 @@ const StudentsList = () => {
         }
 
         fetchMyAPI()
-    }, [])
+    }, []);
 
+    const createAttendanceData = (attRecords, teacherEmail, date=null) => {
+        let attendanceData = {
+            "type": "update_attendance",
+            "teacher_email": teacherEmail,
+            "att_data": [],
+        };
+
+        if(date) {
+            attendanceData["date"] = date;
+        }
+
+        attRecords.forEach(attRecord => {
+            attendanceData.att_data.push({
+                "id": attRecord.id,
+                "att": attRecord.att,
+                "name": attRecord.name,
+            });
+        });
+
+        return attendanceData;
+    };
 
     const submitAtt = (e) => {
-        console.log(data)
+        const attRecords = createAttendanceData(data, props.teacherEmail)
+        console.log(attRecords)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(attRecords)
         };
-        fetch('https://64ca4578700d50e3c7049d46.mockapi.io/attendence', requestOptions)
+        const update_attendance_url = `${urls.attendance_url}`
+        fetch(update_attendance_url, requestOptions)
           .then(response => response.json())
           .then(data =>  {
             Alert.alert('', 'Attendance submitted!', [
@@ -80,7 +106,7 @@ const StudentsList = () => {
     const Item = ({item}) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <AttendanceButton onValueChange={(value) => {item.att = value;}} />
+            <AttendanceButton defaultValue={item.att} onValueChange={(value) => {item.att = value;}} />
         </View>
     );
 
