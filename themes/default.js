@@ -1,5 +1,5 @@
 import {StyleSheet, StatusBar} from 'react-native'
-
+    
 const AppDefault = {
     button: {
         alignItems: 'center',
@@ -19,18 +19,18 @@ const AppDefault = {
       },
 };
 
-const HomeScreenStyles = StyleSheet.create({
+let HomeScreenStyles = StyleSheet.create({
     "container": {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
     }
 });
+
 
 const StudentsStyles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
+      justifyContent:"center",
+      alignItems:'center',
 
     },
     item: {
@@ -64,13 +64,13 @@ const StudentsStyles = StyleSheet.create({
 let ReportsStyles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
+        // marginTop: StatusBar.currentHeight || 0,
         borderColor: "black",
         flexDirection: "column",
         fontSize: "14px",
-        borderColor: "#000",
-        borderWidth: 1,
-        borderStyle: "solid",
+        // borderColor: "#000",
+        // borderWidth: 1,
+        // borderStyle: "solid",
     },
     containerText: {
         fontSize: 17,
@@ -134,9 +134,9 @@ let EventsStyles = StyleSheet.create({
         borderColor: "black",
         flexDirection: "column",
         fontSize: "14px",
-        borderColor: "#000",
-        borderWidth: 1,
-        borderStyle: "solid",
+        // borderColor: "#000",
+        // borderWidth: 1,
+        // borderStyle: "solid",
         backgroundColor: "#F7F1FF"
     },
     eventsContainer: {
@@ -187,6 +187,9 @@ let EventsStyles = StyleSheet.create({
     },
 
 });
+
+
+
 /* Use below code to debug Styles **/
 
 for (style in ReportsStyles) {
@@ -194,5 +197,7 @@ for (style in ReportsStyles) {
     ReportsStyles[style].borderWidth = 1;
     ReportsStyles[style].borderStyle = "solid";
 }
+
+
 
 export {HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles} ;

@@ -6,6 +6,7 @@ import DropDown from "react-native-paper-dropdown";
 import { Table, Row, Rows } from 'react-native-reanimated-table';
 import { ScrollView } from "react-native";
 import {quarterList}  from "../data/reports_data";
+import TitleBar from '../components/TitleBar';
 
 state = {
     tableHead: ['Name', '06/08', '13/08', '20/08', '27/08'],
@@ -32,6 +33,7 @@ const [nightMode, setNightmode] = useState(false);
 
     return (
         <View style={ReportsStyles.container}>
+          <TitleBar title="Reports"/>
             <View style={ReportsStyles.filterPane} >
                 <Text style={ReportsStyles.attSelectorLabel}>Quarter</Text>
                 <View style={ReportsStyles.attRangeSelector}>

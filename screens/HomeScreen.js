@@ -4,6 +4,7 @@ import {DateWidget} from "../components/DatePanel.js"
 import {StudentsList} from "../components/Students.js"
 import React, { useState } from 'react'
 import {HomeScreenStyles} from "../themes/default.js"
+import TitleBar from "../components/TitleBar.js";
 
 
 function HomeScreen() {
@@ -15,7 +16,8 @@ function HomeScreen() {
 
     return (
         <View style={HomeScreenStyles.container} >
-        <StudentsList teacherEmail="xyz@gmail.com" />
+            <TitleBar title = "Home"/>
+            <StudentsList teacherEmail="xyz@gmail.com" />
         </View>
     );
 }

@@ -1,19 +1,16 @@
 'use strict';
 
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from "@expo/vector-icons";
 import {HomeScreen} from "./screens/HomeScreen.js";
 import {Reports} from "./screens/ReportsScreen.js";
 import {EventsScreen} from "./screens/EventsScreen.js";
-
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform, SafeAreaView } from 'react-native';
 import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
 import { name as appName } from './app.json';
+import { BottomNavigation ,} from 'react-native-paper';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 
 const theme = {
@@ -26,37 +23,29 @@ const theme = {
 };
 
 export default function Main() {
+  const [index, setIndex] = React.useState(0);
+
+  const [routes] = React.useState([
+    { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
+    { key: 'reports', title: 'Reports', focusedIcon: 'file-document-multiple',unfocusedIcon:"file-document-multiple-outline" },
+    { key: 'events', title: 'Events', focusedIcon: 'calendar-month',unfocusedIcon:"calendar-month-outline" },
+  ]);
+  const renderScene = BottomNavigation.SceneMap({
+    home: HomeScreen,
+    reports: Reports,
+    events: EventsScreen,
+  });
   return (
     <PaperProvider theme={theme}>
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            switch (route.name) {
-              case 'Home':
-                iconName = focused ? 'home' : 'home-outline';
-                break;
-              case 'Reports':
-                  iconName = focused ? 'document' : 'document-outline';
-                  break;
-              case 'Events':
-                  iconName = focused ? 'calendar' : 'calendar-outline';
-                  break;
-            }
-            return  <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'green',
-          tabBarInactiveTintColor: 'grey',
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Reports" component={Reports} />
-        <Tab.Screen name="Events" component={EventsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+      <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      />
     </PaperProvider>
   );
 }
+
+
 
 AppRegistry.registerComponent(appName, () => Main);
