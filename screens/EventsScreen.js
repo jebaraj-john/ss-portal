@@ -8,6 +8,7 @@ import { ScrollView, StyleSheet } from "react-native";
 
 import { useTheme } from 'react-native-paper';
 import { Button, Card, Text } from 'react-native-paper';
+import TitleBar from '../components/TitleBar';
 
 const EventsScreen = () => {
   const theme = useTheme();
@@ -31,6 +32,7 @@ const EventsScreen = () => {
   }
   return (
     <View style={EventsStyles.container}>
+      <TitleBar title="Events"/>
       <View style={EventsStyles.filterBadges}>
         {
           buttons && buttons.map((type, index) => (
