@@ -27,7 +27,6 @@ const Reports = () => {
     { label: 'Mark Hendry', value: 'hendry@gmail.com' },
 ]);
 
-const [nightMode, setNightmode] = useState(false);
   const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
   const [quarter, setQuarter] = useState("");
 

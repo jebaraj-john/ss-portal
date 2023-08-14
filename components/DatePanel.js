@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Text, View, SafeAreaView, Button } from "react-native";
 
 class DateWidget extends React.Component {
@@ -27,12 +26,6 @@ class DateWidget extends React.Component {
             <View>
                 <SafeAreaView>
                     <Text>selected: </Text>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={this.state.date}
-                        mode="date"
-                        onChange={onChange}
-                    />
                 </SafeAreaView>
             </View>
         );

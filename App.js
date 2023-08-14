@@ -27,11 +27,15 @@ export default function Main() {
 
   const [routes] = React.useState([
     { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
-    { key: 'reports', title: 'Reports', focusedIcon: 'file-document-multiple',unfocusedIcon:"file-document-multiple-outline" },
+    { key: 'reports', title: 'Reports', focusedIcon: 'file-document-multiple',unfocusedIcon:"file-document-multiple-outline"},
     { key: 'events', title: 'Events', focusedIcon: 'calendar-month',unfocusedIcon:"calendar-month-outline" },
   ]);
   const renderScene = BottomNavigation.SceneMap({
-    home: HomeScreen,
+    home: () => <HomeScreen centers={["NLAG"]}
+      services={["1st Service", "2nd Service"]} departments={["Beginner", "Primary"]} role="leader"
+      teachers={[{"name": "Sam", "email": "mailx@gmail.com"},{"name": "Daniel", "email": "jsx@live.com"}]}
+      userInfo={{"email": "xyz@gmail.com", "name": "Dave Jones"}}
+    />,
     reports: Reports,
     events: EventsScreen,
   });

@@ -44,7 +44,7 @@ const StudentsList = (props) => {
     const [data, setData] = React.useState([])
 
     const get_attendance_url = `${urls.attendance_url}?type=get_attendance&email=${props.teacherEmail}`
-    console.log(get_attendance_url)
+
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
@@ -58,55 +58,15 @@ const StudentsList = (props) => {
             }
         }
 
+        console.log(get_attendance_url);
         fetchMyAPI()
-    }, []);
-
-    const createAttendanceData = (attRecords, teacherEmail, date=null) => {
-        let attendanceData = {
-            "type": "update_attendance",
-            "teacher_email": teacherEmail,
-            "att_data": [],
-        };
-
-        if(date) {
-            attendanceData["date"] = date;
-        }
-
-        attRecords.forEach(attRecord => {
-            attendanceData.att_data.push({
-                "id": attRecord.id,
-                "att": attRecord.att,
-                "name": attRecord.name,
-            });
-        });
-
-        return attendanceData;
-    };
-
-    const submitAtt = (e) => {
-        const attRecords = createAttendanceData(data, props.teacherEmail)
-        console.log(attRecords)
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(attRecords)
-        };
-        const update_attendance_url = `${urls.attendance_url}`
-        fetch(update_attendance_url, requestOptions)
-          .then(response => response.json())
-          .then(data =>  {
-            Alert.alert('', 'Attendance submitted!', [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ]);
-        });
-
-    };
+    }, [props.isTeacherNameChanged]);
 
 
     const Item = ({item}) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <AttendanceButton defaultValue={item.att} onValueChange={(value) => {item.att = value;}} />
+            <AttendanceButton defaultValue={item.att} onValueChange={(value) => {item.att = value; props.onValueChange(data)}} />
         </View>
     );
 
@@ -117,9 +77,6 @@ const StudentsList = (props) => {
                 renderItem={({ item }) => <Item item={item} />}
                 keyExtractor={item => item.id}
             />
-            <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)} >
-                <Text >Submit</Text>
-            </Button>
         </SafeAreaView>
     );
 };
