@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 import { StudentsStyles } from '../themes/default';
-import { Button, Text, SegmentedButtons } from 'react-native-paper';
-import {urls} from "../config";
+import { ActivityIndicator, Text, SegmentedButtons } from 'react-native-paper';
+import {GetStudents} from "../services/services.js"
 
 
 const AttendanceButton = (props) => {
@@ -41,26 +41,29 @@ const AttendanceButton = (props) => {
 };
 
 const StudentsList = (props) => {
-    const [data, setData] = React.useState([])
-
-    const get_attendance_url = `${urls.attendance_url}?type=get_attendance&email=${props.teacherEmail}`
-
+    const [data, setData] = React.useState([]);
+    const [isLoading, setLoader] = React.useState(false);
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
-                let response = await fetch(get_attendance_url)
-                let stud_list = await response.json();
-                console.log(stud_list);
-                setData(stud_list);
+                setLoader(true);
+                let studList = await GetStudents(props.teacherInfo.email, props.center);
+                setData(studList);
+                console.log(studList);
             }
             catch(error) {
                 console.log(error);
             }
+            finally {
+                setLoader(false);
+            }
         }
 
-        console.log(get_attendance_url);
-        fetchMyAPI()
-    }, [props.isTeacherNameChanged]);
+        if (props.teacherInfo.email) {
+            fetchMyAPI()
+        }
+
+    }, [props.teacherInfo]);
 
 
     const Item = ({item}) => (
@@ -72,6 +75,7 @@ const StudentsList = (props) => {
 
     return (
         <SafeAreaView style={StudentsStyles.container}>
+            <ActivityIndicator animating={isLoading} />
             <FlatList
                 data={data}
                 renderItem={({ item }) => <Item item={item} />}

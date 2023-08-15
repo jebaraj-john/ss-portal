@@ -36,7 +36,11 @@ export default function Main() {
       teachers={[{"name": "Sam", "email": "mailx@gmail.com"},{"name": "Daniel", "email": "jsx@live.com"}]}
       userInfo={{"email": "xyz@gmail.com", "name": "Dave Jones"}}
     />,
-    reports: Reports,
+    reports: () => <Reports centers={["NLAG"]}
+      services={["1st Service", "2nd Service"]} departments={["Beginner", "Primary"]} role="leader"
+      teachers={[{"name": "Sam", "email": "mailx@gmail.com"},{"name": "Daniel", "email": "jsx@live.com"}]}
+      userInfo={{"email": "xyz@gmail.com", "name": "Dave Jones"}}
+    />,
     events: EventsScreen,
   });
   return (
