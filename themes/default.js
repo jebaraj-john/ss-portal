@@ -34,7 +34,6 @@ const StudentsStyles = StyleSheet.create({
 
     },
     item: {
-      //backgroundColor: '#fff',
       padding: 1,
       marginVertical: 4,
       marginHorizontal: 4,
@@ -64,13 +63,9 @@ const StudentsStyles = StyleSheet.create({
 let ReportsStyles = StyleSheet.create({
     container: {
         flex: 1,
-        // marginTop: StatusBar.currentHeight || 0,
         borderColor: "black",
         flexDirection: "column",
         fontSize: "14px",
-        // borderColor: "#000",
-        // borderWidth: 1,
-        // borderStyle: "solid",
     },
     containerText: {
         fontSize: 17,
@@ -130,13 +125,9 @@ let ReportsStyles = StyleSheet.create({
 let EventsStyles = StyleSheet.create({
     container: {
         flex: 1,
-        // marginTop: StatusBar.currentHeight || 0,
         borderColor: "black",
         flexDirection: "column",
         fontSize: "14px",
-        // borderColor: "#000",
-        // borderWidth: 1,
-        // borderStyle: "solid",
         backgroundColor: "#F7F1FF"
     },
     eventsContainer: {
