@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SafeAreaView, View, FlatList } from "react-native";
-import { ActivityIndicator, Text, SegmentedButtons } from "react-native-paper"
+import { ActivityIndicator, Text, SegmentedButtons } from "react-native-paper";
 
 import { GetStudents } from "../services/services";
 import { StudentsStyles } from "../themes/default";
