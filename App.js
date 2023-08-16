@@ -49,8 +49,27 @@ export default function Main() {
                 departments={["Beginner", "Primary"]}
                 role="leader"
                 teachers={[
-                    { name: "Sam", email: "mailx@gmail.com" },
-                    { name: "Daniel", email: "jsx@live.com" },
+                    {
+                        name: "Samuel DinaKharan",
+                        email: "mailx@gmail.com",
+                        center: "NLAG",
+                        service: "1st Service",
+                        department: "Beginner",
+                    },
+                    {
+                        name: "Daniel",
+                        email: "jsx@live.com",
+                        center: "NLAG",
+                        service: "1st Service",
+                        department: "Primary",
+                    },
+                    {
+                        name: "Max",
+                        email: "sys@live.com",
+                        center: "NLAG",
+                        service: "2nd Service",
+                        department: "Primary",
+                    },
                 ]}
                 userInfo={{ email: "xyz@gmail.com", name: "Dave Jones" }}
             />
@@ -62,8 +81,27 @@ export default function Main() {
                 departments={["Beginner", "Primary"]}
                 role="leader"
                 teachers={[
-                    { name: "Sam", email: "mailx@gmail.com" },
-                    { name: "Daniel", email: "jsx@live.com" },
+                    {
+                        name: "Sam",
+                        email: "mailx@gmail.com",
+                        center: "NLAG",
+                        service: "1st Service",
+                        department: "Beginner",
+                    },
+                    {
+                        name: "Daniel",
+                        email: "jsx@live.com",
+                        center: "NLAG",
+                        service: "1st Service",
+                        department: "Primary",
+                    },
+                    {
+                        name: "Max",
+                        email: "jsx@live.com",
+                        center: "NLAG",
+                        service: "2nd Service",
+                        department: "Primary",
+                    },
                 ]}
                 userInfo={{ email: "xyz@gmail.com", name: "Dave Jones" }}
             />

@@ -48,6 +48,55 @@ const StudentsStyles = StyleSheet.create({
     },
 });
 
+const attFilterDefaultBtnStyle = {
+    margin: 2,
+};
+
+const AttendanceFilterStyles = StyleSheet.create({
+    attendanceFilterBar: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    centerButtons: {
+        ...attFilterDefaultBtnStyle,
+    },
+    centerView: {
+        marginLeft: 1,
+        marginRight: 5,
+    },
+    centerViewWrap: {
+        alignItems: "center",
+        flexDirection: "row",
+        marginLeft: 1,
+        marginRight: 5,
+        marginTop: 5,
+    },
+    departmentButtons: {
+        ...attFilterDefaultBtnStyle,
+    },
+    serviceButtons: {
+        ...attFilterDefaultBtnStyle,
+    },
+    serviceButtonsLabel: {
+        padding: 0,
+    },
+    teacherBoxWrap: {
+        minWidth: 200,
+    },
+    teacherButtons: {
+        ...attFilterDefaultBtnStyle,
+    },
+    teacherSelectButton: {
+        alignSelf: "center",
+        height: 40,
+        marginTop: 5,
+        margin: 2,
+    },
+    teacherWrap: {
+        flexDirection: "row",
+    },
+});
+
 const ReportsStyles = StyleSheet.create({
     attRangeSelector: {
         fontSize: 17,
@@ -166,4 +215,4 @@ const EventsStyles = StyleSheet.create({
     },
 });
 
-export { HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles };
+export { HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles, AttendanceFilterStyles };
