@@ -8,7 +8,7 @@ const colors = {
     filterBadgeTextActiveColor: "#6750A4",
     filterBadgeBackground: "#D0BCFF",
     tableHead: "#f1f8ff",
-}
+};
 
 const HomeScreenStyles = StyleSheet.create({
     container: {

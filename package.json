@@ -5,11 +5,21 @@
     "scripts": {
         "start": "expo start",
         "lint": "eslint .",
+        "eslint-fix": "eslint . --fix",
+        "precommit": "lint-staged",
         "prettier": "prettier . --write",
         "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
         "android": "expo start --android",
         "ios": "expo start --ios",
-        "web": "expo start --web"
+        "web": "expo start --web",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.js": [
+            "prettier --write",
+            "eslint . --fix",
+            "git add"
+        ]
     },
     "dependencies": {
         "@react-native-community/datetimepicker": "^6.7.3",
@@ -36,6 +46,8 @@
         "eslint-plugin-prettier": "^5.0.0",
         "eslint-plugin-react": "^7.33.1",
         "eslint-plugin-react-native": "^4.0.0",
+        "husky": "^8.0.0",
+        "lint-staged": "^14.0.0",
         "prettier": "^3.0.2"
     },
     "private": true

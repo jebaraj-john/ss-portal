@@ -76,6 +76,4 @@ const EventsScreen = () => {
     );
 };
 
-
-
 export { EventsScreen };
