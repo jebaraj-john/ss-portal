@@ -13,7 +13,6 @@ function HomeScreen(props) {
     const [isLoading, setLoader] = useState(false);
     const [attData, setAttData] = useState([]);
     const getTeacherInfo = (teacherData) => {
-        console.log("data for  teachers", teacherData);
         if (teacherData) {
             setTeacherInfo(teacherData);
         }
