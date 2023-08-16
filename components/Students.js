@@ -56,17 +56,15 @@ const StudentsList = (props) => {
             fetchMyAPI();
         }
     }, [props.teacherInfo]);
+    const onAttButtonChange = (value, item) => {
+        item.att = value;
+        props.onValueChange(data);
+    };
 
     const Item = ({ item }) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <AttendanceButton
-                defaultValue={item.att}
-                onValueChange={(value) => {
-                    item.att = value;
-                    props.onValueChange(data);
-                }}
-            />
+            <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(item)} />
         </View>
     );
 
