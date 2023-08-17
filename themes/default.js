@@ -23,28 +23,30 @@ const StudentsStyles = StyleSheet.create({
         width: 100,
     },
     container: {
-        alignItems: "center",
-        flex: 1,
-        justifyContent: "center",
+        flex: 0.7,
     },
     item: {
-        alignItems: "flex-end",
+        alignItems: "flex-start",
+        marginLeft: 1,
+        marginRight: 0,
+        justifyContent: "space-around",
         flex: 1,
+        flexDirection: "row",
         flexWrap: "wrap",
         fontSize: 17,
-        height: 50,
-        marginHorizontal: 4,
-        marginVertical: 4,
+        height: 45,
         padding: 1,
-        width: 350,
+        width: "100%",
+    },
+    attButtonWrap: {
+        width: 180
     },
     title: {
-        flexGrow: 2,
+        flexGrow: 1,
         fontSize: 17,
-        height: "100%",
         paddingRight: 2,
         paddingTop: 7,
-        width: 150,
+        minWidth: 120
     },
 });
 
