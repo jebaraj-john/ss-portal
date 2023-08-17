@@ -64,7 +64,7 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip selected="true" showSelectedCheck="true">
+                    <Chip selected={true} showSelectedCheck={true}>
                         {props.centers[0]}
                     </Chip>
                 </View>
