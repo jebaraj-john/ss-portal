@@ -8,6 +8,7 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from "react-native-paper
 import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
+import { GetUserInfo } from "./services/services.js";
 
 const theme = {
     ...DefaultTheme,
@@ -20,6 +21,7 @@ const theme = {
 
 export default function Main() {
     const [index, setIndex] = React.useState(0);
+    const [userInfo, setUserInfo] = React.useState(null);
 
     const [routes] = React.useState([
         {
@@ -41,76 +43,52 @@ export default function Main() {
             unfocusedIcon: "calendar-month-outline",
         },
     ]);
+
+    React.useEffect(() => {
+        async function fetchMyAPI() {
+            try {
+                const userDet = await GetUserInfo("x1yz@gmail.com");
+                setUserInfo(userDet);
+                console.log(userDet);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchMyAPI();
+    }, []);
     const renderScene = BottomNavigation.SceneMap({
         home: () => (
             <HomeScreen
-                centers={["NLAG"]}
-                services={["1st Service", "2nd Service"]}
-                departments={["Beginner", "Primary"]}
-                role="leader"
-                teachers={[
-                    {
-                        name: "Samuel DinaKharan",
-                        email: "mailx@gmail.com",
-                        center: "NLAG",
-                        service: "1st Service",
-                        department: "Beginner",
-                    },
-                    {
-                        name: "Daniel",
-                        email: "jsx@live.com",
-                        center: "NLAG",
-                        service: "1st Service",
-                        department: "Primary",
-                    },
-                    {
-                        name: "Max",
-                        email: "sys@live.com",
-                        center: "NLAG",
-                        service: "2nd Service",
-                        department: "Primary",
-                    },
-                ]}
-                userInfo={{ email: "xyz@gmail.com", name: "Dave Jones" }}
+                centers={userInfo.centers}
+                services={userInfo.services}
+                departments={userInfo.departments}
+                role={userInfo.role}
+                teachers={userInfo.teachers}
+                userInfo={userInfo}
             />
         ),
         reports: () => (
             <Reports
-                centers={["NLAG"]}
-                services={["1st Service", "2nd Service"]}
-                departments={["Beginner", "Primary"]}
-                role="leader"
-                teachers={[
-                    {
-                        name: "Sam",
-                        email: "mailx@gmail.com",
-                        center: "NLAG",
-                        service: "1st Service",
-                        department: "Beginner",
-                    },
-                    {
-                        name: "Daniel",
-                        email: "jsx@live.com",
-                        center: "NLAG",
-                        service: "1st Service",
-                        department: "Primary",
-                    },
-                    {
-                        name: "Max",
-                        email: "jsx@live.com",
-                        center: "NLAG",
-                        service: "2nd Service",
-                        department: "Primary",
-                    },
-                ]}
-                userInfo={{ email: "xyz@gmail.com", name: "Dave Jones" }}
+                centers={userInfo.centers}
+                services={userInfo.services}
+                departments={userInfo.departments}
+                role={userInfo.role}
+                teachers={userInfo.teachers}
+                userInfo={userInfo}
             />
         ),
         events: EventsScreen,
     });
     return (
         <PaperProvider theme={theme}>
-            <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene} />
+            {userInfo && (
+                <BottomNavigation
+                    navigationState={{ index, routes }}
+                    onIndexChange={setIndex}
+                    renderScene={renderScene}
+                />
+            )}
         </PaperProvider>
     );
 }
