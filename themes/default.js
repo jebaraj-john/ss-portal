@@ -22,31 +22,31 @@ const StudentsStyles = StyleSheet.create({
         paddingTop: 1,
         width: 100,
     },
+    attButtonWrap: {
+        width: 180,
+    },
     container: {
         flex: 0.7,
     },
     item: {
         alignItems: "flex-start",
-        marginLeft: 1,
-        marginRight: 0,
-        justifyContent: "space-around",
         flex: 1,
         flexDirection: "row",
         flexWrap: "wrap",
         fontSize: 17,
         height: 45,
+        justifyContent: "space-around",
+        marginLeft: 1,
+        marginRight: 0,
         padding: 1,
         width: "100%",
-    },
-    attButtonWrap: {
-        width: 180
     },
     title: {
         flexGrow: 1,
         fontSize: 17,
+        minWidth: 120,
         paddingRight: 2,
         paddingTop: 7,
-        minWidth: 120
     },
 });
 
