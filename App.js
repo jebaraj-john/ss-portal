@@ -20,10 +20,36 @@ const theme = {
     },
 };
 
+
+
 export default function Main() {
     const [index, setIndex] = React.useState(0);
     //userInfo = React.useContext("userInfo");
+    const [isLoggedIn, setLoginStatus] = React.useState(false);
     const [userInfo, setUserInfo] = React.useState(null);
+
+    const RenderPage = () => {
+        if (!isLoggedIn) {
+          return (
+            <LoginScreen afterSignIn={(userInfo)=> {setLoginStatus(true)}}/>
+          )
+        }
+        else {
+          return(
+            userInfo && (
+                <UserContext.Provider value={userInfo}>
+                    {userInfo && (
+                        <BottomNavigation
+                            navigationState={{ index, routes }}
+                            onIndexChange={setIndex}
+                            renderScene={renderScene}
+                        />
+                    )}
+                </UserContext.Provider>
+            )
+          )
+        }
+      }
 
     const [routes] = React.useState([
         {
@@ -67,17 +93,10 @@ export default function Main() {
     });
     return (
         <PaperProvider theme={theme}>
-            <UserContext.Provider value={userInfo}>
-                {userInfo && (
-                    <BottomNavigation
-                        navigationState={{ index, routes }}
-                        onIndexChange={setIndex}
-                        renderScene={renderScene}
-                    />
-                )}
-            </UserContext.Provider>
+            {RenderPage()}
         </PaperProvider>
     );
+
 }
 
 AppRegistry.registerComponent(appName, () => Main);
