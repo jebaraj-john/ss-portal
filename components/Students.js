@@ -1,29 +1,23 @@
-'use strict';
+"use strict";
 
-import React from 'react';
-import {
-    SafeAreaView,
-    View,
-    Alert,
-    FlatList,
-} from 'react-native';
+import React from "react";
+import { SafeAreaView, View, FlatList } from "react-native";
+import { ActivityIndicator, Text, SegmentedButtons } from "react-native-paper";
 
-import { StudentsStyles } from '../themes/default';
-import { ActivityIndicator, Text, SegmentedButtons } from 'react-native-paper';
-import {GetStudents} from "../services/services.js"
-
+import { GetStudents } from "../services/services";
+import { StudentsStyles } from "../themes/default";
 
 const AttendanceButton = (props) => {
     const [value, setValue] = React.useState("");
     const attList = [
         {
-            "label": "Present",
-            "value": "P",
+            label: "Present",
+            value: "P",
         },
         {
-            "label": "Absent",
-            "value": "A",
-        }
+            label: "Absent",
+            value: "A",
+        },
     ];
 
     const onValueChange = (value) => {
@@ -32,7 +26,8 @@ const AttendanceButton = (props) => {
     };
 
     return (
-        <SegmentedButtons style={{width: 40, padding: 0}}
+        <SegmentedButtons
+            style={{ width: 40, padding: 0 }}
             value={value ? value : props.defaultValue}
             onValueChange={onValueChange}
             buttons={attList}
@@ -47,40 +42,36 @@ const StudentsList = (props) => {
         async function fetchMyAPI() {
             try {
                 setLoader(true);
-                let studList = await GetStudents(props.teacherInfo.email, props.center);
+                const studList = await GetStudents(props.teacherInfo.email, props.center);
                 setData(studList);
                 console.log(studList);
-            }
-            catch(error) {
+            } catch (error) {
                 console.log(error);
-            }
-            finally {
+            } finally {
                 setLoader(false);
             }
         }
 
         if (props.teacherInfo.email) {
-            fetchMyAPI()
+            fetchMyAPI();
         }
-
     }, [props.teacherInfo]);
+    const onAttButtonChange = (item, value) => {
+        item.att = value;
+        props.onValueChange(data);
+    };
 
-
-    const Item = ({item}) => (
+    const Item = ({ item }) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <AttendanceButton defaultValue={item.att} onValueChange={(value) => {item.att = value; props.onValueChange(data)}} />
+            <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(this, item)} />
         </View>
     );
 
     return (
         <SafeAreaView style={StudentsStyles.container}>
             <ActivityIndicator animating={isLoading} />
-            <FlatList
-                data={data}
-                renderItem={({ item }) => <Item item={item} />}
-                keyExtractor={item => item.id}
-            />
+            <FlatList data={data} renderItem={({ item }) => <Item item={item} />} keyExtractor={(item) => item.id} />
         </SafeAreaView>
     );
 };
