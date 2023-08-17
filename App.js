@@ -8,6 +8,7 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from "react-native-paper
 import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
+import { LoginScreen } from "./screens/LoginScreen.js";
 import { GetUserInfo } from "./services/services.js";
 import { UserContext } from "./User.js";
 
@@ -19,8 +20,6 @@ const theme = {
         secondary: "yellow",
     },
 };
-
-
 
 export default function Main() {
     const [index, setIndex] = React.useState(0);
@@ -49,7 +48,7 @@ export default function Main() {
             )
           )
         }
-      }
+    };
 
     const [routes] = React.useState([
         {
@@ -91,12 +90,7 @@ export default function Main() {
         reports: () => <Reports userInfo={userInfo} />,
         events: EventsScreen,
     });
-    return (
-        <PaperProvider theme={theme}>
-            {RenderPage()}
-        </PaperProvider>
-    );
-
+    return <PaperProvider theme={theme}>{RenderPage()}</PaperProvider>;
 }
 
 AppRegistry.registerComponent(appName, () => Main);
