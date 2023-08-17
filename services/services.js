@@ -13,12 +13,17 @@ export function filterEvent(eventLabel) {
 
 export async function GetStudents(email, center) {
     const get_attendance_url = `${urls.attendance_url}?type=get_attendance&email=${email}&center=${center}`;
-    try {
-        const response = await fetch(get_attendance_url);
-        return await response.json();
-    } catch (error) {
-        console.log(error);
-    }
+    const response = await fetch(get_attendance_url);
+
+    return await response.json();
+}
+
+export async function GetUserInfo(email) {
+    const get_attendance_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
+    console.log(get_attendance_url);
+    const response = await fetch(get_attendance_url);
+
+    return await response.json();
 }
 
 export async function PostAttendance(attRecords) {

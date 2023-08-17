@@ -64,14 +64,16 @@ const StudentsList = (props) => {
     const Item = ({ item }) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(this, item)} />
+            <View style={StudentsStyles.attButtonWrap}>
+                <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(this, item)} />
+            </View>
         </View>
     );
 
     return (
         <SafeAreaView style={StudentsStyles.container}>
-            <ActivityIndicator animating={isLoading} />
             <FlatList data={data} renderItem={({ item }) => <Item item={item} />} keyExtractor={(item) => item.id} />
+            <ActivityIndicator animating={isLoading} />
         </SafeAreaView>
     );
 };
