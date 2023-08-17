@@ -8,6 +8,7 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from "react-native-paper
 import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
+import { LoginScreen } from "./screens/LoginScreen.js";
 import { GetUserInfo } from "./services/services.js";
 
 const theme = {
@@ -19,32 +20,32 @@ const theme = {
     },
 };
 
-
-
 export default function Main() {
-<<<<<<< HEAD
     const [index, setIndex] = React.useState(0);
     const [isLoggedIn, setLoginStatus] = React.useState(false);
     const [userInfo, setUserInfo] = React.useState(null);
 
     const RenderPage = () => {
         if (!isLoggedIn) {
-          return (
-            <LoginScreen afterSignIn={(userInfo)=> {setLoginStatus(true)}}/>
-          )
-        }
-        else {
-          return(
-            userInfo && (
-                <BottomNavigation
-                    navigationState={{ index, routes }}
-                    onIndexChange={setIndex}
-                    renderScene={renderScene}
+            return (
+                <LoginScreen
+                    afterSignIn={() => {
+                        setLoginStatus(true);
+                    }}
                 />
-            )
-          )
+            );
+        } else {
+            return (
+                userInfo && (
+                    <BottomNavigation
+                        navigationState={{ index, routes }}
+                        onIndexChange={setIndex}
+                        renderScene={renderScene}
+                    />
+                )
+            );
         }
-      }
+    };
 
     const [routes] = React.useState([
         {
@@ -103,53 +104,7 @@ export default function Main() {
         ),
         events: EventsScreen,
     });
-    return (
-        <PaperProvider theme={theme}>
-            {RenderPage()}
-        </PaperProvider>
-    );
-=======
-  const [index, setIndex] = React.useState(0);
-  const [isLoggedIn, setLoginStatus] = React.useState(false);
-
-  const [routes] = React.useState([
-    { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
-    { key: 'reports', title: 'Reports', focusedIcon: 'file-document-multiple',unfocusedIcon:"file-document-multiple-outline"},
-    { key: 'events', title: 'Events', focusedIcon: 'calendar-month',unfocusedIcon:"calendar-month-outline" },
-  ]);
-  const RenderPage = () => {
-    if (!isLoggedIn) {
-      return (
-        <LoginScreen afterSignIn={(userInfo)=> {setLoginStatus(true)}}/>
-      )
-    }
-    else {
-      return(
-        <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene}
-        />
-      )
-    }
-  }
-
-  const renderScene = BottomNavigation.SceneMap({
-    home: () => <HomeScreen centers={["NLAG"]}
-      services={["1st Service", "2nd Service"]} departments={["Beginner", "Primary"]} role="leader"
-      teachers={[{"name": "Sam", "email": "mailx@gmail.com"},{"name": "Daniel", "email": "jsx@live.com"}]}
-      userInfo={{"email": "xyz@gmail.com", "name": "Dave Jones"}}
-    />,
-    reports: () => <Reports centers={["NLAG"]}
-      services={["1st Service", "2nd Service"]} departments={["Beginner", "Primary"]} role="leader"
-      teachers={[{"name": "Sam", "email": "mailx@gmail.com"},{"name": "Daniel", "email": "jsx@live.com"}]}
-      userInfo={{"email": "xyz@gmail.com", "name": "Dave Jones"}}
-    />,
-    events: LoginScreen,
-  });
-  return (
-    <PaperProvider theme={theme}>
-      {RenderPage()}
-    </PaperProvider>
-  );
->>>>>>> 499661e (after login hooks installed)
+    return <PaperProvider theme={theme}>{RenderPage()}</PaperProvider>;
 }
 
 AppRegistry.registerComponent(appName, () => Main);
