@@ -9,8 +9,11 @@ import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
 import { LoginScreen } from "./screens/LoginScreen.js";
+<<<<<<< HEAD
 import { GetUserInfo } from "./services/services.js";
 import { UserContext } from "./User.js";
+=======
+>>>>>>> 1cc4d86 (google sign in issue fixed)
 
 const theme = {
     ...DefaultTheme,
@@ -25,9 +28,20 @@ export default function Main() {
     const [index, setIndex] = React.useState(0);
     //userInfo = React.useContext("userInfo");
     const [isLoggedIn, setLoginStatus] = React.useState(false);
-    const [userInfo, setUserInfo] = React.useState(null);
+    const generateDefaultData = () => {
+        return {
+            centers: [],
+            services: [],
+            departments: [],
+            teachers: [],
+            role: null,
+        };
+    };
+    const [userInfo, setUserInfo] = React.useState(generateDefaultData());
+    const [googleUserInfo, setGoogleUserInfo] = React.useState(null);
 
     const RenderPage = () => {
+        console.log(googleUserInfo);
         if (!isLoggedIn) {
           return (
             <LoginScreen afterSignIn={(userInfo)=> {setLoginStatus(true)}}/>
@@ -70,20 +84,6 @@ export default function Main() {
             unfocusedIcon: "calendar-month-outline",
         },
     ]);
-
-    React.useEffect(() => {
-        async function fetchMyAPI() {
-            try {
-                const userDet = await GetUserInfo("xyz@gmail.com");
-                setUserInfo(userDet);
-                console.log(userDet);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchMyAPI();
-    }, []);
 
     const renderScene = BottomNavigation.SceneMap({
         home: HomeScreen,

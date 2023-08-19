@@ -1,51 +1,49 @@
-import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin";
-import auth from "@react-native-firebase/auth";
+import { GoogleSignin, GoogleSigninButton, statusCodes } from "@react-native-google-signin/google-signin";
 import "expo-dev-client";
 
 import React from "react";
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { GetUserInfo } from "../services/services.js";
 
 const LoginScreen = (props) => {
     GoogleSignin.configure({
         webClientId: "943862444859-6vor0a00ocq68cgd5p1th5kci1vfmu1q.apps.googleusercontent.com",
+        iosClientId: "943862444859-6uh0juqage3nrj2hj9add8ro58mf40co.apps.googleusercontent.com",
     });
 
     const onGoogleButtonPress = async () => {
-        // Check if your device supports Google Play
-        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-        // Get the users ID token
-        const { idToken } = await GoogleSignin.signIn();
-
-        // Create a Google credential with the token
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-        // Sign-in the user with the credential
-        //return auth().signInWithCredential(googleCredential);
-        const user_sign_in = auth().signInWithCredential(googleCredential);
-        user_sign_in
-            .then((user) => {
-                props.afterSignIn({ email: "xyz@gmail.com" });
-                console.log(user);
-            })
-            .catch((error) => {
+        try {
+            //await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            const googleUserInfo = userInfo.user;
+            console.log(googleUserInfo);
+            const userDet = await GetUserInfo(googleUserInfo.email);
+            return userDet;
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                console.log("play service not available");
+                // play services not available or outdated
+            } else {
                 console.log(error);
-            });
-    };
-
-    const OnLoginPress = () => {
-        props.afterSignIn({ email: "xyz@gmail.com" });
+                // some other error happened
+            }
+        }
     };
 
     return (
-        <View>
-            <Button mode="contained-tonal" name={"Login"} key={"Login"} onPress={OnLoginPress}>
-                <Text>Login Here</Text>
-            </Button>
+        <View style={{ alignSelf: "center", flex: 1, justifyContent: "center" }}>
             <GoogleSigninButton
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
-                onPress={() => onGoogleButtonPress().then(() => console.log("Signed in with Google!"))}
+                onPress={() =>
+                    onGoogleButtonPress().then((userDet) => {
+                        props.afterSignIn(userDet, {});
+                    })
+                }
             />
         </View>
     );

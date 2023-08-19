@@ -22,9 +22,9 @@ export async function GetStudents(email, center) {
 }
 
 export async function GetUserInfo(email) {
-    const get_attendance_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
-    console.log(get_attendance_url);
-    const response = await fetch(get_attendance_url);
+    const get_user_info_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
+    console.log(get_user_info_url);
+    const response = await fetch(get_user_info_url);
 
     return await response.json();
 }
@@ -60,8 +60,8 @@ export function formatReportData(reportData) {
                     value === "P"
                         ? (result["present_days"] += 1)
                         : value === "A"
-                            ? (result["absent_days"] += 1)
-                            : result;
+                        ? (result["absent_days"] += 1)
+                        : result;
                 }
 
                 result[dataKeys[index].replace(" ", "")] = value;
