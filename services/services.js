@@ -19,9 +19,9 @@ export async function GetStudents(email, center) {
 }
 
 export async function GetUserInfo(email) {
-    const get_attendance_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
-    console.log(get_attendance_url);
-    const response = await fetch(get_attendance_url);
+    const get_user_info_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
+    console.log(get_user_info_url);
+    const response = await fetch(get_user_info_url);
 
     return await response.json();
 }

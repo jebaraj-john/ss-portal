@@ -9,7 +9,6 @@ import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
 import { LoginScreen } from "./screens/LoginScreen.js";
-import { GetUserInfo } from "./services/services.js";
 
 const theme = {
     ...DefaultTheme,
@@ -23,13 +22,26 @@ const theme = {
 export default function Main() {
     const [index, setIndex] = React.useState(0);
     const [isLoggedIn, setLoginStatus] = React.useState(false);
-    const [userInfo, setUserInfo] = React.useState(null);
+    const generateDefaultData = () => {
+        return {
+            centers: [],
+            services: [],
+            departments: [],
+            teachers: [],
+            role: null,
+        };
+    };
+    const [userInfo, setUserInfo] = React.useState(generateDefaultData());
+    const [googleUserInfo, setGoogleUserInfo] = React.useState(null);
 
     const RenderPage = () => {
+        console.log(googleUserInfo);
         if (!isLoggedIn) {
             return (
                 <LoginScreen
-                    afterSignIn={() => {
+                    afterSignIn={(userDet, googleUserInfo) => {
+                        setUserInfo(userDet);
+                        setGoogleUserInfo(googleUserInfo);
                         setLoginStatus(true);
                     }}
                 />
@@ -68,19 +80,6 @@ export default function Main() {
         },
     ]);
 
-    React.useEffect(() => {
-        async function fetchMyAPI() {
-            try {
-                const userDet = await GetUserInfo("x1yz@gmail.com");
-                setUserInfo(userDet);
-                console.log(userDet);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchMyAPI();
-    }, []);
     const renderScene = BottomNavigation.SceneMap({
         home: () => (
             <HomeScreen

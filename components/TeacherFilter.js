@@ -8,7 +8,7 @@ import { AttendanceFilterStyles } from "../themes/default";
 export const TeacherFilter = (props) => {
     const defaultTeacherMail = props.role == "teacher" ? props.userInfo.email : "";
     const [teacherEmail, setTeacherEmail] = useState(defaultTeacherMail);
-
+    console.log(props);
     const [center, setCenter] = useState(props.centers[0]);
     const createButton = (data) => {
         return { label: data, value: data };
