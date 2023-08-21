@@ -9,11 +9,12 @@ import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
 import { LoginScreen } from "./screens/LoginScreen.js";
-<<<<<<< HEAD
 import { GetUserInfo } from "./services/services.js";
 import { UserContext } from "./User.js";
-=======
->>>>>>> 1cc4d86 (google sign in issue fixed)
+
+import { supabase } from "./lib/supabase";
+import Auth from "./components/Auth";
+
 
 const theme = {
     ...DefaultTheme,
@@ -26,41 +27,33 @@ const theme = {
 
 export default function Main() {
     const [index, setIndex] = React.useState(0);
-    //userInfo = React.useContext("userInfo");
-    const [isLoggedIn, setLoginStatus] = React.useState(false);
-    const generateDefaultData = () => {
-        return {
-            centers: [],
-            services: [],
-            departments: [],
-            teachers: [],
-            role: null,
-        };
-    };
-    const [userInfo, setUserInfo] = React.useState(generateDefaultData());
-    const [googleUserInfo, setGoogleUserInfo] = React.useState(null);
+    const [session, setSession] = React.useState(null);
+    const [userInfo, setUserInfo] = React.useState(null);
+
+    React.useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+            setUserInfo({"a": "a"})
+        });
+
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+    });
 
     const RenderPage = () => {
-        console.log(googleUserInfo);
-        if (!isLoggedIn) {
-          return (
-            <LoginScreen afterSignIn={(userInfo)=> {setLoginStatus(true)}}/>
-          )
-        }
-        else {
-          return(
-            userInfo && (
-                <UserContext.Provider value={userInfo}>
-                    {userInfo && (
-                        <BottomNavigation
-                            navigationState={{ index, routes }}
-                            onIndexChange={setIndex}
-                            renderScene={renderScene}
-                        />
-                    )}
-                </UserContext.Provider>
-            )
-          )
+        if (!session || !session.user) {
+            return <Auth />;
+        } else {
+            return (
+                userInfo && (
+                    <BottomNavigation
+                        navigationState={{ index, routes }}
+                        onIndexChange={setIndex}
+                        renderScene={renderScene}
+                    />
+                )
+            );
         }
     };
 

@@ -16,7 +16,7 @@ const LoginScreen = (props) => {
             //await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             const googleUserInfo = userInfo.user;
-            console.log(googleUserInfo);
+            console.log(userInfo);
             const userDet = await GetUserInfo(googleUserInfo.email);
             return userDet;
         } catch (error) {
