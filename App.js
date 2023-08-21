@@ -33,7 +33,7 @@ export default function Main() {
     React.useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
-            setUserInfo({"a": "a"})
+            setUserInfo({ a: "a" });
         });
 
         supabase.auth.onAuthStateChange((_event, session) => {
