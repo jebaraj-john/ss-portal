@@ -1,42 +1,51 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import { View, Text } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 
 const AttendanceDate = (props) => {
-    attDefaultStyles = {
-        borderRadius:50,
-        width:50,
-        height:30,
-        alignItems:"center",
-        justifyContent:"center",
-        margin:5
-    }
-    const styles =StyleSheet.create({
-        present: Object.assign({
-            backgroundColor:"#84f6ae",        
-        }, attDefaultStyles),
-        absent:Object.assign({
-            backgroundColor:"#f98e8e",        
-        }, attDefaultStyles),
-        default:Object.assign({
-            backgroundColor:"grey"
-        }, attDefaultStyles)
+    const attDefaultStyles = {
+        borderRadius: 50,
+        width: 40,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 5,
+    };
+    const styles = StyleSheet.create({
+        absent: Object.assign(
+            {
+                backgroundColor: "#facdc5",
+            },
+            attDefaultStyles,
+        ),
+        default: Object.assign(
+            {
+                backgroundColor: "#f0e9e9",
+            },
+            attDefaultStyles,
+        ),
+        present: Object.assign(
+            {
+                backgroundColor: "#d4fac3",
+            },
+            attDefaultStyles,
+        ),
     });
     const selectStyle = (status) => {
         const styleMap = {
             "": styles.default,
-            "P": styles.present,
-            "A": styles.absent,
+            P: styles.present,
+            A: styles.absent,
         };
 
-        return styleMap[status]; 
+        return styleMap[status];
     };
 
     return (
-    <View style={selectStyle(props.status)}>
-        <Text >{props.date}</Text>
-    </View>
-    )
-}
+        <View style={selectStyle(props.status)}>
+            <Text>{props.date}</Text>
+        </View>
+    );
+};
 
-export default AttendanceDate
+export default AttendanceDate;
