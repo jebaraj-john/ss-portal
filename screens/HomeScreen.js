@@ -65,8 +65,10 @@ function HomeScreen(props) {
                 teachers={props.teachers}
                 userInfo={props.userInfo}
                 onValueChange={getTeacherInfo}
+                filterButtonName="Get Attendance"
+                filterButtonAlwaysOn={true}
             />
-            <ActivityIndicator animating={isLoading} />
+            <ActivityIndicator style={{ top: 50 }} animating={isLoading} />
             <StudentsList
                 teacherInfo={teacherInfo}
                 center={props.role == "teacher" ? props.centers[0] : teacherInfo.center}

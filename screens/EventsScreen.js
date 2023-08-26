@@ -1,10 +1,8 @@
 import { View } from "react-native";
 import React, { useState, useEffect } from "react";
-
 import { buttons } from "../data/events_data";
 import { getEvent, filterEvent } from "../services/services";
 import { ScrollView } from "react-native";
-
 import { Button, Card, Text } from "react-native-paper";
 import TitleBar from "../components/TitleBar";
 import { EventsStyles } from "../themes/default";

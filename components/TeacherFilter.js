@@ -5,7 +5,7 @@ import DropDown from "react-native-paper-dropdown";
 
 import { AttendanceFilterStyles } from "../themes/default";
 
-export const TeacherFilter = (props) => {
+export const TeacherFilter = (props, children) => {
     const defaultTeacherMail = props.role == "teacher" ? props.userInfo.email : "";
     const [teacherEmail, setTeacherEmail] = useState(defaultTeacherMail);
 
@@ -64,7 +64,7 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip selected={true} showSelectedCheck={true}>
+                    <Chip icon="church" selected={true} showSelectedCheck={true}>
                         {props.centers[0]}
                     </Chip>
                 </View>
@@ -87,7 +87,7 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.services[0]}</Chip>
+                    <Chip icon="account-group">{props.services[0]}</Chip>
                 </View>
             );
         }
@@ -107,14 +107,14 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.departments[0]}</Chip>
+                    <Chip icon="account-multiple">{props.departments[0]}</Chip>
                 </View>
             );
         }
     };
 
     const onPress = () => {
-        let teacherInfo = null;
+        let teacherInfo = {};
 
         for (let index in props.teachers) {
             let teacher = props.teachers[index];
@@ -153,7 +153,7 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.userInfo.name}</Chip>
+                    <Chip icon="account">{props.userInfo.name}</Chip>
                 </View>
             );
         }
@@ -165,14 +165,15 @@ export const TeacherFilter = (props) => {
             {renderServices()}
             {renderDepartments()}
             {renderTeachers()}
-            {props.role !== "teacher" && (
+            {children[0]}
+            {(props.filterButtonAlwaysOn || props.role !== "teacher") && (
                 <Button
                     style={AttendanceFilterStyles.teacherSelectButton}
                     mode="contained-tonal"
                     name="get_attendance"
                     key="get_attendance"
                     onPress={onPress}>
-                    <Text>Get Attendance</Text>
+                    <Text>{props.filterButtonName}</Text>
                 </Button>
             )}
         </View>
