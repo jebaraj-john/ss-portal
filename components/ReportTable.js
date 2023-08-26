@@ -11,8 +11,8 @@ const ReportTable = ({ header, data }) => {
                         <DataTable.Title key={`${title}${index}${index}`}>{title}</DataTable.Title>
                     ))}
                 </DataTable.Header>
-                {data.map((rowdata,index) => (
-                    <DataTable.Row key={"rowkey"+index}>
+                {data.map((rowdata, index) => (
+                    <DataTable.Row key={"rowkey" + index}>
                         {rowdata.map((celldata, index) => (
                             <DataTable.Cell style={{}} key={`${celldata}${index}`}>
                                 {celldata}
