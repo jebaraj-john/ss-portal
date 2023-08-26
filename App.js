@@ -47,7 +47,7 @@ export default function Main() {
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
-                const userDet = await GetUserInfo("xyz@gmail.com");
+                const userDet = await GetUserInfo("x1yz@gmail.com");
                 setUserInfo(userDet);
                 console.log(userDet);
             } catch (error) {

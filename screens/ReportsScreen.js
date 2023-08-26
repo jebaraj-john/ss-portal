@@ -9,29 +9,51 @@ import { getReports } from "../services/services";
 import { TeacherFilter } from "../components/TeacherFilter";
 import { formatReportData } from "../services/services";
 import ReportTable from "../components/ReportTable";
-import { Switch } from "react-native-paper";
+import { Switch, ActivityIndicator } from "react-native-paper";
 
 const Reports = (props) => {
     const [reportData, setreportData] = useState([]);
     const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
-    const [quarter, setQuarter] = useState("");
+    const [quarter, setQuarter] = useState("Q1");
     const [isSwitchOn, setIsSwitchOn] = useState(false);
-    const [responseData, setReponseData] = useState();
+    const [responseData, setReponseData] = useState([]);
+
+    const [isLoading, setLoader] = useState(false);
 
     const onToggleSwitch = () => {
         setIsSwitchOn(!isSwitchOn);
     };
 
+    const addTotalAttendance = (reportData) => {
+        reportData[0][reportData[0].length] = "Total";
+        for (let i = 1; i < reportData.length; i++) {
+            let row = reportData[i].slice(2, reportData.length);
+            attCount = row.reduce((atCount, att_data) => {
+                return att_data === "P" ? atCount + 1 : atCount;
+            }, 0);
+            reportData[i][reportData[i].length] = attCount;
+            console.log(attCount);
+        }
+        console.log(reportData);
+        return reportData;
+    };
+
     const getReportInfo = async (teacherData) => {
-        if (teacherData) {
+        let teacherInfo = props.userInfo;
+        teacherInfo["center"] = props.userInfo.centers[0];
+        teacherData = props.role === "teacher" ? teacherInfo : teacherData;
+        if (teacherData && teacherData.email && teacherData.center && quarter) {
+            setLoader(true);
             let email = teacherData.email;
             let center = teacherData.center;
             let reports_data = await getReports(email, center, quarter);
 
-            setReponseData(reports_data);
             let formatted_data = formatReportData(reports_data);
+            reports_data = addTotalAttendance(reports_data);
+            setReponseData(reports_data);
             setreportData(formatted_data);
         }
+        setLoader(false);
     };
 
     return (
@@ -46,9 +68,18 @@ const Reports = (props) => {
                     role={props.role}
                     teachers={props.teachers}
                     userInfo={props.userInfo}
+                    filterButtonName={"Get Reports"}
+                    filterButtonAlwaysOn={true}
                     onValueChange={getReportInfo}></TeacherFilter>
             </View>
-            <View style={{ flexDirection: "row", alignItems: "center", fontSize: 29 }}>
+            <View
+                style={{
+                    flexDirection: "row",
+                    fontSize: 29,
+                    justifyContent: "space-between",
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                }}>
                 <DropDown
                     key="quarter-drop"
                     label={"Quarter"}
@@ -65,9 +96,12 @@ const Reports = (props) => {
                     showDropDown={() => setShowQuarterDropDown(true)}
                     onDismiss={() => setShowQuarterDropDown(false)}
                 />
-                <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-                <Text style={{ fontSize: 17 }}>Classic View</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+                    <Text style={{ fontSize: 17 }}>Classic View</Text>
+                </View>
             </View>
+            <ActivityIndicator animating={isLoading} />
             <ScrollView style={ReportsStyles.tableContainer}>
                 {!isSwitchOn && (
                     <View>
@@ -85,7 +119,11 @@ const Reports = (props) => {
                 )}
                 {isSwitchOn && (
                     <View>
-                        <ReportTable header={responseData[0]} data={responseData.slice(1)} />
+                        {responseData.length > 1 ? (
+                            <ReportTable header={responseData[0]} data={responseData.slice(1)} />
+                        ) : (
+                            <></>
+                        )}
                     </View>
                 )}
             </ScrollView>

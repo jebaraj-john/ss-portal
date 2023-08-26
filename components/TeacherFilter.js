@@ -64,7 +64,7 @@ export const TeacherFilter = (props, children) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip selected={true} showSelectedCheck={true}>
+                    <Chip icon="church" selected={true} showSelectedCheck={true}>
                         {props.centers[0]}
                     </Chip>
                 </View>
@@ -87,7 +87,7 @@ export const TeacherFilter = (props, children) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.services[0]}</Chip>
+                    <Chip icon="account-group">{props.services[0]}</Chip>
                 </View>
             );
         }
@@ -107,7 +107,7 @@ export const TeacherFilter = (props, children) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.departments[0]}</Chip>
+                    <Chip icon="account-multiple">{props.departments[0]}</Chip>
                 </View>
             );
         }
@@ -153,7 +153,7 @@ export const TeacherFilter = (props, children) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.userInfo.name}</Chip>
+                    <Chip icon="account">{props.userInfo.name}</Chip>
                 </View>
             );
         }
@@ -166,14 +166,14 @@ export const TeacherFilter = (props, children) => {
             {renderDepartments()}
             {renderTeachers()}
             {children[0]}
-            {props.role !== "teacher" && (
+            {(props.filterButtonAlwaysOn || props.role !== "teacher") && (
                 <Button
                     style={AttendanceFilterStyles.teacherSelectButton}
                     mode="contained-tonal"
                     name="get_attendance"
                     key="get_attendance"
                     onPress={onPress}>
-                    <Text>Get Attendance</Text>
+                    <Text>{props.filterButtonName}</Text>
                 </Button>
             )}
         </View>

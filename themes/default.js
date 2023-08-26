@@ -128,6 +128,8 @@ const ReportsStyles = StyleSheet.create({
         fontSize: 17,
         height: "100%",
         marginTop: 1,
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     filterPaneText: {
         fontSize: 21,

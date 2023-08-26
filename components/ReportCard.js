@@ -7,10 +7,16 @@ import { EventsStyles } from "../themes/default";
 const ReportCard = (props) => {
     const AttendanceCount = ({ present, absent }) => {
         return (
-            <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                <Text variant="labelLarge">Total Days : {props.att.length} </Text>
-                <Text variant="labelLarge">Present :{present} </Text>
-                <Text variant="labelLarge">Absent :{absent} </Text>
+            <View style={{ flexDirection: "row" }}>
+                <View>
+                    <Text variant="labelLarge">Total Days : {props.att.length}&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+                </View>
+                <View>
+                    <Text variant="labelLarge">Present :{present}&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+                </View>
+                <View>
+                    <Text variant="labelLarge">Absent : {absent}&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+                </View>
             </View>
         );
     };
