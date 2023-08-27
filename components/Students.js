@@ -1,10 +1,7 @@
-"use strict";
-
 import React from "react";
 import { SafeAreaView, View, FlatList } from "react-native";
-import { ActivityIndicator, Text, SegmentedButtons } from "react-native-paper";
+import { Text, SegmentedButtons } from "react-native-paper";
 
-import { GetStudents } from "../services/services";
 import { StudentsStyles } from "../themes/default";
 
 const AttendanceButton = (props) => {
@@ -36,29 +33,11 @@ const AttendanceButton = (props) => {
 };
 
 const StudentsList = (props) => {
-    const [data, setData] = React.useState([]);
-    const [isLoading, setLoader] = React.useState(false);
-    React.useEffect(() => {
-        async function fetchMyAPI() {
-            try {
-                setLoader(true);
-                const studList = await GetStudents(props.teacherInfo.email, props.center);
-                setData(studList);
-                console.log(studList);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoader(false);
-            }
-        }
+    let studList = props.studList;
 
-        if (props.teacherInfo.email) {
-            fetchMyAPI();
-        }
-    }, [props.teacherInfo]);
     const onAttButtonChange = (item, value) => {
         item.att = value;
-        props.onValueChange(data);
+        props.onValueChange(studList);
     };
 
     const Item = ({ item }) => (
@@ -72,8 +51,11 @@ const StudentsList = (props) => {
 
     return (
         <SafeAreaView style={StudentsStyles.container}>
-            <FlatList data={data} renderItem={({ item }) => <Item item={item} />} keyExtractor={(item) => item.id} />
-            <ActivityIndicator animating={isLoading} />
+            <FlatList
+                data={studList}
+                renderItem={({ item }) => <Item item={item} />}
+                keyExtractor={(item) => item.id}
+            />
         </SafeAreaView>
     );
 };

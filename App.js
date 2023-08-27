@@ -9,6 +9,7 @@ import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
 import { GetUserInfo } from "./services/services.js";
+import { UserContext } from "./User.js";
 
 const theme = {
     ...DefaultTheme,
@@ -21,6 +22,7 @@ const theme = {
 
 export default function Main() {
     const [index, setIndex] = React.useState(0);
+    //userInfo = React.useContext("userInfo");
     const [userInfo, setUserInfo] = React.useState(null);
 
     const [routes] = React.useState([
@@ -47,7 +49,7 @@ export default function Main() {
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
-                const userDet = await GetUserInfo("x1yz@gmail.com");
+                const userDet = await GetUserInfo("xyz@gmail.com");
                 setUserInfo(userDet);
                 console.log(userDet);
             } catch (error) {
@@ -57,38 +59,23 @@ export default function Main() {
 
         fetchMyAPI();
     }, []);
+
     const renderScene = BottomNavigation.SceneMap({
-        home: () => (
-            <HomeScreen
-                centers={userInfo.centers}
-                services={userInfo.services}
-                departments={userInfo.departments}
-                role={userInfo.role}
-                teachers={userInfo.teachers}
-                userInfo={userInfo}
-            />
-        ),
-        reports: () => (
-            <Reports
-                centers={userInfo.centers}
-                services={userInfo.services}
-                departments={userInfo.departments}
-                role={userInfo.role}
-                teachers={userInfo.teachers}
-                userInfo={userInfo}
-            />
-        ),
+        home: HomeScreen,
+        reports: () => <Reports userInfo={userInfo} />,
         events: EventsScreen,
     });
     return (
         <PaperProvider theme={theme}>
-            {userInfo && (
-                <BottomNavigation
-                    navigationState={{ index, routes }}
-                    onIndexChange={setIndex}
-                    renderScene={renderScene}
-                />
-            )}
+            <UserContext.Provider value={userInfo}>
+                {userInfo && (
+                    <BottomNavigation
+                        navigationState={{ index, routes }}
+                        onIndexChange={setIndex}
+                        renderScene={renderScene}
+                    />
+                )}
+            </UserContext.Provider>
         </PaperProvider>
     );
 }

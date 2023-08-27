@@ -11,6 +11,7 @@ const EventsScreen = () => {
     const [filteredEvent, setFilteredEvent] = useState(null);
     useEffect(() => {
         setFilteredEvent(getEvent());
+        console.log("Event page loaded");
     }, []);
 
     const [activeButtonIndex, setActiveButtonIndex] = useState(null);
