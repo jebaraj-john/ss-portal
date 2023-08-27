@@ -8,8 +8,6 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from "react-native-paper
 import { name as appName } from "./app.json";
 import { BottomNavigation } from "react-native-paper";
 import { Reports } from "./screens/ReportsScreen.js";
-import { LoginScreen } from "./screens/LoginScreen.js";
-import { GetUserInfo } from "./services/services.js";
 import { UserContext } from "./User.js";
 
 import { supabase } from "./lib/supabase";
@@ -59,11 +57,13 @@ export default function Main() {
         } else {
             return (
                 userInfo && (
-                    <BottomNavigation
-                        navigationState={{ index, routes }}
-                        onIndexChange={setIndex}
-                        renderScene={renderScene}
-                    />
+                    <UserContext.Provider value={userInfo}>
+                        <BottomNavigation
+                            navigationState={{ index, routes }}
+                            onIndexChange={setIndex}
+                            renderScene={renderScene}
+                        />
+                    </UserContext.Provider>
                 )
             );
         }

@@ -1,10 +1,4 @@
 PODS:
-  - AppAuth (1.6.2):
-    - AppAuth/Core (= 1.6.2)
-    - AppAuth/ExternalUserAgent (= 1.6.2)
-  - AppAuth/Core (1.6.2)
-  - AppAuth/ExternalUserAgent (1.6.2):
-    - AppAuth/Core
   - boost (1.76.0)
   - DoubleConversion (1.1.6)
   - EXApplication (5.1.1):
@@ -92,10 +86,6 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
-  - ExpoAdapterGoogleSignIn (10.0.1):
-    - ExpoModulesCore
-    - GoogleSignIn (~> 7.0)
-    - React-Core
   - ExpoKeepAwake (12.0.1):
     - ExpoModulesCore
   - ExpoModulesCore (1.2.7):
@@ -118,14 +108,6 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.71.8)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleSignIn (7.0.0):
-    - AppAuth (~> 1.5)
-    - GTMAppAuth (< 3.0, >= 1.3)
-    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
-  - GTMAppAuth (2.0.0):
-    - AppAuth/Core (~> 1.6)
-    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
-  - GTMSessionFetcher/Core (3.1.1)
   - hermes-engine (0.71.8):
     - hermes-engine/Pre-built (= 0.71.8)
   - hermes-engine/Pre-built (0.71.8)
@@ -467,14 +449,11 @@ PODS:
     - React-jsi (= 0.71.8)
     - React-logger (= 0.71.8)
     - React-perflogger (= 0.71.8)
-  - RNCAsyncStorage (1.19.2):
+  - RNCAsyncStorage (1.19.3):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNDateTimePicker (6.7.5):
-    - React-Core
-  - RNGoogleSignin (10.0.1):
-    - GoogleSignIn (~> 7.0)
     - React-Core
   - RNVectorIcons (10.0.0):
     - React-Core
@@ -494,7 +473,6 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
-  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
@@ -537,17 +515,12 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
-  - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
-    - AppAuth
     - fmt
-    - GoogleSignIn
-    - GTMAppAuth
-    - GTMSessionFetcher
     - libevent
 
 EXTERNAL SOURCES:
@@ -577,8 +550,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
-  ExpoAdapterGoogleSignIn:
-    :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
@@ -659,15 +630,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
-  RNGoogleSignin:
-    :path: "../node_modules/@react-native-google-signin/google-signin"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: d8f53a7eee90a870a75656280e8d4b85726ea903
@@ -681,7 +649,6 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 5275974e9f825f70a33bb79301a8ab894179fa94
   expo-dev-menu: f2ea9233cdd8790c20d559eba7352bbf83662d6a
   expo-dev-menu-interface: 6c82ae323c4b8724dead4763ce3ff24a2108bdb1
-  ExpoAdapterGoogleSignIn: b6e7ca3d25261737d31c274460b503ff1b6cb303
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   EXSecureStore: e8923258361cc406d0401af380f12bd05b2b720f
@@ -691,9 +658,6 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 0d9a4f4de7ab614c49e98c00aedfd3bfbda33d59
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
-  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
-  GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -724,10 +688,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 43ffd976a25f6057a7cf95ea3648ba4e00287f89
   React-runtimeexecutor: 7c51ae9d4b3e9608a2366e39ccaa606aa551b9ed
   ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
-  RNCAsyncStorage: f57e929cd7757f2cb3dd8186d123c09e8281a1ad
+  RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 65e1d202799460b286ff5e741d8baf54695e8abd
-  RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
   RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
 
