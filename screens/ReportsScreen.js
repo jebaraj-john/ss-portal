@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { ReportsStyles } from "../themes/default";
 import DropDown from "react-native-paper-dropdown";
@@ -9,9 +9,14 @@ import { getReports } from "../services/services";
 import { TeacherFilter } from "../components/TeacherFilter";
 import { formatReportData } from "../services/services";
 import ReportTable from "../components/ReportTable";
-import { Switch, ActivityIndicator } from "react-native-paper";
+import { Switch } from "react-native-paper";
+import Loader from "../components/Loader";
 
 const Reports = (props) => {
+    useEffect(() => {
+        console.log("Report page");
+    }, []);
+
     const [reportData, setreportData] = useState([]);
     const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
     const [quarter, setQuarter] = useState("Q1");
@@ -23,12 +28,12 @@ const Reports = (props) => {
     const onToggleSwitch = () => {
         setIsSwitchOn(!isSwitchOn);
     };
-
+    console.log("Loader state", isLoading);
     const addTotalAttendance = (reportData) => {
         reportData[0][reportData[0].length] = "Total";
         for (let i = 1; i < reportData.length; i++) {
             let row = reportData[i].slice(2, reportData.length);
-            attCount = row.reduce((atCount, att_data) => {
+            let attCount = row.reduce((atCount, att_data) => {
                 return att_data === "P" ? atCount + 1 : atCount;
             }, 0);
             reportData[i][reportData[i].length] = attCount;
@@ -41,37 +46,32 @@ const Reports = (props) => {
     const getReportInfo = async (teacherData) => {
         let teacherInfo = props.userInfo;
         teacherInfo["center"] = props.userInfo.centers[0];
-        teacherData = props.role === "teacher" ? teacherInfo : teacherData;
+        teacherData = props.userInfo.role === "teacher" ? teacherInfo : teacherData;
         if (teacherData && teacherData.email && teacherData.center && quarter) {
             setLoader(true);
             let email = teacherData.email;
             let center = teacherData.center;
             let reports_data = await getReports(email, center, quarter);
-
             let formatted_data = formatReportData(reports_data);
+
             reports_data = addTotalAttendance(reports_data);
             setReponseData(reports_data);
             setreportData(formatted_data);
+            setLoader(false);
         }
-        setLoader(false);
     };
 
     return (
         <View style={ReportsStyles.container}>
             <TitleBar title="Reports" />
-
             <View style={ReportsStyles.filterPane}>
                 <TeacherFilter
-                    centers={props.centers}
-                    services={props.services}
-                    departments={props.departments}
-                    role={props.role}
-                    teachers={props.teachers}
                     userInfo={props.userInfo}
                     filterButtonName={"Get Reports"}
                     filterButtonAlwaysOn={true}
                     onValueChange={getReportInfo}></TeacherFilter>
             </View>
+            <Loader show={isLoading} />
             <View
                 style={{
                     flexDirection: "row",
@@ -101,7 +101,6 @@ const Reports = (props) => {
                     <Text style={{ fontSize: 17 }}>Classic View</Text>
                 </View>
             </View>
-            <ActivityIndicator animating={isLoading} />
             <ScrollView style={ReportsStyles.tableContainer}>
                 {!isSwitchOn && (
                     <View>

@@ -1,17 +1,45 @@
 import React, { useState } from "react";
 import { View, Alert } from "react-native";
-import { Button, Text, ActivityIndicator } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 import { StudentsList } from "../components/Students.js";
 import { TeacherFilter } from "../components/TeacherFilter";
 import TitleBar from "../components/TitleBar.js";
-import { PostAttendance } from "../services/services.js";
+import { GetStudents, PostAttendance } from "../services/services.js";
 import { HomeScreenStyles } from "../themes/default.js";
+import Loader from "../components/Loader.js";
+import { UserContext } from "../User.js";
 
-function HomeScreen(props) {
-    const [teacherInfo, setTeacherInfo] = useState(props.role == "teacher" ? props.userInfo : {});
+function HomeScreen() {
+    const userInfo = React.useContext(UserContext);
+    const [teacherInfo, setTeacherInfo] = useState(userInfo.role == "teacher" ? userInfo : {});
     const [isLoading, setLoader] = useState(false);
     const [attData, setAttData] = useState([]);
+
+    const [studList, setStudList] = React.useState([]);
+
+    React.useEffect(() => {
+        async function fetchMyAPI() {
+            try {
+                console.log("I am here", teacherInfo);
+                setLoader(true);
+                let center =
+                    teacherInfo.role == "teacher" && teacherInfo.centers ? teacherInfo.centers[0] : teacherInfo.center;
+                const studList = await GetStudents(teacherInfo.email, center);
+                setStudList(studList);
+                console.log(studList);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoader(false);
+            }
+        }
+
+        if (teacherInfo.email) {
+            fetchMyAPI();
+        }
+    }, [teacherInfo]);
+
     const getTeacherInfo = (teacherData) => {
         if (teacherData) {
             setTeacherInfo(teacherData);
@@ -56,22 +84,16 @@ function HomeScreen(props) {
 
     return (
         <View style={HomeScreenStyles.container}>
+            <Loader show={isLoading} />
             <TitleBar title="Home" />
             <TeacherFilter
-                centers={props.centers}
-                services={props.services}
-                departments={props.departments}
-                role={props.role}
-                teachers={props.teachers}
-                userInfo={props.userInfo}
+                userInfo={userInfo}
                 onValueChange={getTeacherInfo}
                 filterButtonName="Get Attendance"
-                filterButtonAlwaysOn={true}
+                filterButtonAlwaysOn={false}
             />
-            <ActivityIndicator style={{ top: 50 }} animating={isLoading} />
             <StudentsList
-                teacherInfo={teacherInfo}
-                center={props.role == "teacher" ? props.centers[0] : teacherInfo.center}
+                studList={studList}
                 onValueChange={(item) => {
                     console.log(item);
                     setAttData(item);
