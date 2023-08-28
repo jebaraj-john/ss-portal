@@ -1,7 +1,7 @@
 import { supabase } from "../lib/supabase.js";
 
 const getAllCenters = () => {
-    return ["NLAG", "NLCC", "PORUR", "Kundrathur", "Korukpet"];
+    return ["NLAG", "NLCC", "Porur", "Kundrathur", "Korukpet"];
 };
 
 const getAllServices = () => {
@@ -32,26 +32,110 @@ export async function GetUserInfo(user_email) {
 
 const findAttendanceDate = () => {
     const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
-    const daysAgo = (dayOfWeek + 7) % 7; // Days to subtract to get last Sunday
+
+    const dayOfWeek = today.getDay();
+    const daysAgo = (dayOfWeek + 7) % 7;
 
     const lastSunday = new Date(today);
     lastSunday.setDate(today.getDate() - daysAgo);
 
-    return `${lastSunday.getFullYear()}-${lastSunday.getMonth()}-${lastSunday.getDate()}`;
+    return `${lastSunday.getFullYear()}-${lastSunday.getMonth() + 1}-${lastSunday.getDate()}`;
 };
 
-export async function GetStudents(email, center, attendanceDate = null) {
-    console.log(center);
-    if (!attendanceDate) {
-        attendanceDate = findAttendanceDate();
+const formatReportDate = (date) => {
+    let dateParts = date.split("-");
+
+    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+};
+
+export async function getReports(teacher_email, center, quarter_name) {
+    let { data, error } = await supabase.rpc("get_quarterly_stud_attendance_report", { quarter_name, teacher_email });
+    let reportHeaders = ["student_id", "student_name"];
+    let report = [reportHeaders];
+    let reportData = data.reduce((accumulator, attDet) => {
+        let attDate = formatReportDate(attDet.attendance_date);
+
+        if (!(attDet.student_id in accumulator)) {
+            accumulator[attDet.student_id] = { student_id: attDet.student_id };
+        }
+
+        if (!reportHeaders.includes(attDate)) {
+            reportHeaders.push(attDate);
+        }
+
+        accumulator[attDet.student_id]["student_name"] = attDet.student_name;
+        accumulator[attDet.student_id]["teacher_id"] = attDet.teacher_id;
+        accumulator[attDet.student_id][attDate] = attDet.attendance_status;
+
+        return accumulator;
+    }, {});
+
+    for (let reportRow of Object.values(reportData)) {
+        let studRow = reportHeaders.map((headerKey) => reportRow[headerKey]);
+
+        report.push(studRow);
     }
 
-    let { data, error } = await supabase.rpc("get_students_attendance", { attendanceDate, email });
-    console.log(data);
+    console.log(report);
     if (error) {
         throw new Error(error);
     }
 
-    return data;
+    return report;
+}
+
+export async function GetStudents(email_param, center, attendance_date = null) {
+    if (!attendance_date) {
+        attendance_date = findAttendanceDate();
+    }
+    console.log(attendance_date);
+
+    let { data, error } = await supabase.rpc("get_students_attendance", { attendance_date, email_param });
+    const studAttList = data.map((studAtt) => {
+        return {
+            name: studAtt.student_name,
+            id: studAtt.student_id,
+            att: studAtt.attendance_status,
+        };
+    });
+
+    if (error) {
+        throw new Error(error);
+    }
+
+    return studAttList;
+}
+
+export async function PostAttendance(attRecords) {
+    console.log("I am at post at");
+    console.log("supa post", attRecords);
+    let attDate;
+    if (attRecords.date) {
+        console.log("att page date", attRecords.date);
+        let dateParts = attRecords.date.split("/");
+        attDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    } else {
+        attDate = findAttendanceDate();
+        console.log("att find date", attDate);
+    }
+
+    let attData = attRecords.att_data.map((studData) => {
+        return {
+            stud_id: studData.id,
+            date: attDate,
+            att_status: studData.att,
+        };
+    });
+    let records = attData;
+    console.log(records);
+    let response = await supabase.rpc("update_or_insert_attendance_batch", {
+        records,
+    });
+    console.log(response);
+
+    if (response.error) {
+        throw new Error(JSON.stringify(response.error));
+    }
+
+    return response.data;
 }

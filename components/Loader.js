@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Modal, Portal, Text, ActivityIndicator } from "react-native-paper";
 
 const Loader = (props) => {
-    console.log(props);
     const containerStyle = { backgroundColor: "lightgrey", padding: 20, height: "30%", borderRadius: 30 };
     return (
         <Portal>

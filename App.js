@@ -12,9 +12,7 @@ import { UserContext } from "./User.js";
 
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth";
-// import { GetUserInfo } from "./services/services.js";
-import { GetUserInfo as GetUser } from "./services/supabase.js";
-
+import { GetUserInfo } from "./services/services.js";
 
 const theme = {
     ...DefaultTheme,
@@ -37,8 +35,7 @@ export default function Main() {
             if (!supaSession.data.session) {
                 return;
             }
-            // const userDet = await GetUserInfo(supaSession.data.session.user.email);
-            const userDet = await GetUser(supaSession.data.session.user.email);
+            const userDet = await GetUserInfo(supaSession.data.session.user.email);
             setUserInfo(userDet);
             setSession(supaSession.data.session);
         };

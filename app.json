@@ -11,12 +11,10 @@
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
+        "assetBundlePatterns": ["**/*"],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "nlag.ss-portal",
+            "bundleIdentifier": "nlag.ss-portal"
         },
         "android": {
             "adaptiveIcon": {

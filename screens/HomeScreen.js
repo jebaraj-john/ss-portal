@@ -22,12 +22,12 @@ function HomeScreen() {
         async function fetchMyAPI() {
             try {
                 console.log("I am here", teacherInfo);
+                let centers = teacherInfo.centers;
                 setLoader(true);
-                let center =
-                    teacherInfo.role == "teacher" && teacherInfo.centers ? teacherInfo.centers[0] : teacherInfo.center;
+                let center = teacherInfo.role == "teacher" && centers ? centers[0] : teacherInfo.center;
                 const studList = await GetStudents(teacherInfo.email, center);
-                setStudList(studList);
                 console.log(studList);
+                setStudList(studList);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -49,12 +49,11 @@ function HomeScreen() {
     const submitAtt = async () => {
         setLoader(true);
         const attRecords = createAttendanceData(attData, teacherInfo.email);
-        console.log(attRecords);
         try {
             await PostAttendance(attRecords);
             Alert.alert("", "Attendance submitted!", [{ text: "OK", onPress: () => console.log("OK Pressed") }]);
         } catch (error) {
-            console.log(error);
+            console.log("Post Attendance error", JSON.stringify(error));
         } finally {
             setLoader(false);
         }
