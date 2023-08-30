@@ -1,13 +1,8 @@
 import { urls } from "../config";
-import { events } from "../data/events_data";
 
-export function getEvent() {
-    const eventList = events;
-    return eventList;
-}
-
-export function filterEvent(eventLabel) {
-    const filteredEvent = getEvent().filter((type) => type.label === eventLabel);
+export function filterEvent(eventLabel, allEventDetails) {
+    console.log(allEventDetails)
+    const filteredEvent = allEventDetails.filter((type) => type.EventType === eventLabel);
     return filteredEvent;
 }
 
@@ -35,4 +30,12 @@ export async function PostAttendance(attRecords) {
     };
     const response = await fetch(update_attendance_url, requestOptions);
     return await response.json();
+}
+
+export async function getEvent() {
+    const event_url = `${urls.attendance_url}?type=get_events`;
+    const response = await fetch(event_url);
+    const res = await response.json();
+    return res;
+
 }
