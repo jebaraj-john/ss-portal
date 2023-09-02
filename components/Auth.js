@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View, Image } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { supabase } from "../lib/supabase";
 import { Button, Input } from "react-native-elements";
 
@@ -21,9 +21,6 @@ export default function Auth() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.appLogoWrap}>
-                <Image style={styles.appLogo} source={require("../logo.webp")} />
-            </View>
             <View style={[styles.verticallySpaced, styles.mt20]}>
                 <Input
                     label="Email"
@@ -53,13 +50,6 @@ export default function Auth() {
 }
 
 const styles = StyleSheet.create({
-    appLogo: {
-        height: 100,
-        width: 100,
-    },
-    appLogoWrap: {
-        alignItems: "center",
-    },
     container: {
         marginTop: 40,
         padding: 12,
