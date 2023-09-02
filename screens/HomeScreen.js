@@ -9,6 +9,8 @@ import { GetStudents, PostAttendance } from "../services/services.js";
 import { HomeScreenStyles } from "../themes/default.js";
 import Loader from "../components/Loader.js";
 import { UserContext } from "../User.js";
+import Background from "../components/Background.js";
+import { findAttendanceDate } from "../utils/Utils.js";
 
 function HomeScreen() {
     const userInfo = React.useContext(UserContext);
@@ -82,15 +84,19 @@ function HomeScreen() {
     };
 
     return (
-        <View style={HomeScreenStyles.container}>
+        <Background style={HomeScreenStyles.container}>
             <Loader show={isLoading} />
             <TitleBar title="Home" />
+
             <TeacherFilter
                 userInfo={userInfo}
                 onValueChange={getTeacherInfo}
                 filterButtonName="Get Attendance"
                 filterButtonAlwaysOn={false}
             />
+            <View>
+                <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+            </View>
             <StudentsList
                 studList={studList}
                 onValueChange={(item) => {
@@ -101,7 +107,7 @@ function HomeScreen() {
             <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
                 <Text>Submit</Text>
             </Button>
-        </View>
+        </Background>
     );
 }
 

@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase.js";
+import { findAttendanceDate } from "../utils/Utils.js";
 
 const getAllCenters = () => {
     return ["NLAG", "NLCC", "Porur", "Kundrathur", "Korukpet"];
@@ -29,18 +30,6 @@ export async function GetUserInfo(user_email) {
         teachers: data.teachers ? data.teachers : [],
     };
 }
-
-const findAttendanceDate = () => {
-    const today = new Date();
-
-    const dayOfWeek = today.getDay();
-    const daysAgo = (dayOfWeek + 7) % 7;
-
-    const lastSunday = new Date(today);
-    lastSunday.setDate(today.getDate() - daysAgo);
-
-    return `${lastSunday.getFullYear()}-${lastSunday.getMonth() + 1}-${lastSunday.getDate()}`;
-};
 
 const formatReportDate = (date) => {
     let dateParts = date.split("-");

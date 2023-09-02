@@ -1,44 +1,61 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
-import { supabase } from "../lib/supabase";
 import Header from "../components/Header";
-import { Button, TextInput } from "../components/Form";
+import { Button, TextInput, BackButton } from "../components/Form";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
+import { nameValidator } from "../helpers/nameValidator";
+import { supabase } from "../lib/supabase";
 
-export default function LoginScreen({ navigation }) {
+export default function RegisterScreen({ navigation }) {
+    const [name, setName] = useState({ value: "", error: "" });
     const [email, setEmail] = useState({ value: "", error: "" });
     const [password, setPassword] = useState({ value: "", error: "" });
 
-    const onLoginPressed = async () => {
+    const onSignUpPressed = async () => {
+        const nameError = nameValidator(name.value);
         const emailError = emailValidator(email.value);
         const passwordError = passwordValidator(password.value);
-        if (emailError || passwordError) {
+        if (emailError || passwordError || nameError) {
+            setName({ ...name, error: nameError });
             setEmail({ ...email, error: emailError });
             setPassword({ ...password, error: passwordError });
+
             return;
         }
-
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signUp({
             email: email.value,
             password: password.value,
         });
-
         if (error) {
-            Alert.alert(error.message);
-            return;
+            console.log(error);
         }
-        navigation.navigate("Dashboard");
+
+        console.log(data);
+        //Todo:  Alert message to check mail and Redirect to login page.
     };
 
     return (
         <Background>
+            <BackButton
+                goBack={() => {
+                    navigation.navigate("LoginScreen");
+                }}
+            />
             <Logo />
-            <Header headerText={"Welcome back."}></Header>
+            <Header headerText="Create Account"></Header>
+            <TextInput
+                label="Name"
+                returnKeyType="next"
+                value={name.value}
+                onChangeText={(text) => setName({ value: text, error: "" })}
+                error={!!name.error}
+                errorText={name.error}
+            />
             <TextInput
                 label="Email"
                 returnKeyType="next"
@@ -60,16 +77,11 @@ export default function LoginScreen({ navigation }) {
                 errorText={password.error}
                 secureTextEntry
             />
-            <View style={styles.forgotPassword}>
-                <TouchableOpacity onPress={() => navigation.navigate("ResetPasswordScreen")}>
-                    <Text style={styles.forgot}>Forgot your password?</Text>
-                </TouchableOpacity>
-            </View>
-            <Button mode="contained" onPress={onLoginPressed} btnText="Login" />
+            <Button mode="contained" onPress={onSignUpPressed} style={{ marginTop: 24 }} btnText="Sign Up"/>
             <View style={styles.row}>
-                <Text>Don’t have an account? </Text>
-                <TouchableOpacity onPress={() => navigation.replace("RegisterScreen")}>
-                    <Text style={styles.link}>Sign up</Text>
+                <Text>Already have an account? </Text>
+                <TouchableOpacity onPress={() => navigation.replace("LoginScreen")}>
+                    <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
             </View>
         </Background>
@@ -77,15 +89,6 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    forgot: {
-        color: theme.colors.secondary,
-        fontSize: 13,
-    },
-    forgotPassword: {
-        alignItems: "flex-end",
-        marginBottom: 24,
-        width: "100%",
-    },
     link: {
         color: theme.colors.primary,
         fontWeight: "bold",
