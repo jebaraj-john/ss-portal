@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -34,8 +34,9 @@ export default function RegisterScreen({ navigation }) {
         if (error) {
             console.log(error);
         }
-
         console.log(data);
+        Alert.alert("Registration almost done! Please check your email to complete the process.")
+        navigation.navigate("LoginScreen");
         //Todo:  Alert message to check mail and Redirect to login page.
     };
 
