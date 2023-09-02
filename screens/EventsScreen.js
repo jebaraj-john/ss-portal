@@ -1,10 +1,7 @@
 import { View } from "react-native";
 import React, { useState, useEffect } from "react";
-
-import { buttons, events_types } from "../data/events_data";
 import { getEvent, filterEvent } from "../services/services";
 import { ScrollView } from "react-native";
-
 import { Button, Card, Text } from "react-native-paper";
 import TitleBar from "../components/TitleBar";
 import { EventsStyles } from "../themes/default";
@@ -13,6 +10,11 @@ let allEventDetails = [];
 const EventsScreen = () => {
     const [filteredEvent, setFilteredEvent] = useState(null);
     const [eventBtn, setEventBtn] = useState(null);
+    useEffect(() => {
+        setFilteredEvent(getEvent());
+        console.log("Event page loaded");
+    }, []);
+
     const [activeButtonIndex, setActiveButtonIndex] = useState(null);
 
     useEffect(() => {
@@ -26,13 +28,13 @@ const EventsScreen = () => {
                 allEvent.forEach((val, index) => {
                     eventBtn[index] = {
                         name: val,
-                        value: val
-                    }
+                        value: val,
+                    };
                 });
                 eventBtn.unshift({
-                    name: 'All',
-                    value: 'All'
-                })
+                    name: "All",
+                    value: "All",
+                });
                 setEventBtn(eventBtn);
             } catch (error) {
                 console.log(error);
@@ -45,7 +47,9 @@ const EventsScreen = () => {
     function handleEvent(value, index) {
         let typeEvent = value;
         setActiveButtonIndex(index);
-        typeEvent !== "All" ? setFilteredEvent(filterEvent(typeEvent, allEventDetails)) : setFilteredEvent(allEventDetails);
+        typeEvent !== "All"
+            ? setFilteredEvent(filterEvent(typeEvent, allEventDetails))
+            : setFilteredEvent(allEventDetails);
     }
 
     return (

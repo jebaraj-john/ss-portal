@@ -5,24 +5,25 @@ import DropDown from "react-native-paper-dropdown";
 
 import { AttendanceFilterStyles } from "../themes/default";
 
-export const TeacherFilter = (props) => {
-    const defaultTeacherMail = props.role == "teacher" ? props.userInfo.email : "";
+export const TeacherFilter = (props, children) => {
+    const userInfo = props.userInfo;
+    const defaultTeacherMail = userInfo.role == "teacher" ? userInfo.email : "";
     const [teacherEmail, setTeacherEmail] = useState(defaultTeacherMail);
 
-    const [center, setCenter] = useState(props.centers[0]);
+    const [center, setCenter] = useState(userInfo.centers[0]);
     const createButton = (data) => {
         return { label: data, value: data };
     };
-    const centerButtons = props.centers.map(createButton);
-    const teachersList = props.teachers.map((teacher) => {
+    const centerButtons = userInfo.centers.map(createButton);
+    const teachersList = userInfo.teachers.map((teacher) => {
         teacher["label"] = teacher.name;
         teacher["value"] = teacher.email;
         return teacher;
     });
-    const [service, setService] = useState(props.services[0]);
-    const serviceButtons = props.services.map(createButton);
-    const [department, setDepartment] = useState(props.departments[0]);
-    const departmentButtons = props.departments.map(createButton);
+    const [service, setService] = useState(userInfo.services[0]);
+    const serviceButtons = userInfo.services.map(createButton);
+    const [department, setDepartment] = useState(userInfo.departments[0]);
+    const departmentButtons = userInfo.departments.map(createButton);
 
     const SelectBox = (props) => {
         const [showDrop, setShowDrop] = useState(false);
@@ -50,7 +51,7 @@ export const TeacherFilter = (props) => {
     };
 
     const renderCenters = () => {
-        if (props.centers.length > 1) {
+        if (userInfo.centers.length > 1) {
             return (
                 <SelectBox
                     key="center-box"
@@ -64,8 +65,8 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip selected={true} showSelectedCheck={true}>
-                        {props.centers[0]}
+                    <Chip icon="church" selected={true} showSelectedCheck={true}>
+                        {userInfo.centers[0]}
                     </Chip>
                 </View>
             );
@@ -73,7 +74,7 @@ export const TeacherFilter = (props) => {
     };
 
     const renderServices = () => {
-        if (props.services.length > 1) {
+        if (userInfo.services.length > 1) {
             return (
                 <SelectBox
                     key="service-box"
@@ -87,13 +88,13 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.services[0]}</Chip>
+                    <Chip icon="account-group">{userInfo.services[0]}</Chip>
                 </View>
             );
         }
     };
     const renderDepartments = () => {
-        if (props.departments.length > 1) {
+        if (userInfo.departments.length > 1) {
             return (
                 <SelectBox
                     key="department-box"
@@ -107,17 +108,17 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.departments[0]}</Chip>
+                    <Chip icon="account-multiple">{userInfo.departments[0]}</Chip>
                 </View>
             );
         }
     };
 
     const onPress = () => {
-        let teacherInfo = null;
+        let teacherInfo = {};
 
-        for (let index in props.teachers) {
-            let teacher = props.teachers[index];
+        for (let index in userInfo.teachers) {
+            let teacher = userInfo.teachers[index];
 
             if (teacher.email == teacherEmail) {
                 teacher["center"] = center;
@@ -134,7 +135,7 @@ export const TeacherFilter = (props) => {
     };
 
     const renderTeachers = () => {
-        if (props.role !== "teacher") {
+        if (userInfo.role !== "teacher") {
             let filteredTeachers = teachersList.filter((teacher) => {
                 return teacher.center == center && teacher.service == service && teacher.department == department;
             });
@@ -153,7 +154,7 @@ export const TeacherFilter = (props) => {
         } else {
             return (
                 <View style={AttendanceFilterStyles.centerViewWrap}>
-                    <Chip icon="heart">{props.userInfo.name}</Chip>
+                    <Chip icon="account">{userInfo.name}</Chip>
                 </View>
             );
         }
@@ -165,14 +166,15 @@ export const TeacherFilter = (props) => {
             {renderServices()}
             {renderDepartments()}
             {renderTeachers()}
-            {props.role !== "teacher" && (
+            {children[0]}
+            {(props.filterButtonAlwaysOn || userInfo.role !== "teacher") && (
                 <Button
                     style={AttendanceFilterStyles.teacherSelectButton}
                     mode="contained-tonal"
                     name="get_attendance"
                     key="get_attendance"
                     onPress={onPress}>
-                    <Text>Get Attendance</Text>
+                    <Text>{props.filterButtonName}</Text>
                 </Button>
             )}
         </View>
