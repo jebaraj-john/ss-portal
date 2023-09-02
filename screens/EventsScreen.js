@@ -1,14 +1,15 @@
 import { View } from "react-native";
 import React, { useState, useEffect } from "react";
-import { buttons } from "../data/events_data";
 import { getEvent, filterEvent } from "../services/services";
 import { ScrollView } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import TitleBar from "../components/TitleBar";
 import { EventsStyles } from "../themes/default";
+let allEventDetails = [];
 
 const EventsScreen = () => {
     const [filteredEvent, setFilteredEvent] = useState(null);
+    const [eventBtn, setEventBtn] = useState(null);
     useEffect(() => {
         setFilteredEvent(getEvent());
         console.log("Event page loaded");
@@ -16,17 +17,47 @@ const EventsScreen = () => {
 
     const [activeButtonIndex, setActiveButtonIndex] = useState(null);
 
+    useEffect(() => {
+        async function fetchMyAPI() {
+            try {
+                const userDet = await getEvent();
+                setFilteredEvent(userDet.events);
+                allEventDetails = userDet.events;
+                let allEvent = userDet.events_types;
+                let eventBtn = [];
+                allEvent.forEach((val, index) => {
+                    eventBtn[index] = {
+                        name: val,
+                        value: val,
+                    };
+                });
+                eventBtn.unshift({
+                    name: "All",
+                    value: "All",
+                });
+                setEventBtn(eventBtn);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchMyAPI();
+    }, []);
+
     function handleEvent(value, index) {
         let typeEvent = value;
         setActiveButtonIndex(index);
-        typeEvent !== "all" ? setFilteredEvent(filterEvent(typeEvent)) : setFilteredEvent(getEvent());
+        typeEvent !== "All"
+            ? setFilteredEvent(filterEvent(typeEvent, allEventDetails))
+            : setFilteredEvent(allEventDetails);
     }
+
     return (
         <View style={EventsStyles.container}>
             <TitleBar title="Events" />
             <View style={EventsStyles.filterBadges}>
-                {buttons &&
-                    buttons.map((type, index) => (
+                {eventBtn &&
+                    eventBtn.map((type, index) => (
                         <Button
                             mode="contained-tonal"
                             name={type.value}
@@ -50,14 +81,14 @@ const EventsScreen = () => {
                 {filteredEvent &&
                     filteredEvent.map((type) => {
                         return (
-                            <View key={type.id}>
+                            <View key={`${type.Name}${type.StartDate}`}>
                                 <Card
                                     mode="elevated"
                                     style={EventsStyles.eventsCard}
                                     contentStyle={EventsStyles.eventsCardContent}>
                                     <Card.Title
-                                        title={type.name}
-                                        subtitle={type.date}
+                                        title={type.Name}
+                                        subtitle={type.StartDate}
                                         titleStyle={EventsStyles.eventsCardTitle}
                                         subtitleStyle={EventsStyles.eventsCardSubTitle}
                                     />
