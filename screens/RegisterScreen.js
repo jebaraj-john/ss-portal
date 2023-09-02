@@ -77,7 +77,7 @@ export default function RegisterScreen({ navigation }) {
                 errorText={password.error}
                 secureTextEntry
             />
-            <Button mode="contained" onPress={onSignUpPressed} style={{ marginTop: 24 }} btnText="Sign Up"/>
+            <Button mode="contained" onPress={onSignUpPressed} style={{ marginTop: 24 }} btnText="Sign Up" />
             <View style={styles.row}>
                 <Text>Already have an account? </Text>
                 <TouchableOpacity onPress={() => navigation.replace("LoginScreen")}>

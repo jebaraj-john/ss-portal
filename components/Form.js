@@ -45,8 +45,7 @@ export function Button({ mode, style, ...props }) {
             style={[buttonStyles.button, mode === "outlined" && { backgroundColor: theme.colors.surface }, style]}
             labelStyle={buttonStyles.text}
             mode={mode}
-            {...props}
-        >
+            {...props}>
             {props.btnText}
         </PaperButton>
     );

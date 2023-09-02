@@ -40,7 +40,12 @@ export default function ResetPasswordScreen({ navigation }) {
                 keyboardType="email-address"
                 description="You will receive email with password reset link."
             />
-            <Button mode="contained" onPress={sendResetPasswordEmail} style={{ marginTop: 16 }} btnText=" Send Instructions" />
+            <Button
+                mode="contained"
+                onPress={sendResetPasswordEmail}
+                style={{ marginTop: 16 }}
+                btnText=" Send Instructions"
+            />
         </Background>
     );
 }
