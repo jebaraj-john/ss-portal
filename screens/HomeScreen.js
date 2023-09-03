@@ -17,6 +17,7 @@ function HomeScreen() {
     const [attData, setAttData] = useState([]);
 
     const [studList, setStudList] = React.useState([]);
+    const prevStudList = React.useRef();
 
     React.useEffect(() => {
         async function fetchMyAPI() {
@@ -27,7 +28,8 @@ function HomeScreen() {
                     teacherInfo.role == "teacher" && teacherInfo.centers ? teacherInfo.centers[0] : teacherInfo.center;
                 const studList = await GetStudents(teacherInfo.email, center);
                 setStudList(studList);
-                console.log(studList);
+                prevStudList.current = Object.create(studList);
+                //console.log(studList);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -53,8 +55,11 @@ function HomeScreen() {
         try {
             await PostAttendance(attRecords);
             Alert.alert("", "Attendance submitted!", [{ text: "OK", onPress: () => console.log("OK Pressed") }]);
+            prevStudList.current = studList;
         } catch (error) {
             console.log(error);
+            console.log(prevStudList.current);
+            setStudList(prevStudList.current);
         } finally {
             setLoader(false);
         }
