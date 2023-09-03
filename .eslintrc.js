@@ -2,7 +2,7 @@ module.exports = {
     root: true,
     extends: ["eslint:recommended", "plugin:react/recommended", "plugin:react-native/all", "prettier"],
     plugins: ["react", "react-native"],
-    ignorePatterns: ["node_modules/*"],
+    ignorePatterns: ["node_modules/*", "ios/*", "android/*"],
     parser: "@babel/eslint-parser", // Use Babel parser for modern syntax
     parserOptions: {
         sourceType: "module", // Specify source type as module

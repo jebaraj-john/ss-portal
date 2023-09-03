@@ -1,4 +1,6 @@
 import { urls } from "../config";
+import * as GoogleApp from "./GoogleApp.js";
+import * as Supabase from "./Supabase.js";
 
 export function filterEvent(eventLabel, allEventDetails) {
     console.log(allEventDetails);
@@ -7,37 +9,39 @@ export function filterEvent(eventLabel, allEventDetails) {
 }
 
 export async function getReports(email, center, quarter) {
-    let response = await fetch(
-        `https://script.google.com/macros/s/AKfycbxqxjovO6w1POE8xxmM1gaYc4ZP4S88cGrAFtwDFuiUTX7PpFS4wiogCeBUIkoRyB4IKA/exec?type=get_reports&email=${email}&center=${center}&quarter_name=${quarter}`,
-    );
-    let json_data = await response.json();
-    return json_data;
+    const apiProviders = {
+        googleApp: GoogleApp.getReports,
+        supabase: Supabase.getReports,
+    };
+
+    return await apiProviders["supabase"](email, center, quarter);
 }
 
 export async function GetStudents(email, center) {
-    const get_attendance_url = `${urls.attendance_url}?type=get_attendance&email=${email}&center=${center}`;
-    const response = await fetch(get_attendance_url);
+    const apiProviders = {
+        googleApp: GoogleApp.GetStudents,
+        supabase: Supabase.GetStudents,
+    };
 
-    return await response.json();
+    return await apiProviders["supabase"](email, center);
 }
 
 export async function GetUserInfo(email) {
-    const get_attendance_url = `${urls.attendance_url}?type=get_user_info&email=${email}`;
-    console.log(get_attendance_url);
-    const response = await fetch(get_attendance_url);
+    const apiProviders = {
+        googleApp: GoogleApp.GetUserInfo,
+        supabase: Supabase.GetUserInfo,
+    };
 
-    return await response.json();
+    return await apiProviders["supabase"](email);
 }
 
 export async function PostAttendance(attRecords) {
-    const update_attendance_url = `${urls.attendance_url}`;
-    const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(attRecords),
+    const apiProviders = {
+        googleApp: GoogleApp.PostAttendance,
+        supabase: Supabase.PostAttendance,
     };
-    const response = await fetch(update_attendance_url, requestOptions);
-    return await response.json();
+
+    return await apiProviders["supabase"](attRecords);
 }
 
 export async function getEvent() {
@@ -46,6 +50,7 @@ export async function getEvent() {
     const res = await response.json();
     return res;
 }
+
 export function formatReportData(reportData) {
     let dataKeys = reportData[0];
     let rData = reportData.slice(1);

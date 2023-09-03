@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { Button, Chip, Text } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
+import { SelectBox } from "./Form.js";
 
 import { AttendanceFilterStyles } from "../themes/default";
 
@@ -24,31 +24,6 @@ export const TeacherFilter = (props, children) => {
     const serviceButtons = userInfo.services.map(createButton);
     const [department, setDepartment] = useState(userInfo.departments[0]);
     const departmentButtons = userInfo.departments.map(createButton);
-
-    const SelectBox = (props) => {
-        const [showDrop, setShowDrop] = useState(false);
-        const [value, setValue] = useState(props.value);
-        const onValueChange = (value) => {
-            setValue(value);
-            if (props.onValueChange) {
-                props.onValueChange(value);
-            }
-        };
-        return (
-            <View style={props && props.style}>
-                <DropDown
-                    label={props.label}
-                    mode={"outlined"}
-                    visible={showDrop}
-                    value={value}
-                    setValue={onValueChange}
-                    list={props.list}
-                    showDropDown={() => setShowDrop(true)}
-                    onDismiss={() => setShowDrop(false)}
-                />
-            </View>
-        );
-    };
 
     const renderCenters = () => {
         if (userInfo.centers.length > 1) {

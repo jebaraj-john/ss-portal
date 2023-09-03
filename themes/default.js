@@ -26,16 +26,12 @@ const StudentsStyles = StyleSheet.create({
         width: 180,
     },
     container: {
-        flex: 0.7,
+        minHeight: 450,
     },
     item: {
         alignItems: "flex-start",
-        flex: 1,
         flexDirection: "row",
-        flexWrap: "wrap",
-        fontSize: 17,
-        height: 45,
-        justifyContent: "space-around",
+        height: 60,
         marginLeft: 1,
         marginRight: 0,
         padding: 1,
@@ -122,11 +118,7 @@ const ReportsStyles = StyleSheet.create({
     filterPane: {
         alignItems: "center",
         backgroundColor: colors.white,
-        flex: 1,
         flexDirection: "column",
-        flexWrap: "wrap",
-        fontSize: 17,
-        height: "100%",
         marginTop: 1,
         paddingLeft: 5,
         paddingRight: 5,
@@ -136,7 +128,6 @@ const ReportsStyles = StyleSheet.create({
     },
     tableContainer: {
         backgroundColor: colors.white,
-        flex: 1,
         flexGrow: 4,
         paddingBottom: 5,
         paddingLeft: 1,

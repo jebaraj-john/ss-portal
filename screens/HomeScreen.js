@@ -9,6 +9,8 @@ import { GetStudents, PostAttendance } from "../services/services.js";
 import { HomeScreenStyles } from "../themes/default.js";
 import Loader from "../components/Loader.js";
 import { UserContext } from "../User.js";
+import Background from "../components/Background.js";
+import { findAttendanceDate } from "../utils/Utils.js";
 
 function HomeScreen() {
     const userInfo = React.useContext(UserContext);
@@ -22,12 +24,12 @@ function HomeScreen() {
         async function fetchMyAPI() {
             try {
                 console.log("I am here", teacherInfo);
+                let centers = teacherInfo.centers;
                 setLoader(true);
-                let center =
-                    teacherInfo.role == "teacher" && teacherInfo.centers ? teacherInfo.centers[0] : teacherInfo.center;
+                let center = teacherInfo.role == "teacher" && centers ? centers[0] : teacherInfo.center;
                 const studList = await GetStudents(teacherInfo.email, center);
-                setStudList(studList);
                 console.log(studList);
+                setStudList(studList);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -49,12 +51,11 @@ function HomeScreen() {
     const submitAtt = async () => {
         setLoader(true);
         const attRecords = createAttendanceData(attData, teacherInfo.email);
-        console.log(attRecords);
         try {
             await PostAttendance(attRecords);
             Alert.alert("", "Attendance submitted!", [{ text: "OK", onPress: () => console.log("OK Pressed") }]);
         } catch (error) {
-            console.log(error);
+            console.log("Post Attendance error", JSON.stringify(error));
         } finally {
             setLoader(false);
         }
@@ -83,15 +84,19 @@ function HomeScreen() {
     };
 
     return (
-        <View style={HomeScreenStyles.container}>
+        <Background style={HomeScreenStyles.container}>
             <Loader show={isLoading} />
             <TitleBar title="Home" />
+
             <TeacherFilter
                 userInfo={userInfo}
                 onValueChange={getTeacherInfo}
                 filterButtonName="Get Attendance"
                 filterButtonAlwaysOn={false}
             />
+            <View>
+                <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+            </View>
             <StudentsList
                 studList={studList}
                 onValueChange={(item) => {
@@ -102,7 +107,7 @@ function HomeScreen() {
             <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
                 <Text>Submit</Text>
             </Button>
-        </View>
+        </Background>
     );
 }
 
