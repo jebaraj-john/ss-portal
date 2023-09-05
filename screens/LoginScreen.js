@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View, Alert } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
-import { supabase } from "../lib/supabase";
 import Header from "../components/Header";
 import { Button, TextInput } from "../components/Form";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
+import { AuthContext } from "../User";
 
-export default function LoginScreen({ navigation }) {
+const EmailLogin = ({ navigation }) => {
     const [email, setEmail] = useState({ value: "", error: "" });
     const [password, setPassword] = useState({ value: "", error: "" });
-
+    const { signIn } = React.useContext(AuthContext);
     const onLoginPressed = async () => {
         const emailError = emailValidator(email.value);
         const passwordError = passwordValidator(password.value);
@@ -23,22 +23,11 @@ export default function LoginScreen({ navigation }) {
             return;
         }
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email: email.value,
-            password: password.value,
-        });
-
-        if (error) {
-            Alert.alert(error.message);
-            return;
-        }
-        navigation.navigate("Dashboard");
+        signIn(email.value, password.value);
     };
 
     return (
-        <Background>
-            <Logo />
-            <Header headerText={"Welcome back."}></Header>
+        <View style={{ width: "100%" }}>
             <TextInput
                 label="Email"
                 returnKeyType="next"
@@ -72,6 +61,16 @@ export default function LoginScreen({ navigation }) {
                     <Text style={styles.link}>Sign up</Text>
                 </TouchableOpacity>
             </View>
+        </View>
+    );
+};
+
+export default function LoginScreen(props) {
+    return (
+        <Background>
+            <Logo />
+            <Header headerText={"Welcome back."}></Header>
+            <EmailLogin navigation={props.navigation} />
         </Background>
     );
 }

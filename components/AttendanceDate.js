@@ -4,9 +4,9 @@ import { StyleSheet } from "react-native";
 
 const AttendanceDate = (props) => {
     const attDefaultStyles = {
-        borderRadius: 50,
-        width: 40,
-        height: 40,
+        borderRadius: 55,
+        width: 55,
+        height: 55,
         alignItems: "center",
         justifyContent: "center",
         margin: 5,

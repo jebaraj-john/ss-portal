@@ -19,14 +19,26 @@ export async function GetUserInfo(user_email) {
         throw new Error(error);
     }
 
-    console.log(data);
+    if (!data) {
+        return {
+            name: "Guest",
+            email: user_email,
+            role: "guest",
+            centers: [],
+            services: [],
+            departments: [],
+            teachers: [],
+        };
+    }
+
+    console.log("user_info", data);
     return {
         name: data.name,
         email: data.email,
         role: data.role,
         centers: data.center === "all" ? getAllCenters() : [data.center],
         services: data.service === "all" ? getAllServices() : [data.service],
-        departments: data.service === "all" ? getAllDepartments() : [data.service],
+        departments: data.department === "all" ? getAllDepartments() : [data.department],
         teachers: data.teachers ? data.teachers : [],
     };
 }
@@ -39,7 +51,7 @@ const formatReportDate = (date) => {
 
 export async function getReports(teacher_email, center, quarter_name) {
     let { data, error } = await supabase.rpc("get_quarterly_stud_attendance_report", { quarter_name, teacher_email });
-    let reportHeaders = ["student_id", "student_name"];
+    let reportHeaders = ["student_id", "StudName"];
     let report = [reportHeaders];
     let reportData = data.reduce((accumulator, attDet) => {
         let attDate = formatReportDate(attDet.attendance_date);
@@ -52,7 +64,8 @@ export async function getReports(teacher_email, center, quarter_name) {
             reportHeaders.push(attDate);
         }
 
-        accumulator[attDet.student_id]["student_name"] = attDet.student_name;
+        accumulator[attDet.student_id]["StudName"] = attDet.student_name;
+        accumulator[attDet.student_id]["StudId"] = attDet.student_id;
         accumulator[attDet.student_id]["teacher_id"] = attDet.teacher_id;
         accumulator[attDet.student_id][attDate] = attDet.attendance_status;
 

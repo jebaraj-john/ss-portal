@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { ReportsStyles } from "../themes/default";
 import DropDown from "react-native-paper-dropdown";
@@ -13,10 +13,6 @@ import { Switch } from "react-native-paper";
 import Loader from "../components/Loader";
 
 const Reports = (props) => {
-    useEffect(() => {
-        console.log("Report page");
-    }, []);
-
     const [reportData, setreportData] = useState([]);
     const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
     const [quarter, setQuarter] = useState("Q1");
@@ -28,7 +24,6 @@ const Reports = (props) => {
     const onToggleSwitch = () => {
         setIsSwitchOn(!isSwitchOn);
     };
-    console.log("Loader state", isLoading);
     const addTotalAttendance = (reportData) => {
         reportData[0][reportData[0].length] = "Total";
         for (let i = 1; i < reportData.length; i++) {
@@ -37,9 +32,8 @@ const Reports = (props) => {
                 return att_data === "P" ? atCount + 1 : atCount;
             }, 0);
             reportData[i][reportData[i].length] = attCount;
-            console.log(attCount);
         }
-        console.log(reportData);
+
         return reportData;
     };
 
@@ -53,7 +47,6 @@ const Reports = (props) => {
             let center = teacherData.center;
             let reports_data = await getReports(email, center, quarter);
             let formatted_data = formatReportData(reports_data);
-
             reports_data = addTotalAttendance(reports_data);
             setReponseData(reports_data);
             setreportData(formatted_data);
@@ -104,12 +97,12 @@ const Reports = (props) => {
             <ScrollView style={ReportsStyles.tableContainer}>
                 {!isSwitchOn && (
                     <View>
-                        {reportData.map((row) => {
+                        {reportData.map((row, index) => {
                             return (
                                 <ReportCard
+                                    key={`card-id-${index}}`}
                                     name={row["StudName"]}
                                     att={row["att_list"]}
-                                    key={row["StudId"]}
                                     present_count={row["present_days"]}
                                     absent_count={row["absent_days"]}></ReportCard>
                             );
