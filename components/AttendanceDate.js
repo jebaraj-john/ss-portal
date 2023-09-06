@@ -43,7 +43,7 @@ const AttendanceDate = (props) => {
 
     return (
         <View style={selectStyle(props.status)}>
-            <Text style={{fontSize:13}}>{props.date}</Text>
+            <Text style={{ fontSize: 13 }}>{props.date}</Text>
         </View>
     );
 };

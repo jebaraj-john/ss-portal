@@ -1,8 +1,47 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Button, Chip, Text } from "react-native-paper";
-import { AttendanceFilterStyles } from "../themes/default";
 import DropDown from "react-native-paper-dropdown";
+import { theme } from "../core/theme";
+
+const AttendanceFilterStyles = StyleSheet.create({
+    attendanceFilterBar: {
+        alignItems: "center",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: 10,
+    },
+    centerButtons: {
+        alignItems: "center",
+        borderRadius: 5,
+        padding: 10,
+    },
+    centerViewWrap: {
+        alignItems: "center",
+        borderRadius: 5,
+        padding: 10,
+    },
+    departmentButtons: {
+        alignItems: "center",
+        borderRadius: 5,
+        padding: 10,
+    },
+    serviceButtons: {
+        alignItems: "center",
+        borderRadius: 5,
+        padding: 10,
+    },
+    teacherSelectButton: {
+        color: theme.buttonText,
+    },
+    text: {
+        color: theme.colors.buttonText,
+        fontSize: 15,
+        fontWeight: "bold",
+        lineHeight: 26,
+    },
+});
 
 export const TeacherFilter = (props, children) => {
     const userInfo = props.userInfo;
@@ -170,11 +209,11 @@ export const TeacherFilter = (props, children) => {
             {(props.filterButtonAlwaysOn || userInfo.role !== "teacher") && (
                 <Button
                     style={AttendanceFilterStyles.teacherSelectButton}
-                    mode="contained-tonal"
+                    mode="contained"
                     name="get_attendance"
                     key="get_attendance"
                     onPress={onPress}>
-                    <Text>{props.filterButtonName}</Text>
+                    <Text style={AttendanceFilterStyles.text}>{props.filterButtonName}</Text>
                 </Button>
             )}
         </View>
