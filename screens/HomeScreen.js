@@ -9,27 +9,29 @@ import { GetStudents, PostAttendance } from "../services/services.js";
 import { HomeScreenStyles } from "../themes/default.js";
 import Loader from "../components/Loader.js";
 import { UserContext } from "../User.js";
+import Background from "../components/Background.js";
+import { findAttendanceDate } from "../utils/Utils.js";
 
 function HomeScreen() {
-    const userInfo = React.useContext(UserContext);
+    const userContext = React.useContext(UserContext);
+    const userInfo = userContext.userInfo;
+    const navigation = userContext.navigation;
     const [teacherInfo, setTeacherInfo] = useState(userInfo.role == "teacher" ? userInfo : {});
     const [isLoading, setLoader] = useState(false);
     const [attData, setAttData] = useState([]);
 
     const [studList, setStudList] = React.useState([]);
-    const prevStudList = React.useRef();
 
     React.useEffect(() => {
         async function fetchMyAPI() {
             try {
                 console.log("I am here", teacherInfo);
+                let centers = teacherInfo.centers;
                 setLoader(true);
-                let center =
-                    teacherInfo.role == "teacher" && teacherInfo.centers ? teacherInfo.centers[0] : teacherInfo.center;
+                let center = teacherInfo.role == "teacher" && centers ? centers[0] : teacherInfo.center;
                 const studList = await GetStudents(teacherInfo.email, center);
+                console.log(studList);
                 setStudList(studList);
-                prevStudList.current = Object.create(studList);
-                //console.log(studList);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -51,15 +53,12 @@ function HomeScreen() {
     const submitAtt = async () => {
         setLoader(true);
         const attRecords = createAttendanceData(attData, teacherInfo.email);
-        console.log(attRecords);
         try {
             await PostAttendance(attRecords);
             Alert.alert("", "Attendance submitted!", [{ text: "OK", onPress: () => console.log("OK Pressed") }]);
-            prevStudList.current = studList;
+            // prevStudList.current = studList;
         } catch (error) {
-            console.log(error);
-            console.log(prevStudList.current);
-            setStudList(prevStudList.current);
+            console.log("Post Attendance error", JSON.stringify(error));
         } finally {
             setLoader(false);
         }
@@ -89,24 +88,30 @@ function HomeScreen() {
 
     return (
         <View style={HomeScreenStyles.container}>
-            <Loader show={isLoading} />
-            <TitleBar title="Home" />
-            <TeacherFilter
-                userInfo={userInfo}
-                onValueChange={getTeacherInfo}
-                filterButtonName="Get Attendance"
-                filterButtonAlwaysOn={false}
-            />
-            <StudentsList
-                studList={studList}
-                onValueChange={(item) => {
-                    console.log(item);
-                    setAttData(item);
-                }}
-            />
-            <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
-                <Text>Submit</Text>
-            </Button>
+            <Background style={HomeScreenStyles.container}>
+                <Loader show={isLoading} />
+                <TitleBar title="Home" navigation={navigation} />
+
+                <TeacherFilter
+                    userInfo={userInfo}
+                    onValueChange={getTeacherInfo}
+                    filterButtonName="Get Attendance"
+                    filterButtonAlwaysOn={false}
+                />
+                <View>
+                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+                </View>
+                <StudentsList
+                    studList={studList}
+                    onValueChange={(item) => {
+                        console.log(item);
+                        setAttData(item);
+                    }}
+                />
+                <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
+                    <Text>Submit</Text>
+                </Button>
+            </Background>
         </View>
     );
 }

@@ -57,6 +57,7 @@ const Reports = (props) => {
             reports_data = addTotalAttendance(reports_data);
             setReponseData(reports_data);
             setreportData(formatted_data);
+            console.log(reportData);
             setLoader(false);
         }
     };

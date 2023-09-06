@@ -71,15 +71,15 @@ export const buttons = [
         value: "all",
     },
     {
+        name: "Camp",
+        value: "Camp",
+    },
+    {
+        name: "Exam",
+        value: "Exam",
+    },
+    {
         name: "Program",
-        value: "program",
-    },
-    {
-        name: "Special",
-        value: "special",
-    },
-    {
-        name: "Others",
-        value: "others",
+        value: "Program",
     },
 ];

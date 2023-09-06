@@ -1,81 +1,78 @@
 "use strict";
 
 import * as React from "react";
-import { HomeScreen } from "./screens/HomeScreen.js";
-import { EventsScreen } from "./screens/EventsScreen.js";
 import { AppRegistry } from "react-native";
-import { MD3LightTheme as DefaultTheme, PaperProvider } from "react-native-paper";
+import { PaperProvider } from "react-native-paper";
 import { name as appName } from "./app.json";
-import { BottomNavigation } from "react-native-paper";
-import { Reports } from "./screens/ReportsScreen.js";
-import { GetUserInfo } from "./services/services.js";
-import { UserContext } from "./User.js";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { theme } from "./core/theme";
+import { LoginScreen, Dashboard, RegisterScreen, ResetPasswordScreen } from "./screens";
 
-const theme = {
-    ...DefaultTheme,
-    colors: {
-        ...DefaultTheme.colors,
-        primary: "tomato",
-        secondary: "yellow",
-    },
-};
+import { supabase } from "./lib/supabase";
+import { GetUserInfo } from "./services/services.js";
+import { AppLoader } from "./components/AppLoader.js";
+import ChangePasswordScreen from "./screens/ChangePasswordScreen";
+
+const Stack = createStackNavigator();
 
 export default function Main() {
-    const [index, setIndex] = React.useState(0);
-    //userInfo = React.useContext("userInfo");
+    const [session, setSession] = React.useState(null);
     const [userInfo, setUserInfo] = React.useState(null);
+    const [isAppInitialized, initializeApp] = React.useState(false);
 
-    const [routes] = React.useState([
-        {
-            key: "home",
-            title: "Home",
-            focusedIcon: "home",
-            unfocusedIcon: "home-outline",
-        },
-        {
-            key: "reports",
-            title: "Reports",
-            focusedIcon: "file-document-multiple",
-            unfocusedIcon: "file-document-multiple-outline",
-        },
-        {
-            key: "events",
-            title: "Events",
-            focusedIcon: "calendar-month",
-            unfocusedIcon: "calendar-month-outline",
-        },
-    ]);
-
-    React.useEffect(() => {
-        async function fetchMyAPI() {
-            try {
-                const userDet = await GetUserInfo("xyz@gmail.com");
-                setUserInfo(userDet);
-                console.log(userDet);
-            } catch (error) {
-                console.log(error);
-            }
+    const StartScreen = ({ navigation }) => {
+        if (!isAppInitialized) {
+            return <AppLoader />;
         }
 
-        fetchMyAPI();
-    }, []);
+        if (session && session.user) {
+            return <Dash navigation={navigation} />;
+        } else {
+            return <LoginScreen navigation={navigation} />;
+        }
+    };
 
-    const renderScene = BottomNavigation.SceneMap({
-        home: HomeScreen,
-        reports: () => <Reports userInfo={userInfo} />,
-        events: EventsScreen,
-    });
+    const Dash = ({ navigation }) => {
+        return <Dashboard userInfo={userInfo} navigation={navigation} />;
+    };
+
+    React.useEffect(() => {
+        const loadPage = async () => {
+            const supaSession = await supabase.auth.getSession();
+            console.log(supaSession);
+            if (!supaSession.data.session) {
+                initializeApp(true);
+                return;
+            }
+            setSession(supaSession.data.session);
+            const userDet = await GetUserInfo(supaSession.data.session.user.email);
+            setUserInfo(userDet);
+            initializeApp(true);
+        };
+
+        loadPage();
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+    }, []);
+    
     return (
         <PaperProvider theme={theme}>
-            <UserContext.Provider value={userInfo}>
-                {userInfo && (
-                    <BottomNavigation
-                        navigationState={{ index, routes }}
-                        onIndexChange={setIndex}
-                        renderScene={renderScene}
-                    />
-                )}
-            </UserContext.Provider>
+            <NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName={"StartScreen"}
+                    screenOptions={{
+                        headerShown: false,
+                    }}>
+                    <Stack.Screen name="StartScreen" component={StartScreen} />
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="Dashboard" component={Dash} />
+                    <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                    <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+                    <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+                </Stack.Navigator>
+            </NavigationContainer>
         </PaperProvider>
     );
 }

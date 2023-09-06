@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { Button, Chip, Text } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
-
 import { AttendanceFilterStyles } from "../themes/default";
+import DropDown from "react-native-paper-dropdown";
 
 export const TeacherFilter = (props, children) => {
     const userInfo = props.userInfo;
@@ -34,6 +33,7 @@ export const TeacherFilter = (props, children) => {
                 props.onValueChange(value);
             }
         };
+
         return (
             <View style={props && props.style}>
                 <DropDown
