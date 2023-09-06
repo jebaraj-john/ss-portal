@@ -46,7 +46,6 @@ const StudentsStyles = StyleSheet.create({
     },
 });
 
-
 const ReportsStyles = StyleSheet.create({
     attRangeSelector: {
         fontSize: 17,
