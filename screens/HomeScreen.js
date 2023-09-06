@@ -13,7 +13,9 @@ import Background from "../components/Background.js";
 import { findAttendanceDate } from "../utils/Utils.js";
 
 function HomeScreen() {
-    const userInfo = React.useContext(UserContext);
+    const userContext = React.useContext(UserContext);
+    const userInfo = userContext.userInfo;
+    const navigation = userContext.navigation;
     const [teacherInfo, setTeacherInfo] = useState(userInfo.role == "teacher" ? userInfo : {});
     const [isLoading, setLoader] = useState(false);
     const [attData, setAttData] = useState([]);
@@ -54,6 +56,7 @@ function HomeScreen() {
         try {
             await PostAttendance(attRecords);
             Alert.alert("", "Attendance submitted!", [{ text: "OK", onPress: () => console.log("OK Pressed") }]);
+            // prevStudList.current = studList;
         } catch (error) {
             console.log("Post Attendance error", JSON.stringify(error));
         } finally {
@@ -84,30 +87,32 @@ function HomeScreen() {
     };
 
     return (
-        <Background style={HomeScreenStyles.container}>
-            <Loader show={isLoading} />
-            <TitleBar title="Home" />
+        <View style={HomeScreenStyles.container}>
+            <Background style={HomeScreenStyles.container}>
+                <Loader show={isLoading} />
+                <TitleBar title="Home" navigation={navigation} />
 
-            <TeacherFilter
-                userInfo={userInfo}
-                onValueChange={getTeacherInfo}
-                filterButtonName="Get Attendance"
-                filterButtonAlwaysOn={false}
-            />
-            <View>
-                <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
-            </View>
-            <StudentsList
-                studList={studList}
-                onValueChange={(item) => {
-                    console.log(item);
-                    setAttData(item);
-                }}
-            />
-            <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
-                <Text>Submit</Text>
-            </Button>
-        </Background>
+                <TeacherFilter
+                    userInfo={userInfo}
+                    onValueChange={getTeacherInfo}
+                    filterButtonName="Get Attendance"
+                    filterButtonAlwaysOn={false}
+                />
+                <View>
+                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+                </View>
+                <StudentsList
+                    studList={studList}
+                    onValueChange={(item) => {
+                        console.log(item);
+                        setAttData(item);
+                    }}
+                />
+                <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
+                    <Text>Submit</Text>
+                </Button>
+            </Background>
+        </View>
     );
 }
 

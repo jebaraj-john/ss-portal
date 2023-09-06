@@ -8,12 +8,8 @@ import { EventsStyles } from "../themes/default";
 let allEventDetails = [];
 
 const EventsScreen = () => {
-    const [filteredEvent, setFilteredEvent] = useState(null);
+    const [filteredEvent, setFilteredEvent] = useState([]);
     const [eventBtn, setEventBtn] = useState(null);
-    useEffect(() => {
-        setFilteredEvent(getEvent());
-        console.log("Event page loaded");
-    }, []);
 
     const [activeButtonIndex, setActiveButtonIndex] = useState(null);
 

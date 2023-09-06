@@ -65,9 +65,13 @@ const guestStyles = StyleSheet.create({
     },
 });
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
     const [index, setIndex] = React.useState(0);
     const [userInfo, setUserInfo] = React.useState(null);
+    const userContext = {
+        userInfo: userInfo,
+        navigation: navigation,
+    };
 
     const [routes] = React.useState([
         {
@@ -132,7 +136,7 @@ export default function Dashboard() {
         userInfo.role == "guest" ? (
             <GuestPage />
         ) : (
-            <UserContext.Provider value={userInfo}>
+            <UserContext.Provider value={userContext}>
                 <BottomNavigation
                     navigationState={{ index, routes }}
                     onIndexChange={setIndex}

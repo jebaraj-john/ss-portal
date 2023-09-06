@@ -34,7 +34,6 @@ export default function RegisterScreen({ navigation }) {
         if (error) {
             console.log(error);
         }
-
         Alert.alert("Registration almost done! Please check your email to complete the process.");
         navigation.navigate("LoginScreen");
     };

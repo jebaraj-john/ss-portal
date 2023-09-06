@@ -24,7 +24,7 @@ config.js
 # OSX
 #
 .DS_Store
-
+4
 # Xcode
 #
 build/
@@ -83,3 +83,4 @@ dist/
 >>>>>>> a80c912 (google sign in issue fixed)
 =======
 >>>>>>> a1c6795 (package json updated)
+>>>>>>> a9f2b16f838ae9fe5a4ccaf25f68a40cc5eae659

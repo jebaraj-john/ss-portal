@@ -10,7 +10,7 @@ import { theme } from "./core/theme";
 import { AuthContext } from "./User.js";
 import { supabase } from "./lib/supabase";
 import { LoginScreen, Dashboard, RegisterScreen, ResetPasswordScreen } from "./screens";
-
+import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 const Stack = createStackNavigator();
 
 export default function Main() {
@@ -97,7 +97,10 @@ export default function Main() {
                                 <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
                             </>
                         ) : (
-                            <Stack.Screen name="Dashboard" component={Dashboard} />
+                            <>
+                                <Stack.Screen name="Dashboard" component={Dashboard} />
+                                <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
+                            </>
                         )}
                     </Stack.Navigator>
                 </AuthContext.Provider>
