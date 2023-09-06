@@ -27,17 +27,15 @@ export default function RegisterScreen({ navigation }) {
 
             return;
         }
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
             email: email.value,
             password: password.value,
         });
         if (error) {
             console.log(error);
         }
-        console.log(data);
         Alert.alert("Registration almost done! Please check your email to complete the process.");
         navigation.navigate("LoginScreen");
-        //Todo:  Alert message to check mail and Redirect to login page.
     };
 
     return (

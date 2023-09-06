@@ -2,11 +2,13 @@ import React from "react";
 import { Alert } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 import { supabase } from "../lib/supabase";
+import { AuthContext } from "../User";
 // import { Icon } from "react-native-elements";
 // Icon
 
 const TitleBar = (props) => {
     // const [ShowMenu, setShowMenu] = useState(false);
+    const { signOut } = React.useContext(AuthContext);
     const [visible, setVisible] = React.useState(false);
 
     const openMenu = () => setVisible(true);
@@ -38,6 +40,7 @@ const TitleBar = (props) => {
                                 text: "Logout",
                                 onPress: async () => {
                                     await supabase.auth.signOut();
+                                    signOut();
                                     props.navigation.navigate("LoginScreen");
                                 },
                             },
