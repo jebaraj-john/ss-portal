@@ -7,11 +7,11 @@ import { emailValidator } from "../helpers/emailValidator";
 import { supabase } from "../lib/supabase";
 import { AuthContext } from "../User";
 
-function ResetPage({onChangeEmail, setPage, navigation}) {
+function ResetPage({ onChangeEmail, setPage, navigation }) {
     const [email, setEmail] = useState({ value: "", error: "" });
     const resetEmail = async (emailId) => {
-        const {error} = await supabase.auth.resetPasswordForEmail(emailId, {
-            redirectTo: '',
+        const { error } = await supabase.auth.resetPasswordForEmail(emailId, {
+            redirectTo: "",
         });
 
         if (!error) {
@@ -28,13 +28,11 @@ function ResetPage({onChangeEmail, setPage, navigation}) {
         }
         resetEmail(email.value);
         setPage("updatePassword");
-
-
     };
 
     return (
         <>
-         <BackButton
+            <BackButton
                 goBack={() => {
                     navigation.navigate("LoginScreen");
                 }}
@@ -46,7 +44,7 @@ function ResetPage({onChangeEmail, setPage, navigation}) {
                 returnKeyType="done"
                 value={email.value}
                 onChangeText={(text) => {
-                    setEmail({ value: text, error: "" })
+                    setEmail({ value: text, error: "" });
                 }}
                 error={!!email.error}
                 errorText={email.error}
@@ -56,20 +54,14 @@ function ResetPage({onChangeEmail, setPage, navigation}) {
                 keyboardType="email-address"
                 description="You will receive an email with code."
             />
-            <Button
-                mode="contained"
-                onPress={sendResetPasswordEmail}
-                style={{ marginTop: 16 }}
-                btnText=" Send Code"
-            />
+            <Button mode="contained" onPress={sendResetPasswordEmail} style={{ marginTop: 16 }} btnText=" Send Code" />
         </>
-    )
+    );
 }
 
-function OTPSignInPage({email, navigation}) {
-    const [code, setCode] = useState("")
+function OTPSignInPage({ email, navigation }) {
+    const [code, setCode] = useState("");
     const { signInWithOTP } = React.useContext(AuthContext);
-
 
     const doLogin = async () => {
         signInWithOTP(email, code);
@@ -77,7 +69,7 @@ function OTPSignInPage({email, navigation}) {
 
     return (
         <>
-         <BackButton
+            <BackButton
                 goBack={() => {
                     navigation.navigate("LoginScreen");
                 }}
@@ -94,30 +86,22 @@ function OTPSignInPage({email, navigation}) {
                 keyboardType="number-pad"
                 description="auth code from email"
             />
-            <Button
-                mode="contained"
-                onPress={doLogin}
-                style={{ marginTop: 16 }}
-                btnText="Sign In"
-            />
+            <Button mode="contained" onPress={doLogin} style={{ marginTop: 16 }} btnText="Sign In" />
         </>
-    )
+    );
 }
 
-
-
-
-export default function ResetPasswordScreen({navigation}) {
+export default function ResetPasswordScreen({ navigation }) {
     const [page, changePage] = useState("resetPage");
     const [email, setEmail] = useState("");
 
-
     return (
         <Background>
-           {
-           page === "resetPage" ? <ResetPage navigation={navigation} onChangeEmail={setEmail} setPage={changePage} /> :
-           <OTPSignInPage  navigation={navigation} email={email.value}/>
-           }
+            {page === "resetPage" ? (
+                <ResetPage navigation={navigation} onChangeEmail={setEmail} setPage={changePage} />
+            ) : (
+                <OTPSignInPage navigation={navigation} email={email.value} />
+            )}
         </Background>
     );
 }
