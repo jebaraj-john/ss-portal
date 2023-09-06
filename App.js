@@ -56,7 +56,7 @@ export default function Main() {
             setSession(session);
         });
     }, []);
-    
+
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer>
@@ -69,7 +69,7 @@ export default function Main() {
                     <Stack.Screen name="LoginScreen" component={LoginScreen} />
                     <Stack.Screen name="Dashboard" component={Dash} />
                     <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-                    <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+                    <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
                     <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
                 </Stack.Navigator>
             </NavigationContainer>

@@ -9,8 +9,8 @@ export default function Dashboard({ userInfo, navigation }) {
     const [index, setIndex] = React.useState(0);
     const userContext = {
         userInfo: userInfo,
-        navigation: navigation
-    }
+        navigation: navigation,
+    };
 
     const [routes] = React.useState([
         {
@@ -41,7 +41,7 @@ export default function Dashboard({ userInfo, navigation }) {
 
     return (
         userInfo && (
-            <UserContext.Provider value={userContext} >
+            <UserContext.Provider value={userContext}>
                 <BottomNavigation
                     navigationState={{ index, routes }}
                     onIndexChange={setIndex}
