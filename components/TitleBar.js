@@ -3,8 +3,6 @@ import { Alert } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 import { supabase } from "../lib/supabase";
 import { AuthContext } from "../User";
-// import { Icon } from "react-native-elements";
-// Icon
 
 const TitleBar = (props) => {
     // const [ShowMenu, setShowMenu] = useState(false);

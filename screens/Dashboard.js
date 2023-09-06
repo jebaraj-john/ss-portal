@@ -10,7 +10,6 @@ import { supabase } from "../lib/supabase";
 import TitleBar from "../components/TitleBar.js";
 import { View, Text, StyleSheet } from "react-native";
 
-
 const GuestPage = () => {
     return (
         <>

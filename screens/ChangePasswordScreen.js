@@ -7,7 +7,7 @@ import { BackButton, Button, TextInput } from "../components/Form";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { Alert } from "react-native";
 
-const ChangePasswordScreen = ({navigation}) => {
+const ChangePasswordScreen = ({ navigation }) => {
     const [newPassword, setnewPassword] = useState({ value: "", error: "" });
     const [confirmNewpassword, setconfirmNewpassword] = useState({ value: "", error: "" });
 
@@ -15,14 +15,14 @@ const ChangePasswordScreen = ({navigation}) => {
         const passwordError = passwordValidator(newPassword.value);
         if (passwordError) {
             setnewPassword({ ...newPassword, error: passwordError });
-            return
-		}
+            return;
+        }
         if (newPassword.value !== confirmNewpassword.value) {
             Alert.alert("Password Mismatch");
             return;
         }
 
-        const { error } =  supabase.auth.updateUser({ password: newPassword.value });
+        const { error } = supabase.auth.updateUser({ password: newPassword.value });
 
         if (error) {
             Alert.alert(error.message);

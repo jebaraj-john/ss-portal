@@ -5,8 +5,8 @@ import { StyleSheet } from "react-native";
 const AttendanceDate = (props) => {
     const attDefaultStyles = {
         borderRadius: 55,
-        width: 55,
-        height: 55,
+        width: 45,
+        height: 45,
         alignItems: "center",
         justifyContent: "center",
         margin: 5,
@@ -43,7 +43,7 @@ const AttendanceDate = (props) => {
 
     return (
         <View style={selectStyle(props.status)}>
-            <Text>{props.date}</Text>
+            <Text style={{fontSize:13}}>{props.date}</Text>
         </View>
     );
 };
