@@ -75,9 +75,7 @@ export default function Main() {
                 dispatch({ type: "SIGN_IN", token: data.session });
             },
             signInWithOTP: async (email, token) => {
-                const { data, error } = await supabase.auth.verifyOtp(
-                    { email, token, type: 'email'}
-                );
+                const { data, error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
 
                 if (error) {
                     Alert.alert("Login failed! Please check your username and password");
