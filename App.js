@@ -68,7 +68,17 @@ export default function Main() {
                     email: username,
                     password: password,
                 });
-                console.log("I am here", data);
+                if (error) {
+                    Alert.alert("Login failed! Please check your username and password");
+                    return;
+                }
+                dispatch({ type: "SIGN_IN", token: data.session });
+            },
+            signInWithOTP: async (email, token) => {
+                const { data, error } = await supabase.auth.verifyOtp(
+                    { email, token, type: 'email'}
+                );
+
                 if (error) {
                     Alert.alert("Login failed! Please check your username and password");
                     return;
