@@ -27,6 +27,7 @@ const AttendanceFilterStyles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
     },
+    dropdownBox: {},
     serviceButtons: {
         alignItems: "center",
         borderRadius: 5,
@@ -41,9 +42,6 @@ const AttendanceFilterStyles = StyleSheet.create({
         fontWeight: "bold",
         lineHeight: 26,
     },
-    dropdownBox: {
-
-    }
 });
 
 export const TeacherFilter = (props, children) => {
@@ -79,8 +77,8 @@ export const TeacherFilter = (props, children) => {
         return (
             <View style={props && props.style}>
                 <DropDown
-                    inputProps ={{
-                        style: AttendanceFilterStyles.dropdownBox
+                    inputProps={{
+                        style: AttendanceFilterStyles.dropdownBox,
                     }}
                     label={props.label}
                     mode={"outlined"}
