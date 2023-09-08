@@ -9,6 +9,8 @@ import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { AuthContext } from "../User";
+import { SegmentedButtons } from "react-native-paper";
+import { PhoneAuth } from "../components/PhoneAuth";
 
 const EmailLogin = ({ navigation }) => {
     const [email, setEmail] = useState({ value: "", error: "" });
@@ -66,11 +68,33 @@ const EmailLogin = ({ navigation }) => {
 };
 
 export default function LoginScreen(props) {
+    const [checked, setChecked] = React.useState("email");
+
     return (
         <Background>
             <Logo />
             <Header headerText={"Welcome back."}></Header>
-            <EmailLogin navigation={props.navigation} />
+            <SegmentedButtons
+                style={{ width: 100, justifyContent: "center", padding: 0, margin: 0, height: 40 }}
+                theme={theme}
+                value={checked}
+                onValueChange={setChecked}
+                buttons={[
+                    {
+                        value: "email",
+                        label: "email",
+                    },
+                    {
+                        value: "phone",
+                        label: "phone",
+                    },
+                ]}
+            />
+            {checked == "email" ? (
+                <EmailLogin navigation={props.navigation} />
+            ) : (
+                <PhoneAuth navigation={props.navigation} />
+            )}
         </Background>
     );
 }
