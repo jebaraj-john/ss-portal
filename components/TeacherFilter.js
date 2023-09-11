@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Chip, Text } from "react-native-paper";
+import { Button, Chip } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { theme } from "../core/theme";
 
@@ -10,37 +10,54 @@ const AttendanceFilterStyles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "space-between",
-        padding: 10,
+        marginBottom: 5,
+        padding: 0,
     },
     centerButtons: {
         alignItems: "center",
         borderRadius: 5,
-        padding: 10,
+        padding: 5,
     },
     centerViewWrap: {
         alignItems: "center",
         borderRadius: 5,
-        padding: 10,
+        padding: 5,
+    },
+    departmentBox: {
+        width: 120,
     },
     departmentButtons: {
         alignItems: "center",
         borderRadius: 5,
-        padding: 10,
+        padding: 5,
     },
-    dropdownBox: {},
+    dropdownBox: {
+        height: 30,
+        width: 140,
+    },
+    dropdownBoxContentStyle: {
+        fontSize: 12,
+        margin: 0,
+        paddingLeft: 5,
+        textAlign: "justify",
+    },
     serviceButtons: {
         alignItems: "center",
         borderRadius: 5,
-        padding: 10,
+        padding: 5,
+    },
+    teacherBox: {
+        width: 200,
     },
     teacherSelectButton: {
         color: theme.buttonText,
+
+        fontSize: 11,
+        paddingTop: 0,
     },
-    text: {
-        color: theme.colors.buttonText,
-        fontSize: 15,
-        fontWeight: "bold",
-        lineHeight: 26,
+    teacherSelectButtonLabel: {
+        fontSize: 13,
+        height: 20,
     },
 });
 
@@ -78,7 +95,11 @@ export const TeacherFilter = (props, children) => {
             <View style={props && props.style}>
                 <DropDown
                     inputProps={{
-                        style: AttendanceFilterStyles.dropdownBox,
+                        style: [AttendanceFilterStyles.dropdownBox, props.selectBoxStyles],
+                        activeOutlineColor: theme.colors.primary,
+                        outlineColor: theme.colors.primary,
+                        textColor: theme.colors.primary,
+                        contentStyle: AttendanceFilterStyles.dropdownBoxContentStyle,
                     }}
                     label={props.label}
                     mode={"outlined"}
@@ -88,6 +109,7 @@ export const TeacherFilter = (props, children) => {
                     list={props.list}
                     showDropDown={() => setShowDrop(true)}
                     onDismiss={() => setShowDrop(false)}
+                    width={100}
                 />
             </View>
         );
@@ -146,6 +168,7 @@ export const TeacherFilter = (props, children) => {
                     list={departmentButtons}
                     value={department}
                     onValueChange={setDepartment}
+                    selectBoxStyles={AttendanceFilterStyles.departmentBox}
                 />
             );
         } else {
@@ -191,6 +214,7 @@ export const TeacherFilter = (props, children) => {
                         list={filteredTeachers}
                         value={teacherEmail}
                         onValueChange={setTeacherEmail}
+                        selectBoxStyles={AttendanceFilterStyles.teacherBox}
                     />
                 </View>
             );
@@ -212,12 +236,13 @@ export const TeacherFilter = (props, children) => {
             {children[0]}
             {(props.filterButtonAlwaysOn || userInfo.role !== "teacher") && (
                 <Button
-                    style={AttendanceFilterStyles.teacherSelectButton}
+                    contentStyle={AttendanceFilterStyles.teacherSelectButton}
+                    labelStyle={AttendanceFilterStyles.teacherSelectButtonLabel}
                     mode="contained"
                     name="get_attendance"
                     key="get_attendance"
                     onPress={onPress}>
-                    <Text style={AttendanceFilterStyles.text}>{props.filterButtonName}</Text>
+                    {props.filterButtonName}
                 </Button>
             )}
         </View>
