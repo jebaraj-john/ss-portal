@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { ReportsStyles } from "../themes/default";
-import DropDown from "react-native-paper-dropdown";
 import { ScrollView } from "react-native";
 import TitleBar from "../components/TitleBar";
 import ReportCard from "../components/ReportCard";
@@ -18,7 +17,6 @@ import { HomeScreenStyles } from "../themes/default.js";
 
 const Reports = (props) => {
     const [reportData, setreportData] = useState([]);
-    const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
     const [quarter, setQuarter] = useState("Q1");
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const [responseData, setReponseData] = useState([]);

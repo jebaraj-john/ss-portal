@@ -9,7 +9,6 @@ import { AppLoader } from "../components/AppLoader.js";
 import { supabase } from "../lib/supabase";
 import TitleBar from "../components/TitleBar.js";
 import { View, Text, StyleSheet } from "react-native";
-import { color } from "react-native-elements/dist/helpers/index.js";
 
 const GuestPage = () => {
     return (

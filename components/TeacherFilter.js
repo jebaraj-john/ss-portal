@@ -8,7 +8,6 @@ import { Icon } from "react-native-elements";
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: "#ccc",
         borderRadius: 5,
         borderWidth: 1,
         margin: 10,
@@ -89,12 +88,6 @@ const AttendanceFilterStyles = StyleSheet.create({
     teacherSelectButtonLabel: {
         fontSize: 15,
         height: 20,
-    },
-    text: {
-        color: theme.colors.buttonText,
-        fontSize: 15,
-        fontWeight: "bold",
-        lineHeight: 26,
     },
 });
 
