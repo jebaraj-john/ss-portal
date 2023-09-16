@@ -16,6 +16,8 @@ web-build/
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
 %ProgramData%
+ios/
+android/
 
 config.js
 # @generated expo-cli sync-647791c5bd841d5c91864afb91c302553d300921

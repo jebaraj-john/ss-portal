@@ -91,16 +91,16 @@ function HomeScreen() {
             <Background style={HomeScreenStyles.container}>
                 <Loader show={isLoading} />
                 <TitleBar title="Home" navigation={navigation} />
-
+                <View>
+                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+                </View>
                 <TeacherFilter
                     userInfo={userInfo}
                     onValueChange={getTeacherInfo}
                     filterButtonName="Get Attendance"
                     filterButtonAlwaysOn={false}
                 />
-                <View>
-                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
-                </View>
+
                 <StudentsList
                     studList={studList}
                     onValueChange={(item) => {

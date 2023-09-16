@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { ReportsStyles } from "../themes/default";
-import DropDown from "react-native-paper-dropdown";
 import { ScrollView } from "react-native";
 import TitleBar from "../components/TitleBar";
 import ReportCard from "../components/ReportCard";
@@ -11,10 +10,13 @@ import { formatReportData } from "../services/services";
 import ReportTable from "../components/ReportTable";
 import { Switch } from "react-native-paper";
 import Loader from "../components/Loader";
+import { ToggleButton } from "react-native-paper";
+import { theme } from "../core/theme";
+import Background from "../components/Background.js";
+import { HomeScreenStyles } from "../themes/default.js";
 
 const Reports = (props) => {
     const [reportData, setreportData] = useState([]);
-    const [showQuarterDropDown, setShowQuarterDropDown] = useState(false);
     const [quarter, setQuarter] = useState("Q1");
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const [responseData, setReponseData] = useState([]);
@@ -37,7 +39,10 @@ const Reports = (props) => {
         return reportData;
     };
 
+    const [isVisible, setViewVisible] = React.useState(false);
+
     const getReportInfo = async (teacherData) => {
+        setViewVisible(true);
         let teacherInfo = props.userInfo;
         teacherInfo["center"] = props.userInfo.centers[0];
         teacherData = props.userInfo.role === "teacher" ? teacherInfo : teacherData;
@@ -50,77 +55,87 @@ const Reports = (props) => {
             reports_data = addTotalAttendance(reports_data);
             setReponseData(reports_data);
             setreportData(formatted_data);
-            console.log(reportData);
             setLoader(false);
         }
     };
 
     return (
-        <View style={ReportsStyles.container}>
-            <TitleBar title="Reports" />
-            <View style={ReportsStyles.filterPane}>
-                <TeacherFilter
-                    userInfo={props.userInfo}
-                    filterButtonName={"Get Reports"}
-                    filterButtonAlwaysOn={true}
-                    onValueChange={getReportInfo}></TeacherFilter>
-            </View>
-            <Loader show={isLoading} />
-            <View
-                style={{
-                    flexDirection: "row",
-                    fontSize: 29,
-                    justifyContent: "space-between",
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                }}>
-                <DropDown
-                    key="quarter-drop"
-                    label={"Quarter"}
-                    mode={"outlined"}
-                    visible={showQuarterDropDown}
-                    value={quarter}
-                    setValue={setQuarter}
-                    list={[
-                        { label: "Q1", value: "Q1" },
-                        { label: "Q2", value: "Q2" },
-                        { label: "Q3", value: "Q3" },
-                        { label: "Q4", value: "Q4" },
-                    ]}
-                    showDropDown={() => setShowQuarterDropDown(true)}
-                    onDismiss={() => setShowQuarterDropDown(false)}
-                />
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-                    <Text style={{ fontSize: 17 }}>Classic View</Text>
+        <Background style={HomeScreenStyles.container}>
+            <View style={ReportsStyles.container}>
+                <TitleBar title="Reports" />
+                <View style={{ padding: 5, paddingTop: 15 }}>
+                    <View style={ReportsStyles.quaterSelection}>
+                        <Text style={ReportsStyles.quaterText}>Quarter :</Text>
+                        <ToggleButton.Row onValueChange={(value) => setQuarter(value)} value={quarter}>
+                            <ToggleButton
+                                icon="numeric-1-circle"
+                                iconColor={theme.colors.primary}
+                                style={ReportsStyles.quaterToggleBtn}
+                                value="Q1"
+                            />
+                            <ToggleButton
+                                icon="numeric-2-circle"
+                                iconColor={theme.colors.primary}
+                                style={ReportsStyles.quaterToggleBtn}
+                                value="Q2"
+                            />
+                            <ToggleButton
+                                icon="numeric-3-circle"
+                                iconColor={theme.colors.primary}
+                                style={ReportsStyles.quaterToggleBtn}
+                                value="Q3"
+                            />
+                            <ToggleButton
+                                icon="numeric-4-circle"
+                                iconColor={theme.colors.primary}
+                                style={ReportsStyles.quaterToggleBtn}
+                                value="Q4"
+                            />
+                        </ToggleButton.Row>
+                    </View>
                 </View>
+                <View>
+                    <TeacherFilter
+                        userInfo={props.userInfo}
+                        filterButtonName={"Get Reports"}
+                        filterButtonAlwaysOn={true}
+                        onValueChange={getReportInfo}></TeacherFilter>
+                </View>
+                <Loader show={isLoading} />
+
+                <ScrollView style={ReportsStyles.tableContainer}>
+                    {isVisible && (
+                        <View style={ReportsStyles.viewBtn}>
+                            <Text style={{ fontSize: 17 }}>Classic View</Text>
+                            <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+                        </View>
+                    )}
+                    {!isSwitchOn && (
+                        <View>
+                            {reportData.map((row, index) => {
+                                return (
+                                    <ReportCard
+                                        key={`card-id-${index}}`}
+                                        name={row["StudName"]}
+                                        att={row["att_list"]}
+                                        present_count={row["present_days"]}
+                                        absent_count={row["absent_days"]}></ReportCard>
+                                );
+                            })}
+                        </View>
+                    )}
+                    {isSwitchOn && (
+                        <View>
+                            {responseData.length > 1 ? (
+                                <ReportTable header={responseData[0]} data={responseData.slice(1)} />
+                            ) : (
+                                <></>
+                            )}
+                        </View>
+                    )}
+                </ScrollView>
             </View>
-            <ScrollView style={ReportsStyles.tableContainer}>
-                {!isSwitchOn && (
-                    <View>
-                        {reportData.map((row, index) => {
-                            return (
-                                <ReportCard
-                                    key={`card-id-${index}}`}
-                                    name={row["StudName"]}
-                                    att={row["att_list"]}
-                                    present_count={row["present_days"]}
-                                    absent_count={row["absent_days"]}></ReportCard>
-                            );
-                        })}
-                    </View>
-                )}
-                {isSwitchOn && (
-                    <View>
-                        {responseData.length > 1 ? (
-                            <ReportTable header={responseData[0]} data={responseData.slice(1)} />
-                        ) : (
-                            <></>
-                        )}
-                    </View>
-                )}
-            </ScrollView>
-        </View>
+        </Background>
     );
 };
 

@@ -5,7 +5,7 @@ const colors = {
     white: "#ffffff",
     eventBackground: "#F7F1FF",
     filterBadgeTextColor: "#21005D",
-    filterBadgeTextActiveColor: "#6750A4",
+    filterBadgeTextActiveColor: "#560CCE",
     filterBadgeBackground: "#D0BCFF",
     tableHead: "#f1f8ff",
 };
@@ -46,55 +46,6 @@ const StudentsStyles = StyleSheet.create({
     },
 });
 
-const attFilterDefaultBtnStyle = {
-    margin: 2,
-};
-
-const AttendanceFilterStyles = StyleSheet.create({
-    attendanceFilterBar: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-    },
-    centerButtons: {
-        ...attFilterDefaultBtnStyle,
-    },
-    centerView: {
-        marginLeft: 1,
-        marginRight: 5,
-    },
-    centerViewWrap: {
-        alignItems: "center",
-        flexDirection: "row",
-        marginLeft: 1,
-        marginRight: 5,
-        marginTop: 5,
-    },
-    departmentButtons: {
-        ...attFilterDefaultBtnStyle,
-    },
-    serviceButtons: {
-        ...attFilterDefaultBtnStyle,
-    },
-    serviceButtonsLabel: {
-        padding: 0,
-    },
-    teacherBoxWrap: {
-        minWidth: 200,
-    },
-    teacherButtons: {
-        ...attFilterDefaultBtnStyle,
-    },
-    teacherSelectButton: {
-        alignSelf: "center",
-        height: 40,
-        marginTop: 5,
-        margin: 2,
-    },
-    teacherWrap: {
-        flexDirection: "row",
-    },
-});
-
 const ReportsStyles = StyleSheet.create({
     attRangeSelector: {
         fontSize: 17,
@@ -107,7 +58,6 @@ const ReportsStyles = StyleSheet.create({
         paddingLeft: 1,
     },
     container: {
-        borderColor: colors.black,
         flex: 1,
         flexDirection: "column",
         fontSize: "14px",
@@ -117,7 +67,6 @@ const ReportsStyles = StyleSheet.create({
     },
     filterPane: {
         alignItems: "center",
-        backgroundColor: colors.white,
         flexDirection: "column",
         marginTop: 1,
         paddingLeft: 5,
@@ -126,8 +75,19 @@ const ReportsStyles = StyleSheet.create({
     filterPaneText: {
         fontSize: 21,
     },
+    quaterSelection: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+    },
+    quaterText: {
+        fontSize: 20,
+    },
+    quaterToggleBtn: {
+        height: 30,
+        width: 60,
+    },
     tableContainer: {
-        backgroundColor: colors.white,
         flexGrow: 4,
         paddingBottom: 5,
         paddingLeft: 1,
@@ -152,11 +112,16 @@ const ReportsStyles = StyleSheet.create({
         paddingLeft: 1,
         width: 110,
     },
+    viewBtn: {
+        alignItems: "center",
+        flexDirection: "row",
+        margin: 5,
+        paddingLeft: 14,
+    },
 });
 
 const EventsStyles = StyleSheet.create({
     container: {
-        backgroundColor: colors.eventBackground,
         borderColor: colors.black,
         flex: 1,
         flexDirection: "column",
@@ -186,16 +151,22 @@ const EventsStyles = StyleSheet.create({
     filterBadgeButton: {
         backgroundColor: colors.filterBadgeBackground,
         margin: 4,
+        width: 150,
     },
     filterBadgeButtonActive: {
         backgroundColor: colors.filterBadgeTextActiveColor,
-        margin: 2,
+        margin: 4,
+        width: 150,
     },
     filterBadgeText: {
         color: colors.filterBadgeTextColor,
+        fontSize: 15,
+        fontWeight: "bold",
     },
     filterBadgeTextActive: {
         color: colors.white,
+        fontSize: 15,
+        fontWeight: "bold",
     },
     filterBadges: {
         alignItems: "center",
@@ -210,4 +181,4 @@ const EventsStyles = StyleSheet.create({
     },
 });
 
-export { HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles, AttendanceFilterStyles };
+export { HomeScreenStyles, StudentsStyles, ReportsStyles, EventsStyles };
