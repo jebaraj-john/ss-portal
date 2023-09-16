@@ -34,6 +34,7 @@ const EventsScreen = () => {
                     value: "All",
                 });
                 setEventBtn(eventBtn);
+                setActiveButtonIndex(0);
             } catch (error) {
                 console.log(error);
             }

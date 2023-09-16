@@ -1,34 +1,43 @@
 import React from "react";
-import { SafeAreaView, View, FlatList } from "react-native";
-import { Text, SegmentedButtons } from "react-native-paper";
-
+import { SafeAreaView, View, FlatList, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
+import { ToggleButton } from "react-native-paper";
 import { StudentsStyles } from "../themes/default";
 
+const attedanceBtnStyles = StyleSheet.create({
+    button: {
+        width: 80,
+    },
+    toggleBtn: {
+        paddingRight: 10,
+    },
+});
+
 const AttendanceButton = (props) => {
-    const [value, setValue] = React.useState("");
-    const attList = [
-        {
-            label: "Present",
-            value: "P",
-        },
-        {
-            label: "Absent",
-            value: "A",
-        },
-    ];
+    const [attedance, setAttedance] = React.useState(props.defaultValue);
 
     const onValueChange = (value) => {
-        setValue(value);
+        setAttedance(value);
         props.onValueChange(value);
     };
 
     return (
-        <SegmentedButtons
-            style={{ width: 40, padding: 0 }}
-            value={value ? value : props.defaultValue}
-            onValueChange={onValueChange}
-            buttons={attList}
-        />
+        <View style={attedanceBtnStyles.toggleBtn}>
+            <ToggleButton.Row onValueChange={(value) => onValueChange(value)} value={attedance}>
+                <ToggleButton
+                    icon="alpha-p-circle"
+                    iconColor={StudentsStyles.iconColor.present}
+                    style={attedanceBtnStyles.button}
+                    value="P"
+                />
+                <ToggleButton
+                    icon="alpha-a-circle"
+                    iconColor={StudentsStyles.iconColor.absent}
+                    style={attedanceBtnStyles.button}
+                    value="A"
+                />
+            </ToggleButton.Row>
+        </View>
     );
 };
 
@@ -43,7 +52,7 @@ const StudentsList = (props) => {
     const Item = ({ item }) => (
         <View style={StudentsStyles.item}>
             <Text style={StudentsStyles.title}>{item.name}</Text>
-            <View style={StudentsStyles.attButtonWrap}>
+            <View>
                 <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(this, item)} />
             </View>
         </View>

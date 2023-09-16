@@ -94,15 +94,6 @@ export default function Main() {
                 }
                 dispatch({ type: "SIGN_IN", token: data.session });
             },
-            signInWithOTP: async (email, token) => {
-                const { data, error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
-
-                if (error) {
-                    showLoginError(error);
-                    return;
-                }
-                dispatch({ type: "SIGN_IN", token: data.session });
-            },
             signOut: () => dispatch({ type: "SIGN_OUT" }),
         }),
         [],
