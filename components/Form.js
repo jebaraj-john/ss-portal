@@ -8,6 +8,7 @@ import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { DatePickerModal } from "react-native-paper-dates";
 import { getDateString } from "../utils/Utils";
+import { black } from "color-name";
 
 export const SelectBox = (props) => {
     const [showDrop, setShowDrop] = useState(false);
@@ -102,8 +103,10 @@ export function DatePicker({ errorText, description, ...props }) {
                 underlineColor="transparent"
                 mode="outlined"
                 value={getDateString(date, "/")}
-                right={<Input.Icon name="eye" onPress={() => setOpen(true)} />}
+                keyboardType="number-pad"
+                right={<Input.Icon name="eye" size={20}  onPress={() => setOpen(true)} />}
                 {...props}
+
             />
             {description && !errorText ? <Text style={textInputStyles.description}>{description}</Text> : null}
             {errorText ? <Text style={textInputStyles.error}>{errorText}</Text> : null}
@@ -159,6 +162,7 @@ const textInputStyles = StyleSheet.create({
     container: {
         marginVertical: 12,
         width: "100%",
+        padding:5
     },
     description: {
         color: theme.colors.secondary,

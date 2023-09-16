@@ -1,12 +1,13 @@
 import React from "react";
 import { View } from "react-native";
-
 import Background from "../components/Background";
 import Header from "../components/Header";
 import { Button, TextInput, BackButton, DatePicker } from "../components/Form";
 
 const StudentForm = ({ navigation }) => {
+    
     console.log(navigation);
+    let prevDate = React.useRef("");
     const [studentData, dispatch] = React.useReducer(
         (prevState, action) => {
             console.log(prevState);
@@ -39,7 +40,26 @@ const StudentForm = ({ navigation }) => {
         },
     );
 
-    const onSubmit = async () => {};
+    const onSubmit = async () => {
+        console.log(studentData);
+    };
+
+
+    const addSeparator = (text) => {
+        let newData = "";
+        for(let i=0;i<text.length;i++) {
+            
+            
+            newData += text[i];
+            if ([1,4].includes(i) && text[i+1] != "/") {
+                newData +=  "/";
+
+            }
+
+        }
+
+        return newData;
+    }
 
     return (
         <View style={{ width: "100%" }}>
@@ -66,10 +86,38 @@ const StudentForm = ({ navigation }) => {
             <DatePicker
                 label="DOB (DD/MM/YYYY)"
                 returnKeyType="next"
-                // value={studentData.dob.value}
-                onChangeText={(text) => dispatch({ dob: { value: text, error: "" } })}
-                error={!!studentData.fatherName.error}
-                errorText={studentData.fatherName.error}
+                value={studentData.dob.value}
+                onChangeText={(text) => {
+
+                    if(text.length>10 ) text =text.slice(0,10)
+                    let newData;
+                    if (prevDate.current.length < text.length) {
+                        newData = addSeparator(text);
+                    }
+                    else {
+                        newData = text;
+                        
+                    }
+                    prevDate.current = newData;
+                    let dateParts = newData.split("/");
+                    let newMonth = parseInt(dateParts[1]) -1; 
+                    let newYear = parseInt(teParts[2]);
+                    console.log(newData);
+                    if(text.length >=10){
+                        
+                        let date = new Date(dateParts[2], newMonth, dateParts[0]);
+                        console.log(date.toString());
+                        if(dateParts[0] !== date.getUTCDate() || newMonth !== date.getMonth() || (newYear < 3000 && newYear > 1900)) {
+                            dispatch({ dob: { value: newData, error: "Please insert valid date" } })
+                            return;
+                        }
+                        
+                    }
+                    dispatch({ dob: { value: newData, error: "" } })}
+                }
+
+                error={!!studentData.dob.error}
+                errorText={studentData.dob.error}
             />
             <TextInput
                 label="Father Name"
@@ -89,7 +137,7 @@ const StudentForm = ({ navigation }) => {
                 error={!!studentData.fatherPhone.error}
                 errorText={studentData.fatherPhone.error}
                 autoCapitalize="none"
-                textContentType="name"
+                keyboardType="number-pad"
             />
             <Button mode="contained" onPress={onSubmit} btnText="Add Student" />
         </View>
