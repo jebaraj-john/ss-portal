@@ -108,9 +108,16 @@ function HomeScreen() {
                         setAttData(item);
                     }}
                 />
-                <Button mode="contained-tonal" name="submit" key="submit" onPress={submitAtt.bind(this)}>
-                    <Text>Submit</Text>
-                </Button>
+                <View style={HomeScreenStyles.buttonView}>
+                    <Button
+                        mode="contained-tonal"
+                        name="submit"
+                        key="submit"
+                        style={HomeScreenStyles.submitButton}
+                        onPress={submitAtt.bind(this)}>
+                        <Text style={HomeScreenStyles.submitButtonLabel}>Submit</Text>
+                    </Button>
+                </View>
             </Background>
         </View>
     );

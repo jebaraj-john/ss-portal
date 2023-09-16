@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../core/theme";
 
 const colors = {
     black: "#000000",
@@ -11,8 +12,21 @@ const colors = {
 };
 
 const HomeScreenStyles = StyleSheet.create({
+    buttonView: {
+        alignItems: "center",
+    },
     container: {
         flex: 1,
+    },
+    submitButton: {
+        backgroundColor: theme.colors.primary,
+        height: 40,
+        width: 100,
+    },
+    submitButtonLabel: {
+        color: theme.colors.buttonText,
+        fontSize: 15,
+        height: 20,
     },
 });
 
@@ -22,20 +36,20 @@ const StudentsStyles = StyleSheet.create({
         paddingTop: 1,
         width: 100,
     },
-    attButtonWrap: {
-        width: 180,
-    },
     container: {
+        // backgroundColor: "red",
         minHeight: 450,
+        paddingTop: 20,
+    },
+    iconColor: {
+        absent: "#ce0c2c",
+        present: "#047016",
     },
     item: {
         alignItems: "flex-start",
         flexDirection: "row",
-        height: 60,
-        marginLeft: 1,
-        marginRight: 0,
-        padding: 1,
-        width: "100%",
+        height: 50,
+        marginLeft: 20,
     },
     title: {
         flexGrow: 1,
