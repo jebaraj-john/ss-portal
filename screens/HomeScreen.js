@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Alert } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { View, Alert, TouchableOpacity } from "react-native";
+import { Button, Text, FAB } from "react-native-paper";
 
 import { StudentsList } from "../components/Students.js";
 import { TeacherFilter } from "../components/TeacherFilter";
@@ -11,6 +11,7 @@ import Loader from "../components/Loader.js";
 import { UserContext } from "../User.js";
 import Background from "../components/Background.js";
 import { findAttendanceDate } from "../utils/Utils.js";
+import { theme } from "../core/theme.js";
 
 function HomeScreen() {
     const userContext = React.useContext(UserContext);
@@ -91,6 +92,14 @@ function HomeScreen() {
             <Background style={HomeScreenStyles.container}>
                 <Loader show={isLoading} />
                 <TitleBar title="Home" navigation={navigation} />
+                <TouchableOpacity style={HomeScreenStyles.fab}>
+                    <FAB
+                        icon="plus"
+                        style={HomeScreenStyles.fab}
+                        onPress={() => navigation.navigate("AddStudent")}
+                        theme={theme}
+                    />
+                </TouchableOpacity>
 
                 <TeacherFilter
                     userInfo={userInfo}

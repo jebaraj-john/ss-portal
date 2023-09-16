@@ -14,6 +14,13 @@ const HomeScreenStyles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    fab: {
+        bottom: 10,
+        margin: 16,
+        position: "absolute",
+        right: 0,
+        zIndex: 100,
+    },
 });
 
 const StudentsStyles = StyleSheet.create({

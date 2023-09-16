@@ -9,3 +9,7 @@ export const findAttendanceDate = () => {
 
     return `${lastSunday.getFullYear()}-${lastSunday.getMonth() + 1}-${lastSunday.getDate()}`;
 };
+
+export const getDateString = (date, separator = "-") => {
+    return `${date.getFullYear()}${separator}${date.getMonth() + 1}${separator}${date.getDate()}`;
+};

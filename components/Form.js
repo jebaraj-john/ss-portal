@@ -6,6 +6,8 @@ import { theme } from "../core/theme";
 import { TextInput as Input, Text } from "react-native-paper";
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { DatePickerModal } from "react-native-paper-dates";
+import { getDateString } from "../utils/Utils";
 
 export const SelectBox = (props) => {
     const [showDrop, setShowDrop] = useState(false);
@@ -59,6 +61,48 @@ export function TextInput({ errorText, description, ...props }) {
                 selectionColor={theme.colors.primary}
                 underlineColor="transparent"
                 mode="outlined"
+                {...props}
+            />
+            {description && !errorText ? <Text style={textInputStyles.description}>{description}</Text> : null}
+            {errorText ? <Text style={textInputStyles.error}>{errorText}</Text> : null}
+        </View>
+    );
+}
+
+export function DatePicker({ errorText, description, ...props }) {
+    const [date, setDate] = React.useState(undefined);
+    const [open, setOpen] = React.useState(false);
+
+    const onDismissSingle = React.useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);
+
+    const onConfirmSingle = React.useCallback(
+        (params) => {
+            setOpen(false);
+            setDate(params.date);
+            console.log(date);
+        },
+        [setOpen, setDate],
+    );
+
+    return (
+        <View style={textInputStyles.container}>
+            <DatePickerModal
+                locale="en"
+                mode="single"
+                visible={open}
+                onDismiss={onDismissSingle}
+                date={date}
+                onConfirm={onConfirmSingle}
+            />
+            <Input
+                style={textInputStyles.input}
+                selectionColor={theme.colors.primary}
+                underlineColor="transparent"
+                mode="outlined"
+                value={getDateString(date, "/")}
+                right={<Input.Icon name="eye" onPress={() => setOpen(true)} />}
                 {...props}
             />
             {description && !errorText ? <Text style={textInputStyles.description}>{description}</Text> : null}
