@@ -5,7 +5,6 @@ import Background from "../components/Background";
 import Header from "../components/Header";
 import { Button, TextInput, BackButton, DatePicker } from "../components/Form";
 
-
 const StudentForm = ({ navigation }) => {
     console.log(navigation);
     const [studentData, dispatch] = React.useReducer(

@@ -101,15 +101,16 @@ function HomeScreen() {
                     />
                 </TouchableOpacity>
 
+                <View>
+                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
+                </View>
                 <TeacherFilter
                     userInfo={userInfo}
                     onValueChange={getTeacherInfo}
                     filterButtonName="Get Attendance"
                     filterButtonAlwaysOn={false}
                 />
-                <View>
-                    <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>
-                </View>
+
                 <StudentsList
                     studList={studList}
                     onValueChange={(item) => {

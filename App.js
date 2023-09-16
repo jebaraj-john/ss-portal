@@ -61,6 +61,16 @@ export default function Main() {
         bootstrapAsync();
     }, []);
 
+    const showLoginError = (error) => {
+        if (parseInt(error.status) >= 500) {
+            Alert.alert("Sorry for the inconvenience ! We are facing some error issue.");
+            console.log(error);
+            return;
+        }
+
+        Alert.alert("Login failed! Please check your username and password");
+    };
+
     const authContext = React.useMemo(
         () => ({
             signIn: async (username, password) => {
@@ -68,6 +78,7 @@ export default function Main() {
                     email: username,
                     password: password,
                 });
+
                 if (error) {
                     Alert.alert("Login failed! Please check your username and password");
                     return;
@@ -78,7 +89,7 @@ export default function Main() {
                 const { data, error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
 
                 if (error) {
-                    Alert.alert("Login failed! Please check your username and password");
+                    showLoginError(error);
                     return;
                 }
                 dispatch({ type: "SIGN_IN", token: data.session });

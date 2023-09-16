@@ -39,7 +39,7 @@ const TitleBar = (props) => {
                                 onPress: async () => {
                                     await supabase.auth.signOut();
                                     signOut();
-                                    props.navigation.navigate("LoginScreen");
+                                    // props.navigation.navigate("LoginScreen");
                                 },
                             },
                         ]);
