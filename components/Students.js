@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import { ToggleButton } from "react-native-paper";
 import { StudentsStyles } from "../themes/default";
 
-const PABtnStyles = StyleSheet.create({
+const attedanceBtnStyles = StyleSheet.create({
     button: {
         width: 80,
     },
@@ -22,18 +22,18 @@ const AttendanceButton = (props) => {
     };
 
     return (
-        <View style={PABtnStyles.toggleBtn}>
+        <View style={attedanceBtnStyles.toggleBtn}>
             <ToggleButton.Row onValueChange={(value) => onValueChange(value)} value={attedance}>
                 <ToggleButton
                     icon="alpha-p-circle"
                     iconColor={StudentsStyles.iconColor.present}
-                    style={PABtnStyles.button}
+                    style={attedanceBtnStyles.button}
                     value="P"
                 />
                 <ToggleButton
                     icon="alpha-a-circle"
                     iconColor={StudentsStyles.iconColor.absent}
-                    style={PABtnStyles.button}
+                    style={attedanceBtnStyles.button}
                     value="A"
                 />
             </ToggleButton.Row>
