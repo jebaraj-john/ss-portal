@@ -51,7 +51,10 @@ const StudentsList = (props) => {
 
     const Item = ({ item }) => (
         <View style={StudentsStyles.item}>
-            <Text style={StudentsStyles.title}>{item.name}</Text>
+            <View style={StudentsStyles.titleWrap}>
+                <Text style={StudentsStyles.title}>{item.name}</Text>
+                <Text style={StudentsStyles.titleId}>{item.id}</Text>
+            </View>
             <View>
                 <AttendanceButton defaultValue={item.att} onValueChange={onAttButtonChange.bind(this, item)} />
             </View>
