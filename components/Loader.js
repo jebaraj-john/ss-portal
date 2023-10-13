@@ -1,23 +1,35 @@
 import React from "react";
-import { View } from "react-native";
-import { Modal, Portal, Text, ActivityIndicator } from "react-native-paper";
+import { theme } from "../core/theme";
+import { Dialog, Portal, Text, ActivityIndicator } from "react-native-paper";
 
 const Loader = (props) => {
     console.log(props);
-    const containerStyle = { backgroundColor: "lightgrey", padding: 20, height: "30%", borderRadius: 30 };
+    const containerStyle = {
+        dialogStyle: {
+            backgroundColor: theme.colors.primaryBG,
+            paddingLeft: 20,
+            paddingRight: 20,
+            height: "15%",
+            borderRadius: 15,
+            alignSelf: "center"
+        },
+        loader: {
+            color: theme.colors.primary,
+        },
+        loadingText: {
+            marginTop: 10,
+            alignSelf: "center",
+            color: theme.colors.text
+        }
+    };
     return (
         <Portal>
-            <Modal
-                visible={props.length == 0 ? false : props.show}
-                contentContainerStyle={containerStyle}
-                dismissable={false}>
-                <View style={{ alignItems: "center" }}>
-                    <ActivityIndicator size="large" color="#e1b0ff" />
-                    <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                        Loading
-                    </Text>
-                </View>
-            </Modal>
+            <Dialog visible={props.length == 0 ? false : props.show} style={containerStyle.dialogStyle}>
+                <ActivityIndicator size="large" color={containerStyle.loader.color} />
+                <Text variant="titleLarge" style={containerStyle.loadingText}>
+                    Loading
+                </Text>
+            </Dialog>
         </Portal>
     );
 };
