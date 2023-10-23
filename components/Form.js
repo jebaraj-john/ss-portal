@@ -15,6 +15,7 @@ export const SelectBox = (props) => {
     const onValueChange = (value) => {
         setValue(value);
         if (props.onValueChange) {
+            // console.log(value);
             props.onValueChange(value);
         }
     };
