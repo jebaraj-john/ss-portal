@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import { Button, TextInput, BackButton, DatePicker } from "../components/Form";
 
 const StudentForm = ({ navigation }) => {
-    
     console.log(navigation);
     let prevDate = React.useRef("");
     const [studentData, dispatch] = React.useReducer(
@@ -44,22 +43,17 @@ const StudentForm = ({ navigation }) => {
         console.log(studentData);
     };
 
-
     const addSeparator = (text) => {
         let newData = "";
-        for(let i=0;i<text.length;i++) {
-            
-            
+        for (let i = 0; i < text.length; i++) {
             newData += text[i];
-            if ([1,4].includes(i) && text[i+1] != "/") {
-                newData +=  "/";
-
+            if ([1, 4].includes(i) && text[i + 1] != "/") {
+                newData += "/";
             }
-
         }
 
         return newData;
-    }
+    };
 
     return (
         <View style={{ width: "100%" }}>
@@ -88,34 +82,32 @@ const StudentForm = ({ navigation }) => {
                 returnKeyType="next"
                 value={studentData.dob.value}
                 onChangeText={(text) => {
-
-                    if(text.length>10 ) text =text.slice(0,10)
+                    if (text.length > 10) text = text.slice(0, 10);
                     let newData;
                     if (prevDate.current.length < text.length) {
                         newData = addSeparator(text);
-                    }
-                    else {
+                    } else {
                         newData = text;
-                        
                     }
                     prevDate.current = newData;
                     let dateParts = newData.split("/");
-                    let newMonth = parseInt(dateParts[1]) -1; 
-                    let newYear = parseInt(teParts[2]);
+                    let newMonth = parseInt(dateParts[1]) - 1;
+                    let newYear = parseInt(dateParts[2]);
                     console.log(newData);
-                    if(text.length >=10){
-                        
+                    if (text.length >= 10) {
                         let date = new Date(dateParts[2], newMonth, dateParts[0]);
                         console.log(date.toString());
-                        if(dateParts[0] !== date.getUTCDate() || newMonth !== date.getMonth() || (newYear < 3000 && newYear > 1900)) {
-                            dispatch({ dob: { value: newData, error: "Please insert valid date" } })
+                        if (
+                            dateParts[0] !== date.getUTCDate() ||
+                            newMonth !== date.getMonth() ||
+                            (newYear < 3000 && newYear > 1900)
+                        ) {
+                            dispatch({ dob: { value: newData, error: "Please insert valid date" } });
                             return;
                         }
-                        
                     }
-                    dispatch({ dob: { value: newData, error: "" } })}
-                }
-
+                    dispatch({ dob: { value: newData, error: "" } });
+                }}
                 error={!!studentData.dob.error}
                 errorText={studentData.dob.error}
             />
