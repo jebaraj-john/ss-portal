@@ -78,11 +78,3 @@ export function formatReportData(reportData) {
 
     return data;
 }
-
-export async function addNewstudent(studentData){
-    const addStudent_url = `${urls}`
-    await fetch(urls,{
-        method: "POST",
-        
-    })
-}

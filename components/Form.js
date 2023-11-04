@@ -23,7 +23,7 @@ export const SelectBox = (props) => {
         <View style={props && props.style}>
             <DropDown
                 dropDownItemTextStyle={selectBoxStyles.textBoxItemStyle}
-                inputProps={{ style: selectBoxStyles.container,ref :props.inputRef}}
+                inputProps={{ style: selectBoxStyles.container, ref: props.inputRef }}
                 dropDownItemSelectedTextStyle={selectBoxStyles.selectedTextStyle}
                 dropDownItemSelectedStyle={selectBoxStyles.itemSelectedStyle}
                 dropDownStyle={selectBoxStyles.dropDownStyle}
@@ -37,7 +37,6 @@ export const SelectBox = (props) => {
                 list={props.list}
                 showDropDown={() => setShowDrop(true)}
                 onDismiss={() => setShowDrop(false)}
-                
             />
             {props.errorText ? <Text style={textInputStyles.error}>{props.errorText}</Text> : null}
         </View>
