@@ -26,6 +26,14 @@ export async function GetStudents(email, center) {
     return await apiProviders["supabase"](email, center);
 }
 
+export async function CheckStudExits(email, center) {
+    const apiProviders = {
+        supabase: Supabase.CheckStudExits,
+    };
+
+    return await apiProviders["supabase"](email, center);
+}
+
 export async function GetUserInfo(email) {
     const apiProviders = {
         googleApp: GoogleApp.GetUserInfo,

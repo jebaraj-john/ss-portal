@@ -13,6 +13,22 @@ const getAllDepartments = () => {
     return ["Beginner", "Primary", "Junior", "Inter", "Senior", "LG"];
 };
 
+export async function CheckStudExits(studInfo) {
+    let { data, error } = await supabase.rpc('is_student_details_present', {
+        p_dob: studInfo.dob,
+        p_father_mobile_no: studInfo.father_mobile_no,
+        p_gender: studInfo.gender,
+        p_mother_mobile_no: studInfo.mother_mobile_no
+    });
+
+    if (error) {
+        throw new Error(error);
+    }
+
+   return data;
+}
+
+
 export async function GetUserInfo(user_email) {
     let { data, error } = await supabase.rpc("get_user_info", { user_email });
     if (error) {
