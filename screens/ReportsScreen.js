@@ -96,10 +96,11 @@ const Reports = (props) => {
                 </View>
                 <View>
                     <TeacherFilter
-                        userInfo={props.userInfo}
-                        filterButtonName={"Get Reports"}
-                        filterButtonAlwaysOn={true}
-                        onValueChange={getReportInfo}></TeacherFilter>
+                        userInfo = {props.userInfo}
+                        filterButtonName = {"Get Reports"}
+                        filterButtonAlwaysOn = {true}
+                        onValueChange = {getReportInfo}>
+                    </TeacherFilter>
                 </View>
                 <Loader show={isLoading} />
 

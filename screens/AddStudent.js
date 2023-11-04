@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { View } from "react-native";
 import Background from "../components/Background";
 import Header from "../components/Header";
 import { Button, TextInput, BackButton, DatePicker, SelectBox } from "../components/Form";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 const StudentForm = ({ navigation }) => {
+
+    
     console.log(navigation);
     let prevDate = React.useRef("");
     const [studentData, dispatch] = React.useReducer(
@@ -20,6 +24,7 @@ const StudentForm = ({ navigation }) => {
             name: {
                 value: "",
                 error: "",
+                
             },
             medium: {
                 value: "",
@@ -46,7 +51,7 @@ const StudentForm = ({ navigation }) => {
                 error: "",
             },
             std: {
-                value: null,
+                value: "",
                 error: "",
             },
             dob: {
@@ -56,8 +61,39 @@ const StudentForm = ({ navigation }) => {
         },
     );
 
-    const onSubmit = async () => {
-        console.log(studentData);
+        const errMsg = {
+            name:{text:"Enter your name",ref:useRef(null)},
+            medium : {text:"Enter your class medium",ref:useRef(null)},
+            gender : {text:"select a Gender",ref:useRef(null)},
+            std : {text:"Enter your Standard",ref:useRef(null)},
+            fatherName : {text:"Enter your Father's Name",ref:useRef(null)},
+            fatherPhone : {text:"Enter your Father's Phone",ref:useRef(null)},
+            motherName : {text:"Enter your Mother's Name",ref:useRef(null)},
+            motherPhone : {text:"Enter your Mother's Phone",ref:useRef(null)},
+            dob : {text:"Enter your Date of Birth",ref:useRef(null)}
+        }
+        const dataValidator = async(data) =>{
+            for(let [key,value] of Object.entries(data)){
+                if(value.value===""){
+                    data = {}
+                    data[key] = {value:"",error:errMsg[key]["text"]}
+                    dispatch(data)
+                    errMsg[key]["ref"].current.focus()
+                    return false
+                }
+                
+            }
+            if(data.fatherPhone =="" && data.motherPhone ==""){
+                return false
+            }
+            return true
+        }
+        
+        const onSubmit = async () => {
+            if(dataValidator(studentData)){
+                
+            }
+        
     };
 
     const addSeparator = (text) => {
@@ -74,6 +110,7 @@ const StudentForm = ({ navigation }) => {
 
     return (
         <View style={{ width: "100%", height: Dimensions.get("window").height - 150 }}>
+            <SafeAreaView>
             <ScrollView>
                 <TextInput
                     label="Name*"
@@ -84,6 +121,7 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.name.error}
                     autoCapitalize="none"
                     textContentType="name"
+                    inputRef = {errMsg.name.ref}
                 />
                 <TextInput
                     label="Std"
@@ -94,6 +132,7 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.std.error}
                     autoCapitalize="none"
                     keyboardType="number-pad"
+                    inputRef = {errMsg.std.ref}
                 />
                 <SelectBox
                     label="Medium"
@@ -109,6 +148,8 @@ const StudentForm = ({ navigation }) => {
                     ]}
                     value={studentData.medium.value}
                     onValueChange={(text) => dispatch({ medium: { value: text, error: "" } })}
+                    errorText = {studentData.medium.error}
+                    inputRef = {errMsg.medium.ref}
                 />
                 <SelectBox
                     label="Gender"
@@ -124,7 +165,9 @@ const StudentForm = ({ navigation }) => {
                         },
                     ]}
                     value={studentData.gender.value}
-                    onValueChange={(text) => dispatch({ gender: { value: text, error: "" } })}
+                    onValueChange={(text) => dispatch({ gender: { value: text, error: "select a gender" } })}
+                    errorText = {studentData.gender.error}
+                    inputRef = {errMsg.gender.ref}
                 />
 
                 <DatePicker
@@ -172,6 +215,7 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.fatherName.error}
                     autoCapitalize="none"
                     textContentType="name"
+                    inputRef = {errMsg.fatherName.ref}
                 />
                 <TextInput
                     label="Father Mobile No**"
@@ -182,6 +226,7 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.fatherPhone.error}
                     autoCapitalize="none"
                     keyboardType="number-pad"
+                    inputRef = {errMsg.fatherPhone.ref}
                 />
                 <TextInput
                     label="Mother Name"
@@ -192,6 +237,7 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.motherName.error}
                     autoCapitalize="none"
                     textContentType="name"
+                    inputRef={errMsg.motherName.ref}
                 />
                 <TextInput
                     label="Mother Mobile No**"
@@ -202,9 +248,11 @@ const StudentForm = ({ navigation }) => {
                     errorText={studentData.motherPhone.error}
                     autoCapitalize="none"
                     keyboardType="number-pad"
+                    inputRef={errMsg.motherPhone.ref}
                 />
                 <Button mode="contained" onPress={onSubmit} btnText="Add Student" />
             </ScrollView>
+            </SafeAreaView>
         </View>
     );
 };
