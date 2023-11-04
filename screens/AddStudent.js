@@ -6,6 +6,8 @@ import { Button, TextInput, BackButton, DatePicker, SelectBox } from "../compone
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AddStudentInfo, CheckStudExits } from "../services/services";
+import { Alert } from "react-native";
 
 const StudentForm = ({ navigation }) => {
     console.log(navigation);
@@ -88,6 +90,24 @@ const StudentForm = ({ navigation }) => {
     const onSubmit = async () => {
         if (dataValidator(studentData)) {
             console.log("api called");
+            let studentInfo = {
+                dob: studentData.dob.value,
+                father_mobile_no: studentData.fatherPhone.value,
+                gender: studentData.gender.value,
+                mother_mobile_no: studentData.motherPhone.value,
+            };
+            // try{
+            // res = await CheckStudExits(studentInfo)
+            // console.log(res);
+
+            if (await CheckStudExits(studentInfo)) {
+                Alert.alert("Student already exists");
+            } else {
+                AddStudentInfo("sdf");
+            }
+            // }catch(err){
+            //     console.log(err);
+            // }
         }
     };
 
@@ -160,7 +180,7 @@ const StudentForm = ({ navigation }) => {
                             },
                         ]}
                         value={studentData.gender.value}
-                        onValueChange={(text) => dispatch({ gender: { value: text, error: "select a gender" } })}
+                        onValueChange={(text) => dispatch({ gender: { value: text, error: "" } })}
                         errorText={studentData.gender.error}
                         inputRef={errMsg.gender.ref}
                     />

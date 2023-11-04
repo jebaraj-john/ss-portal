@@ -26,12 +26,19 @@ export async function GetStudents(email, center) {
     return await apiProviders["supabase"](email, center);
 }
 
-export async function CheckStudExits(email, center) {
+export async function CheckStudExits(studentInfo) {
     const apiProviders = {
         supabase: Supabase.CheckStudExits,
     };
 
-    return await apiProviders["supabase"](email, center);
+    return await apiProviders["supabase"](studentInfo);
+}
+export async function AddStudentInfo(studentInfo) {
+    const apiProviders = {
+        supabase: Supabase.AddStudentInfo,
+    };
+
+    return await apiProviders["supabase"](studentInfo);
 }
 
 export async function GetUserInfo(email) {

@@ -56,7 +56,6 @@ export function Button({ mode, style, ...props }) {
 }
 
 export function TextInput({ errorText, description, ...props }) {
-    console.log(props);
     return (
         <View style={textInputStyles.container}>
             <Input

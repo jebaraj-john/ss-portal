@@ -15,17 +15,48 @@ const getAllDepartments = () => {
 
 export async function CheckStudExits(studInfo) {
     let { data, error } = await supabase.rpc("is_student_details_present", {
-        p_dob: studInfo.dob,
+        p_dob: formatDateToDB(studInfo.dob),
         p_father_mobile_no: studInfo.father_mobile_no,
-        p_gender: studInfo.gender,
+        p_gender: studInfo.gender.toLowerCase(),
         p_mother_mobile_no: studInfo.mother_mobile_no,
     });
+    console.log(studInfo);
 
     if (error) {
         throw new Error(error);
     }
 
     return data;
+}
+
+export async function AddStudentInfo(studInfo) {
+    console.log(studInfo);
+    let { data, error } = await supabase.rpc("generate_student_id", {
+        prefix: "st",
+    });
+
+    if (error) console.error(error);
+    else console.log(data);
+
+    //     const { data, error } = await supabase.from('Students')
+    //     .insert([
+    //         {
+    //             teacher_id: 'id',
+    //             name: 'otherValue' ,
+    //             dob:"sdf",
+    //             std:"",
+    //             father_name:"",
+    //             mother_name:"",
+    //             father_mobile_no:"",
+    //             medium:"",
+    //             area:"",
+    //             gender:"",
+    //             mother_mobile_no:""
+    //         },
+    //     ])
+    //   .select()
+    //   if(error) console.log(error)
+    //   else return data;
 }
 
 export async function GetUserInfo(user_email) {
@@ -57,6 +88,12 @@ export async function GetUserInfo(user_email) {
         teachers: data.teachers ? data.teachers : [],
     };
 }
+
+const formatDateToDB = (date) => {
+    let dateParts = date.split("/");
+
+    return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+};
 
 const formatReportDate = (date) => {
     let dateParts = date.split("-");
