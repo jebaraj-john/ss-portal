@@ -92,14 +92,19 @@ function HomeScreen() {
             <Background style={HomeScreenStyles.container}>
                 <Loader show={isLoading} />
                 <TitleBar title="Home" navigation={navigation} />
-                <TouchableOpacity style={HomeScreenStyles.fab}>
-                    <FAB
-                        icon="plus"
-                        style={HomeScreenStyles.fab}
-                        onPress={() => navigation.navigate("AddStudent")}
-                        theme={theme}
-                    />
-                </TouchableOpacity>
+                {teacherInfo.teacher_id && (
+                    <TouchableOpacity style={HomeScreenStyles.fab}>
+                        <FAB
+                            icon="plus"
+                            style={HomeScreenStyles.fab}
+                            onPress={() => {
+                                console.log(teacherInfo);
+                                navigation.navigate("AddStudent", { teacherId: teacherInfo.teacher_id });
+                            }}
+                            theme={theme}
+                        />
+                    </TouchableOpacity>
+                )}
 
                 <View>
                     <Text variant="titleLarge">Date: {findAttendanceDate()}</Text>

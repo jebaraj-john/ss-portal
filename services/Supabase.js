@@ -14,6 +14,7 @@ const getAllDepartments = () => {
 };
 
 export async function CheckStudExits(studInfo) {
+    console.log(studInfo);
     let { data, error } = await supabase.rpc("is_student_details_present", {
         p_dob: formatDateToDB(studInfo.dob),
         p_father_mobile_no: studInfo.father_mobile_no,
@@ -31,32 +32,18 @@ export async function CheckStudExits(studInfo) {
 
 export async function AddStudentInfo(studInfo) {
     console.log(studInfo);
-    let { data, error } = await supabase.rpc("generate_student_id", {
+    let { data } = await supabase.rpc("generate_student_id", {
         prefix: "st",
     });
-
-    if (error) console.error(error);
-    else console.log(data);
-
-    //     const { data, error } = await supabase.from('Students')
-    //     .insert([
-    //         {
-    //             teacher_id: 'id',
-    //             name: 'otherValue' ,
-    //             dob:"sdf",
-    //             std:"",
-    //             father_name:"",
-    //             mother_name:"",
-    //             father_mobile_no:"",
-    //             medium:"",
-    //             area:"",
-    //             gender:"",
-    //             mother_mobile_no:""
-    //         },
-    //     ])
-    //   .select()
-    //   if(error) console.log(error)
-    //   else return data;
+    console.log(data);
+    studInfo["stud_id"] = data;
+    studInfo["dob"] = formatDateToDB(studInfo["dob"]);
+    const res = await supabase.from("Students").insert([studInfo]).select();
+    if (res.error) {
+        console.log(res.error);
+    } else {
+        console.log(res.data);
+    }
 }
 
 export async function GetUserInfo(user_email) {
@@ -86,6 +73,7 @@ export async function GetUserInfo(user_email) {
         services: data.service === "all" ? getAllServices() : [data.service],
         departments: data.department === "all" ? getAllDepartments() : [data.department],
         teachers: data.teachers ? data.teachers : [],
+        teacherId: data.teacherId,
     };
 }
 

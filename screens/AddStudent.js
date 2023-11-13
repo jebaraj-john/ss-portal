@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AddStudentInfo, CheckStudExits } from "../services/services";
 import { Alert } from "react-native";
 
-const StudentForm = ({ navigation }) => {
+const StudentForm = ({ navigation, teacherId }) => {
     console.log(navigation);
     let prevDate = React.useRef("");
     const [studentData, dispatch] = React.useReducer(
@@ -57,6 +57,10 @@ const StudentForm = ({ navigation }) => {
                 value: "",
                 error: "",
             },
+            area: {
+                value: "",
+                error: "",
+            },
         },
     );
 
@@ -70,6 +74,7 @@ const StudentForm = ({ navigation }) => {
         motherName: { text: "Enter your Mother's Name", ref: useRef(null) },
         motherPhone: { text: "Enter your Mother's Phone", ref: useRef(null) },
         dob: { text: "Enter your Date of Birth", ref: useRef(null) },
+        area: { text: "Enter your Area", ref: useRef(null) },
     };
     const dataValidator = async (data) => {
         for (let [key, value] of Object.entries(data)) {
@@ -86,24 +91,39 @@ const StudentForm = ({ navigation }) => {
         }
         return true;
     };
-
+    let formattedKey = {
+        name: "name",
+        dob: "dob",
+        std: "std",
+        fatherName: "father_name",
+        motherName: "mother_name",
+        fatherPhone: "father_mobile_no",
+        motherPhone: "mother_mobile_no",
+        medium: "medium",
+        area: "area",
+        gender: "gender",
+    };
     const onSubmit = async () => {
         if (dataValidator(studentData)) {
+            let studInfo = {};
             console.log("api called");
-            let studentInfo = {
+            for (let [key, value] of Object.entries(studentData)) {
+                studInfo[formattedKey[key]] = value.value;
+            }
+            studInfo["teacher_id"] = teacherId;
+
+            let studentInfoValidation = {
                 dob: studentData.dob.value,
                 father_mobile_no: studentData.fatherPhone.value,
                 gender: studentData.gender.value,
                 mother_mobile_no: studentData.motherPhone.value,
             };
-            // try{
-            // res = await CheckStudExits(studentInfo)
-            // console.log(res);
-
-            if (await CheckStudExits(studentInfo)) {
+            if (await CheckStudExits(studentInfoValidation)) {
                 Alert.alert("Student already exists");
             } else {
-                AddStudentInfo("sdf");
+                AddStudentInfo(studInfo).catch((err) => {
+                    console.log("dfd", err);
+                });
             }
             // }catch(err){
             //     console.log(err);
@@ -222,6 +242,17 @@ const StudentForm = ({ navigation }) => {
                         errorText={studentData.dob.error}
                     />
                     <TextInput
+                        label="Area"
+                        returnKeyType="next"
+                        value={studentData.area.value}
+                        onChangeText={(text) => dispatch({ area: { value: text, error: "" } })}
+                        error={!!studentData.area.error}
+                        errorText={studentData.area.error}
+                        autoCapitalize="none"
+                        textContentType="name"
+                        inputRef={errMsg.area.ref}
+                    />
+                    <TextInput
                         label="Father Name"
                         returnKeyType="next"
                         value={studentData.fatherName.value}
@@ -281,7 +312,7 @@ export default function AddStudent(props) {
                 }}
             />
             <Header headerText={"Add Student Page"}></Header>
-            <StudentForm navigation={props.navigation} />
+            <StudentForm navigation={props.navigation} teacherId={props.route.params.teacherId} />
         </Background>
     );
 }

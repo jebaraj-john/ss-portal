@@ -118,7 +118,11 @@ export default function Main() {
                         ) : (
                             <>
                                 <Stack.Screen name="Dashboard" component={Dashboard} />
-                                <Stack.Screen name="AddStudent" component={AddStudent} />
+                                <Stack.Screen
+                                    name="AddStudent"
+                                    component={AddStudent}
+                                    initialParams={{ teacherId: "00" }}
+                                />
                                 <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
                             </>
                         )}

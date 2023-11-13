@@ -225,7 +225,6 @@ export const TeacherFilter = (props, children) => {
                 teacher["center"] = center;
                 teacher["department"] = department;
                 teacher["service"] = service;
-                teacher["personalInfo"] = teacher;
                 teacherInfo = teacher;
                 break;
             }
