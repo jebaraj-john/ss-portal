@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { theme } from "./core/theme";
 import { AuthContext } from "./User.js";
 import { supabase } from "./lib/supabase";
-import { LoginScreen, Dashboard, RegisterScreen, ResetPasswordScreen } from "./screens";
+import { LoginScreen, Dashboard, RegisterScreen, ResetPasswordScreen, AddStudent } from "./screens";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 const Stack = createStackNavigator();
 
@@ -118,6 +118,11 @@ export default function Main() {
                         ) : (
                             <>
                                 <Stack.Screen name="Dashboard" component={Dashboard} />
+                                <Stack.Screen
+                                    name="AddStudent"
+                                    component={AddStudent}
+                                    initialParams={{ teacherId: "00" }}
+                                />
                                 <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
                             </>
                         )}

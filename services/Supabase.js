@@ -13,6 +13,39 @@ const getAllDepartments = () => {
     return ["Beginner", "Primary", "Junior", "Inter", "Senior", "LG"];
 };
 
+export async function CheckStudExits(studInfo) {
+    console.log(studInfo);
+    let { data, error } = await supabase.rpc("is_student_details_present", {
+        p_dob: formatDateToDB(studInfo.dob),
+        p_father_mobile_no: studInfo.father_mobile_no,
+        p_gender: studInfo.gender.toLowerCase(),
+        p_mother_mobile_no: studInfo.mother_mobile_no,
+    });
+    console.log(studInfo);
+
+    if (error) {
+        throw new Error(error);
+    }
+
+    return data;
+}
+
+export async function AddStudentInfo(studInfo) {
+    console.log(studInfo);
+    let { data } = await supabase.rpc("generate_student_id", {
+        prefix: "st",
+    });
+    console.log(data);
+    studInfo["stud_id"] = data;
+    studInfo["dob"] = formatDateToDB(studInfo["dob"]);
+    const res = await supabase.from("Students").insert([studInfo]).select();
+    if (res.error) {
+        console.log(res.error);
+    } else {
+        console.log(res.data);
+    }
+}
+
 export async function GetUserInfo(user_email) {
     let { data, error } = await supabase.rpc("get_user_info", { user_email });
     if (error) {
@@ -40,8 +73,15 @@ export async function GetUserInfo(user_email) {
         services: data.service === "all" ? getAllServices() : [data.service],
         departments: data.department === "all" ? getAllDepartments() : [data.department],
         teachers: data.teachers ? data.teachers : [],
+        teacherId: data.teacherId,
     };
 }
+
+const formatDateToDB = (date) => {
+    let dateParts = date.split("/");
+
+    return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+};
 
 const formatReportDate = (date) => {
     let dateParts = date.split("-");

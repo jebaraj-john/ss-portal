@@ -9,11 +9,11 @@ export const theme = {
         primaryBG: "#e8def7",
         secondary: "#414757",
         error: "#f13a59",
-        buttonText: "#ffffff"
+        buttonText: "#ffffff",
     },
     fonts: {
         ...DefaultTheme.fonts,
         lineHeight: 0,
-        fontSize: 1
+        fontSize: 1,
     },
 };

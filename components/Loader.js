@@ -11,7 +11,7 @@ const Loader = (props) => {
             paddingRight: 20,
             height: "15%",
             borderRadius: 15,
-            alignSelf: "center"
+            alignSelf: "center",
         },
         loader: {
             color: theme.colors.primary,
@@ -19,8 +19,8 @@ const Loader = (props) => {
         loadingText: {
             marginTop: 10,
             alignSelf: "center",
-            color: theme.colors.text
-        }
+            color: theme.colors.text,
+        },
     };
     return (
         <Portal>

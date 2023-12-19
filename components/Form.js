@@ -6,6 +6,8 @@ import { theme } from "../core/theme";
 import { TextInput as Input, Text } from "react-native-paper";
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { DatePickerModal } from "react-native-paper-dates";
+import { getDateString } from "../utils/Utils";
 
 export const SelectBox = (props) => {
     const [showDrop, setShowDrop] = useState(false);
@@ -13,6 +15,7 @@ export const SelectBox = (props) => {
     const onValueChange = (value) => {
         setValue(value);
         if (props.onValueChange) {
+            // console.log(value);
             props.onValueChange(value);
         }
     };
@@ -20,7 +23,7 @@ export const SelectBox = (props) => {
         <View style={props && props.style}>
             <DropDown
                 dropDownItemTextStyle={selectBoxStyles.textBoxItemStyle}
-                inputProps={{ style: selectBoxStyles.container }}
+                inputProps={{ style: selectBoxStyles.container, ref: props.inputRef }}
                 dropDownItemSelectedTextStyle={selectBoxStyles.selectedTextStyle}
                 dropDownItemSelectedStyle={selectBoxStyles.itemSelectedStyle}
                 dropDownStyle={selectBoxStyles.dropDownStyle}
@@ -35,6 +38,7 @@ export const SelectBox = (props) => {
                 showDropDown={() => setShowDrop(true)}
                 onDismiss={() => setShowDrop(false)}
             />
+            {props.errorText ? <Text style={textInputStyles.error}>{props.errorText}</Text> : null}
         </View>
     );
 };
@@ -55,10 +59,54 @@ export function TextInput({ errorText, description, ...props }) {
     return (
         <View style={textInputStyles.container}>
             <Input
+                ref={props.inputRef}
                 style={textInputStyles.input}
                 selectionColor={theme.colors.primary}
                 underlineColor="transparent"
                 mode="outlined"
+                {...props}
+            />
+            {description && !errorText ? <Text style={textInputStyles.description}>{description}</Text> : null}
+            {errorText ? <Text style={textInputStyles.error}>{errorText}</Text> : null}
+        </View>
+    );
+}
+
+export function DatePicker({ errorText, description, ...props }) {
+    const [date, setDate] = React.useState(undefined);
+    const [open, setOpen] = React.useState(false);
+
+    const onDismissSingle = React.useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);
+
+    const onConfirmSingle = React.useCallback(
+        (params) => {
+            setOpen(false);
+            setDate(params.date);
+            console.log(date);
+        },
+        [setOpen, setDate],
+    );
+
+    return (
+        <View style={textInputStyles.container}>
+            <DatePickerModal
+                locale="en"
+                mode="single"
+                visible={open}
+                onDismiss={onDismissSingle}
+                date={date}
+                onConfirm={onConfirmSingle}
+            />
+            <Input
+                style={textInputStyles.input}
+                selectionColor={theme.colors.primary}
+                underlineColor="transparent"
+                mode="outlined"
+                value={getDateString(date, "/")}
+                keyboardType="number-pad"
+                right={<Input.Icon name="eye" size={20} onPress={() => setOpen(true)} />}
                 {...props}
             />
             {description && !errorText ? <Text style={textInputStyles.description}>{description}</Text> : null}
@@ -114,6 +162,7 @@ const buttonStyles = StyleSheet.create({
 const textInputStyles = StyleSheet.create({
     container: {
         marginVertical: 12,
+        padding: 5,
         width: "100%",
     },
     description: {
