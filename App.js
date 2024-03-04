@@ -17,25 +17,25 @@ export default function Main() {
     const [state, dispatch] = React.useReducer(
         (prevState, action) => {
             switch (action.type) {
-            case "RESTORE_TOKEN":
-                console.log("action restore ", action.token);
-                return {
-                    ...prevState,
-                    userSession: action.token,
-                    isLoading: false,
-                };
-            case "SIGN_IN":
-                return {
-                    ...prevState,
-                    isSignout: false,
-                    userSession: action.token,
-                };
-            case "SIGN_OUT":
-                return {
-                    ...prevState,
-                    isSignout: true,
-                    userSession: null,
-                };
+                case "RESTORE_TOKEN":
+                    console.log("action restore ", action.token);
+                    return {
+                        ...prevState,
+                        userSession: action.token,
+                        isLoading: false,
+                    };
+                case "SIGN_IN":
+                    return {
+                        ...prevState,
+                        isSignout: false,
+                        userSession: action.token,
+                    };
+                case "SIGN_OUT":
+                    return {
+                        ...prevState,
+                        isSignout: true,
+                        userSession: null,
+                    };
             }
         },
         {

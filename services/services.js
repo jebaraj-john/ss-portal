@@ -80,8 +80,8 @@ export function formatReportData(reportData) {
                     value === "P"
                         ? (result["present_days"] += 1)
                         : value === "A"
-                            ? (result["absent_days"] += 1)
-                            : result;
+                          ? (result["absent_days"] += 1)
+                          : result;
                 }
 
                 result[dataKeys[index].replace(" ", "")] = value;
